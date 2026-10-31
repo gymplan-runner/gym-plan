@@ -10,6 +10,10 @@ import { createRunView, newRun, runId } from "./run.js";
 import { createKickView, newKick, kickId, suggestion } from "./kick.js";
 import { pendingMorning, saveMorning, redDays, lightHtml } from "./symptoms.js";
 import { createSettingsView, needsBackupReminder, backupNow, readBackup } from "./settings.js";
+import { renderProgress, bindProgress } from "./progress.js";
+import { renderHistory } from "./history.js";
+import { createCheckinView, checkinId } from "./checkin.js";
+import { renderPlan, openGuide } from "./planview.js";
 
 const $screen = document.getElementById("screen");
 const $tabs = document.getElementById("tabs");
@@ -17,7 +21,7 @@ const state = { tab: "today", name: "", start: null };
 const runView = createRunView({ $screen, $tabs });
 const kickView = createKickView({ $screen, $tabs });
 const workout = createWorkoutView({
-  $screen, $tabs, onExit: () => show("today"),
+  $screen, $tabs, onExit: () => show(state.tab),
   // Treadmill run inside a gym session: run timer, then back to the workout with the minutes filled in.
   onRun: async (session, i) => {
     const item = session.items[i];
@@ -38,7 +42,9 @@ const workout = createWorkoutView({
   },
 });
 const settingsView = createSettingsView({ $screen, $tabs });
-const viewActive = () => workout.active() || runView.active() || kickView.active() || settingsView.active();
+const checkinView = createCheckinView({ $screen, $tabs });
+const viewActive = () => workout.active() || runView.active() || kickView.active() || settingsView.active() || checkinView.active();
+bindProgress($screen, () => state.tab === "progress" && !viewActive());
 const DAY_NAMES = { mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday" };
 
 // ------------------------------------------------------------------ first run
@@ -169,32 +175,64 @@ async function renderToday() {
       : `<button type="button" class="btn big" data-go="run">${run ? "Resume run" : "Start run"}</button>`;
     body = `<div class="session-head" style="background:${colour}"><h2>${dayLabel}: Outdoor run</h2><p>The key session of the week</p></div>
       <div class="session-body">
-        ${itemRow({ exercise: "outdoor_run", run: dp.run }, colour)}
+        ${itemRow({ exercise: "outdoor_run", run: run?.planned ?? await runToDo(week) }, colour)}
         ${dp.kickStage ? itemRow({ exercise: "kick", note: "Warm up, kick, then run." }, colour, `Kicking stage ${sug.stage}: ${stage.name}`) : ""}
         ${dp.strides ? `<p class="small muted">+ strides ${esc(dp.strides)} if your quad is green.</p>` : ""}
       </div>
-      ${pos.status === "during" ? kickBlock + runBlock : ""}`;
+      ${pos.status === "during" ? (run?.status === "finished" ? "" : await awayHint(week, now)) + kickBlock + runBlock : ""}`;
   } else if (dp.kind === "kick_test") {
     const kick = await db.get("kicks", kickId(w.days[showDay].date));
     body = `<div class="card"><h2 style="margin-top:0">${dayLabel}: final kick test</h2><p>Warm up, then Stage 4 strikes. Record the pain score.</p>
       ${kick ? `<div class="done-banner">✓ Logged · pain ${kick.painDuring}/10 <button type="button" class="linkbtn" data-go="kicktest">Edit</button></div>`
         : `<button type="button" class="btn" data-go="kicktest">Log kick test</button>`}</div>`;
   } else {
+    const ci = dp.kind === "checkin" && pos.status === "during" ? await db.get("checkins", checkinId(week)) : null;
+    const ciBtn = dp.kind !== "checkin" || pos.status !== "during" ? ""
+      : ci ? `<div class="done-banner">✓ Check-in done <button type="button" class="linkbtn" data-go="checkin">Edit</button></div>`
+        : `<button type="button" class="btn" data-go="checkin">Start Sunday check-in</button>`;
     body = `<div class="card"><h2 style="margin-top:0">${dayLabel}: rest${dp.kind === "checkin" ? " + Sunday check-in" : ""}</h2>
-      <p class="muted">${dp.kind === "checkin" ? "Rest, then five minutes to record your week." : "Recovery is part of the plan. An easy walk is fine."}</p></div>`;
+      <p class="muted">${dp.kind === "checkin" ? "Rest, then five minutes to record your week." : "Recovery is part of the plan. An easy walk is fine."}</p>${ciBtn}</div>`;
   }
 
-  // Missed an earlier gym day this week? Offer to do it today (counts once, for the planned day).
+  // Before the plan starts: say when logging opens, and invite the starting values.
+  if (pos.status === "before") {
+    const b = await db.getSetting("baselines", null);
+    body = `<div class="card start-card"><b>Your plan starts ${fmt(parseDate(state.start), { weekday: "long", day: "numeric", month: "long" })}.</b>
+      <p class="small">Logging opens then – a <b>Start workout</b> button appears here on gym days, and <b>Start run</b> on Saturdays. Below is a preview of Monday.</p>
+      <p class="small"><b>This weekend:</b> record your starting values – plank hold, how far you can run, kick pain, bodyweight and waist.</p>
+      <button type="button" class="btn" data-go="baselines">${b ? "Update my starting values" : "Record my starting values"}</button></div>${body}`;
+  }
+
+  // Flexible days: on any day, pick any of this week's sessions (A, B, C or the run). Each counts once, for that
+  // session. On Sundays, next week's gym sessions can be done early too.
   let catchUp = "";
-  if (pos.status === "during" && dp.kind !== "gym" && !inProgress) {
+  if (pos.status === "during" && !inProgress) {
     const todayIso = isoDate(now);
-    const missed = ["mon", "wed", "fri"].filter((k) => w.days[k].date < todayIso && !finishedDates.has(w.days[k].date));
-    if (missed.length) {
-      const k = missed[missed.length - 1];
-      catchUp = `<div class="card"><b>Missed ${DAY_NAMES[k]}'s session?</b>
-        <p class="muted small">You can do it today – it still counts once.</p>
-        <button type="button" class="btn ghost" data-go="catchup" data-day="${k}">Do ${DAY_NAMES[k]}'s session now</button></div>`;
+    const LETTER = { mon: "A", wed: "B", fri: "C" };
+    const optionsFor = async (wk) => {
+      const ww = weekInfo(wk);
+      const satRun = await db.get("runs", runId(ww.days.sat.date, "outdoor"));
+      return ["mon", "wed", "fri", "sat"].map((k) => {
+        const date = ww.days[k].date;
+        const done = k === "sat" ? satRun?.status === "finished" : finishedDates.has(date);
+        const title = k === "sat" ? "Run (Saturday's)" : `Session ${LETTER[k]}: ${dayPlan(wk, k).session.title}`;
+        return { wk, k, date, done, title, missed: !done && date < todayIso };
+      });
+    };
+    const btn = (c, prefix = "") => `<button type="button" class="pick ${c.done ? "done" : ""}" data-go="${c.k === "sat" ? "catchup-run" : "catchup"}"
+        data-day="${c.k}" data-week="${c.wk}" ${c.done ? "disabled" : ""}><span>${c.done ? "✓" : c.missed ? "!" : "›"}</span>${prefix}${esc(c.title)}${c.done ? " – done" : ""}</button>`;
+    const thisWeek = (await optionsFor(week)).filter((c) => !(c.k === pos.dayKey && c.date === todayIso));
+    let list = thisWeek.map((c) => btn(c)).join("");
+    if (pos.dayKey === "sun" && week < 12) {
+      list += `<p class="muted small" style="margin:8px 0 0">Or get ahead with next week's:</p>`
+        + (await optionsFor(week + 1)).filter((c) => c.k !== "sat").map((c) => btn(c, "Next week · ")).join("");
     }
+    const left = thisWeek.filter((c) => !c.done).length;
+    catchUp = dp.kind !== "gym" && dp.kind !== "run" && left
+      ? `<div class="card pickcard"><b>Training today? Pick a session</b>
+          <p class="muted small">Any session, any day – it counts once. Suggested order: A, B, C, with the run on its own day.</p><div class="picks">${list}</div></div>`
+      : `<details class="card swap"><summary>Doing a different session today?</summary>
+          <p class="muted small">Pick any session from this week – it counts once.</p><div class="picks">${list}</div></details>`;
   }
 
   const resume = inProgress && inProgress.date !== w.days[showDay].date
@@ -205,7 +243,7 @@ async function renderToday() {
   const m = await pendingMorning(now);
   const scale = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const morningCard = m ? `<div class="card morning"><b>How's the quad this morning?</b>
-      <p class="muted small">After your ${m.label} on ${fmt(parseDate(m.r.date), { weekday: "long" })}${m.during != null ? ` (pain during: ${m.during}/10)` : ""}. 0 = nothing, 10 = worst.</p>
+      <p class="muted small">After your ${m.label} on ${fmt(parseDate(m.day), { weekday: "long" })}${m.during != null ? ` (pain during: ${m.during}/10)` : ""}. 0 = nothing, 10 = worst.</p>
       <div class="chips">${scale.map((v) => `<button type="button" class="chip" data-go="morning" data-store="${m.store}" data-id="${m.r.id}" data-v="${v}">${v}</button>`).join("")}</div>
       <button type="button" class="linkbtn" data-go="morning-skip" data-store="${m.store}" data-id="${m.r.id}">Skip</button></div>` : "";
   const mr = state.morningResult;
@@ -245,9 +283,37 @@ async function renderToday() {
     <button type="button" class="btn ghost" data-go="poster">🖼️ This phase at a glance</button>`;
 }
 
+// ------------------------------------------------------------------ been away? repeat the last run step
+async function lastOutdoorRun(beforeIso) {
+  return (await db.all("runs")).filter((r) => r.where === "outdoor" && r.status === "finished" && r.date < beforeIso)
+    .sort((a, b) => (a.date < b.date ? 1 : -1))[0] ?? null;
+}
+
+// The Saturday run to do this week: the plan's, unless the user chose to repeat their last step after a break.
+async function runToDo(week) {
+  const w = weekInfo(week);
+  return (await db.getSetting(`repeatRun:${w.days.sat.date}`, null)) ?? w.runs.sat;
+}
+
+async function awayHint(week, todayDate) {
+  const w = weekInfo(week);
+  const last = await lastOutdoorRun(w.days.sat.date);
+  if (!last || week === 1) return "";
+  const gap = Math.round((todayDate - parseDate(last.date)) / 86400000);
+  const chosen = await db.getSetting(`repeatRun:${w.days.sat.date}`, null);
+  if (gap < 10 || last.plannedText === w.runs.sat.text) return "";
+  if (chosen) {
+    return `<div class="notice">Repeating your last step this week: <b>${esc(last.plannedText)}</b>
+      <button type="button" class="linkbtn" data-go="repeat-run-undo">Use this week's plan instead</button></div>`;
+  }
+  return `<div class="card"><b>Been away?</b> <span class="muted small">Your last run was ${gap} days ago.</span>
+    <p class="small">After a break it's wise to repeat the last step you completed (<b>${esc(last.plannedText)}</b>) before moving on to this week's (${esc(w.runs.sat.text)}).</p>
+    <button type="button" class="btn ghost" data-go="repeat-run">Repeat my last step</button></div>`;
+}
+
 // ------------------------------------------------------------------ phase infographic (pinch to zoom)
-function openPoster() {
-  const idx = getPlan().phases.indexOf(phaseFor(position(today(), state.start).week)) + 1;
+function openPoster(phase) {
+  const idx = phase || getPlan().phases.indexOf(phaseFor(position(today(), state.start).week)) + 1;
   const el = document.createElement("div");
   el.className = "viewer";
   el.innerHTML = `<div class="viewer-bar"><b>Phase ${idx} at a glance</b>
@@ -261,16 +327,11 @@ function openPoster() {
   document.body.append(el);
 }
 
-// ------------------------------------------------------------------ other tabs (built in later steps)
-function renderLater(title, step) {
-  $screen.innerHTML = `<h1>${title}</h1><div class="card empty">Coming in build step ${step}.</div>`;
-}
-
 const screens = {
   today: renderToday,
-  plan: () => renderLater("Plan", 2),
-  progress: () => renderLater("Progress", 5),
-  history: () => renderLater("History", 5),
+  plan: () => renderPlan($screen, position(today(), state.start).week),
+  progress: () => renderProgress($screen),
+  history: () => renderHistory($screen),
 };
 
 async function show(tab) {
@@ -295,8 +356,22 @@ $screen.addEventListener("click", async (e) => {
   unlockAudio();
   const go = b.dataset.go;
   const c = state.current;
-  const backToToday = () => show("today");
-  if (go === "poster") return openPoster();
+  const backToToday = () => show(state.tab);
+  if (go === "poster") return openPoster(Number(b.dataset.phase) || 0);
+  if (go === "guide") return openGuide(b.dataset.ex);
+  if (go === "baselines") {
+    await show("progress");
+    return document.getElementById("baselines")?.scrollIntoView();
+  }
+  if (go === "checkin") return checkinView.start(c.week, c.date, () => show(state.tab));
+  if (go === "h-open") {
+    const store = b.dataset.store, rec = await db.get(store, b.dataset.id);
+    if (!rec) return;
+    if (store === "sessions") return workout.start(rec);
+    if (store === "runs") return runView.start(rec, backToToday);
+    if (store === "kicks") return kickView.start(rec, backToToday);
+    if (store === "checkins") return checkinView.start(rec.week, rec.date, backToToday);
+  }
   if (go === "backup") { await backupNow(); return show("today"); }
   if (go === "settings") {
     return settingsView.start(async (changed) => {
@@ -324,8 +399,15 @@ $screen.addEventListener("click", async (e) => {
   if (go === "run") {
     const w = weekInfo(c.week);
     const rec = (await db.get("runs", runId(c.date, "outdoor")))
-      ?? newRun({ date: c.date, week: c.week, where: "outdoor", run: w.runs.sat, strides: w.strides, source: "today" });
+      ?? newRun({ date: c.date, week: c.week, where: "outdoor", run: await runToDo(c.week), strides: w.strides, source: "today" });
     return runView.start(rec, backToToday);
+  }
+  if (go === "repeat-run" || go === "repeat-run-undo") {
+    const w = weekInfo(c.week);
+    const key = `repeatRun:${w.days.sat.date}`;
+    if (go === "repeat-run") await db.setSetting(key, (await lastOutdoorRun(w.days.sat.date)).planned);
+    else await db.setSetting(key, null);
+    return show("today");
   }
   if (go === "kick" || go === "kicktest") {
     const rec = (await db.get("kicks", kickId(c.date))) ?? await newKick(c.date, c.week, go === "kicktest");
@@ -334,9 +416,17 @@ $screen.addEventListener("click", async (e) => {
   if (go === "start" || go === "resume") {
     return workout.start(await getOrCreateSession(c.week, c.dayKey, c.date, isoDate(today())));
   }
+  if (go === "catchup-run") {
+    const wk = Number(b.dataset.week) || c.week;
+    const w = weekInfo(wk);
+    const date = w.days.sat.date;
+    const rec = (await db.get("runs", runId(date, "outdoor")))
+      ?? newRun({ date, week: wk, where: "outdoor", run: await runToDo(wk), strides: w.strides, source: "today" });
+    return runView.start(rec, backToToday);
+  }
   if (go === "catchup") {
-    const k = b.dataset.day;
-    return workout.start(await getOrCreateSession(c.week, k, weekInfo(c.week).days[k].date, isoDate(today())));
+    const k = b.dataset.day, wk = Number(b.dataset.week) || c.week;
+    return workout.start(await getOrCreateSession(wk, k, weekInfo(wk).days[k].date, isoDate(today())));
   }
   if (go === "resume-other") {
     const s = (await db.all("sessions")).find((x) => x.status === "in_progress");

@@ -43,7 +43,8 @@ async function finishedRecords() {
     for (const r of await db.all(store)) {
       if (r.status && r.status !== "finished") continue;
       const during = store === "sessions" ? sessionPain(r) : r.painDuring;
-      out.push({ store, r, during });
+      // The day it was actually done (a session can be done on a different day to its plan).
+      out.push({ store, r, during, day: r.performedOn ?? r.date });
     }
   }
   return out;
@@ -54,9 +55,9 @@ export async function pendingMorning(todayDate) {
   const todayIso = isoDate(todayDate);
   const from = isoDate(addDays(todayDate, -2));
   const list = (await finishedRecords())
-    .filter(({ r }) => r.date < todayIso && r.date >= from && r.painNextMorning == null && !r.morningSkipped)
+    .filter(({ r, day }) => day < todayIso && day >= from && r.painNextMorning == null && !r.morningSkipped)
     .filter(({ store, r }) => !(store === "runs" && r.source === "gym")) // the gym session's check covers it
-    .sort((a, b) => (a.r.date < b.r.date ? 1 : -1));
+    .sort((a, b) => (a.day < b.day ? 1 : -1));
   return list[0] ? { ...list[0], label: LABEL[list[0].store] } : null;
 }
 
@@ -73,9 +74,9 @@ export async function redDays(todayDate) {
   const from = isoDate(addDays(todayDate, -13));
   const todayIso = isoDate(todayDate);
   const days = new Set();
-  for (const { r, during } of await finishedRecords()) {
-    if (during != null && during >= 5) days.add(r.date);
-    if (r.painNextMorning != null && r.painNextMorning >= 5) days.add(isoDate(addDays(parseDate(r.date), 1)));
+  for (const { r, during, day } of await finishedRecords()) {
+    if (during != null && during >= 5) days.add(day);
+    if (r.painNextMorning != null && r.painNextMorning >= 5) days.add(isoDate(addDays(parseDate(day), 1)));
   }
   return [...days].filter((d) => d >= from && d <= todayIso).sort();
 }

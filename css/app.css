@@ -174,3 +174,76 @@ details.how ol { padding-left: 20px; margin: 6px 0; }
 .gear { border: 0; background: var(--card); border-radius: 12px; width: 44px; height: 44px; font-size: 20px; }
 .filebtn { display: flex; align-items: center; justify-content: center; text-align: center; margin-top: 12px; cursor: pointer; }
 .card.backup { border: 2px solid var(--amber); }
+
+/* ---------- progress */
+.goals { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.goal { background: var(--card); border-radius: 14px; padding: 10px 12px; font-size: 14px; border: 2px solid transparent; }
+.goal.wide { grid-column: 1 / -1; }
+.goal.achieved { border-color: var(--green); }
+.g-title { font-weight: 700; margin-bottom: 4px; }
+.g-row { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; }
+.g-row span { color: var(--muted); }
+.goal.wide .g-row { justify-content: flex-start; }
+table.att { border-collapse: separate; border-spacing: 3px; width: 100%; font-size: 14px; text-align: center; }
+table.att th { font-weight: 600; color: var(--muted); font-size: 12px; }
+table.att td { height: 30px; border-radius: 8px; background: var(--line); font-weight: 700; }
+table.att td.done { background: var(--greenbg); color: var(--green); }
+table.att td.missed { background: var(--card); color: var(--muted); border: 1px dashed var(--line); }
+table.att td.today { background: var(--sky); color: var(--blue); }
+table.att tr.lighter th { color: var(--amber); }
+.win { background: var(--greenbg); border-radius: 12px; padding: 10px 12px; font-weight: 700; }
+figure.chart { margin: 8px 0 14px; }
+figure.chart figcaption { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+figure.chart svg { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .axis { fill: var(--muted); font-size: 11px; }
+.chart .val { fill: var(--ink); font-size: 12px; font-weight: 700; }
+.chart .line { fill: none; stroke: var(--blue); stroke-width: 2; stroke-linejoin: round; }
+.chart .plan { fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 5 5; }
+.chart .dot { fill: var(--blue); stroke: var(--card); stroke-width: 2; }
+.chart .goalline { stroke: var(--green); stroke-width: 1.5; stroke-dasharray: 2 4; }
+.legend { display: flex; gap: 14px; font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+.legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid var(--blue); vertical-align: middle; margin-right: 6px; }
+.legend i.k-plan { border-top: 2px dashed var(--muted); }
+details.tbl summary { font-size: 13px; color: var(--blue); min-height: 32px; display: flex; align-items: center; }
+details.tbl table, table.quad { width: 100%; border-collapse: collapse; font-size: 14px; }
+details.tbl td, details.tbl th, table.quad td, table.quad th { padding: 5px 4px; border-bottom: 1px solid var(--line); text-align: left; }
+.pill { display: inline-block; border-radius: 8px; padding: 1px 8px; font-size: 12px; font-weight: 700; }
+.pill.g { background: var(--greenbg); color: var(--green); } .pill.a { background: var(--amberbg); color: var(--amber); } .pill.r { background: var(--redbg); color: var(--red); }
+
+/* ---------- history */
+.hdate { font-size: 15px; color: var(--muted); margin: 16px 0 6px; }
+.hist { width: 100%; display: flex; align-items: center; gap: 12px; background: var(--card); border: 0; border-radius: 14px; padding: 12px; margin: 6px 0;
+  font: inherit; color: inherit; text-align: left; min-height: 60px; }
+.hicon { font-size: 24px; }
+.htxt { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.chev { color: var(--muted); font-size: 22px; }
+
+/* ---------- plan + guide */
+.phase-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.phase-btns .btn { margin-top: 0; font-size: 14px; padding: 6px 4px; min-height: 56px; }
+details.week { background: var(--card); border-radius: 16px; margin: 10px 0; padding: 0 10px 8px; }
+details.week summary { min-height: 52px; display: flex; align-items: center; gap: 8px; }
+details.week[open] summary { border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+.small-head { border-radius: 12px 12px 0 0; padding: 8px 12px; margin-top: 10px; }
+details.week .session-body { border: 1px solid var(--line); border-top: 0; }
+.linkrow { width: 100%; border: 0; background: none; font: inherit; color: inherit; text-align: left; }
+.linkrow .pic-wrap { width: 72px; height: 60px; flex: none; background: #fff; border-radius: 10px; }
+.linkrow .pic { width: 72px; height: 60px; display: block; }
+.linkrow .txt { display: flex; flex-direction: column; }
+.sheet { position: fixed; inset: 0; background: rgba(15,23,36,.5); z-index: 45; display: flex; align-items: flex-end; }
+.sheet-card { background: var(--card); width: 100%; max-height: 88vh; overflow: auto; border-radius: 20px 20px 0 0; padding: 14px 16px calc(20px + var(--safe-b)); }
+.sheet-top { display: flex; justify-content: space-between; align-items: center; }
+.sheet-top h2 { margin: 0; }
+.back.dark { background: var(--sky); color: var(--blue); }
+.guide-pic { background: #fff; border-radius: 14px; margin: 10px 0 4px; }
+.guide-pic .pic { width: 100%; height: 200px; display: block; }
+
+/* ---------- today: swaps, start card */
+.picks { display: grid; gap: 6px; margin-top: 8px; }
+.pick { display: flex; gap: 10px; align-items: center; min-height: 48px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--card);
+  color: var(--ink); font: inherit; text-align: left; padding: 8px 12px; }
+.pick span { width: 22px; text-align: center; font-weight: 700; color: var(--blue); }
+.pick.done { opacity: .6; } .pick.done span { color: var(--green); }
+details.swap summary { font-weight: 600; color: var(--blue); min-height: 40px; display: flex; align-items: center; }
+.start-card { border: 2px solid var(--blue); }
