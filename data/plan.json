@@ -1,0 +1,2087 @@
+{
+ "meta": {
+  "title": "12-Week Plan",
+  "version": "final-2026-10",
+  "created": "2026-10-30",
+  "start_date": "2026-11-02",
+  "end_date": "2027-01-24",
+  "priority": "Run 5 km. The gym work supports the running and rebuilds the quad.",
+  "disclaimer": "This is a training plan, not medical advice. It does not diagnose or treat the quad problem. If symptoms worsen or match a 'stop and get it checked' sign, see a GP or physiotherapist."
+ },
+ "goals": [
+  {
+   "id": "run_5k",
+   "priority": 1,
+   "title": "Run 5 km without stopping",
+   "baseline": {
+    "value": null,
+    "source": "Enter your starting value in the app"
+   },
+   "target": "5 km continuous at an easy pace",
+   "due": "2027-01-23",
+   "measured_by": "Saturday run log"
+  },
+  {
+   "id": "kick",
+   "priority": 2,
+   "title": "Kick a football hard with quad pain of 1/10 or less",
+   "baseline": {
+    "value": null,
+    "source": "Enter your starting value in the app"
+   },
+   "target": "Full-power strikes with pain 1/10 or less, and not worse the next morning",
+   "due": "2027-01-19",
+   "measured_by": "Kick log / final kick test"
+  },
+  {
+   "id": "attendance",
+   "priority": 3,
+   "title": "Complete 30 of 36 gym sessions",
+   "baseline": {
+    "value": "0",
+    "source": "Start of plan"
+   },
+   "target": "30 sessions",
+   "due": "2027-01-24",
+   "measured_by": "Session log (Saturday runs counted separately)"
+  },
+  {
+   "id": "strength",
+   "priority": 4,
+   "title": "Leg Press, Chest Press and Seated Row up 25%",
+   "baseline": {
+    "value": null,
+    "source": "Enter your starting value in the app"
+   },
+   "target": "Working weight for 3 sets of 10 at least 25% above Week 2, same machine",
+   "due": "2027-01-17",
+   "measured_by": "Lift log"
+  },
+  {
+   "id": "plank",
+   "priority": 5,
+   "title": "Hold a plank for 90 seconds",
+   "baseline": {
+    "value": null,
+    "source": "Enter your starting value in the app"
+   },
+   "target": "90 seconds, one good-form hold",
+   "due": "2027-01-18",
+   "measured_by": "Lift log"
+  },
+  {
+   "id": "body",
+   "priority": 6,
+   "title": "Stronger, with bodyweight steady or slightly up",
+   "baseline": {
+    "value": null,
+    "source": "Enter your starting value in the app"
+   },
+   "target": "Bodyweight steady or slightly up; waist not increasing",
+   "due": "2027-01-24",
+   "measured_by": "Weekly check-in"
+  }
+ ],
+ "weekly_rhythm": [
+  {
+   "day": "Mon",
+   "what": "Run + Strength A",
+   "why": "Hardest leg day. Run first, while your quads are fresh."
+  },
+  {
+   "day": "Tue",
+   "what": "Rest or easy walk",
+   "why": "Recovery."
+  },
+  {
+   "day": "Wed",
+   "what": "Strength B + Swim",
+   "why": "Lighter on the quads. The real recovery-friendly session."
+  },
+  {
+   "day": "Thu",
+   "what": "Rest or easy walk",
+   "why": "Recovery."
+  },
+  {
+   "day": "Fri",
+   "what": "Strength C + short run/cardio",
+   "why": "Light legs, so you are fresh for Saturday."
+  },
+  {
+   "day": "Sat",
+   "what": "Outdoor run + kicking stage",
+   "why": "The key session of the week."
+  },
+  {
+   "day": "Sun",
+   "what": "Rest + weekly check-in",
+   "why": "Record your numbers. Plan next week."
+  }
+ ],
+ "phases": [
+  {
+   "id": "learn",
+   "name": "Learn",
+   "weeks": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "focus": "Machines only. Learn the gym, find your starting weights, build the habit.",
+   "sessions": {
+    "mon": {
+     "title": "Run + Strength A",
+     "subtitle": "Hardest leg day - run first, while your legs are fresh",
+     "items": [
+      {
+       "exercise": "bike",
+       "minutes": 5,
+       "note": "Easy warm-up"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "This week's pattern - see the running table"
+      },
+      {
+       "exercise": "leg_press",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
+       "exercise": "leg_extension",
+       "sets": 2,
+       "reps": "12-15",
+       "note": "Light. 3-second lowering"
+      },
+      {
+       "exercise": "chest_press",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
+       "exercise": "seated_row",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
+       "exercise": "plank",
+       "sets": 3,
+       "seconds": "20-30"
+      },
+      {
+       "exercise": "sauna",
+       "minutes": "10-15",
+       "optional": true
+      }
+     ]
+    },
+    "wed": {
+     "title": "Strength B + Swim",
+     "subtitle": "Lighter on the quads - back, hamstrings and core",
+     "items": [
+      {
+       "exercise": "bike",
+       "minutes": 10,
+       "note": "Easy warm-up"
+      },
+      {
+       "exercise": "leg_curl",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
+       "exercise": "glute_bridge",
+       "sets": 3,
+       "reps": "12"
+      },
+      {
+       "exercise": "lat_pulldown",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
+       "exercise": "shoulder_press",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
+       "exercise": "calf_raise",
+       "sets": 3,
+       "reps": "12-15"
+      },
+      {
+       "exercise": "dead_bug",
+       "sets": 2,
+       "reps": "6",
+       "per_side": true
+      },
+      {
+       "exercise": "swim",
+       "minutes": 15,
+       "note": "Easy"
+      },
+      {
+       "exercise": "sauna",
+       "minutes": "10-15",
+       "optional": true
+      }
+     ]
+    },
+    "fri": {
+     "title": "Strength C + Cardio",
+     "subtitle": "Light legs - Saturday's run is the priority",
+     "items": [
+      {
+       "exercise": "bike",
+       "minutes": 5,
+       "note": "Easy warm-up"
+      },
+      {
+       "exercise": "leg_press",
+       "sets": 2,
+       "reps": "12",
+       "note": "Lighter than Monday - a weight you could lift 15+ times"
+      },
+      {
+       "exercise": "chest_press",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
+       "exercise": "lat_pulldown",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
+       "exercise": "seated_row",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
+       "exercise": "farmer_carry",
+       "sets": 3,
+       "seconds": "30"
+      },
+      {
+       "exercise": "cross_trainer",
+       "minutes": 15,
+       "note": "Easy to moderate"
+      },
+      {
+       "exercise": "sauna",
+       "minutes": "10-15",
+       "optional": true
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "build",
+   "name": "Build",
+   "weeks": [
+    5,
+    6,
+    7,
+    8
+   ],
+   "focus": "Add free weights and single-leg work. Third weekly run starts. Kicking starts.",
+   "sessions": {
+    "mon": {
+     "title": "Run + Strength A",
+     "subtitle": "Hardest leg day - run first, while your legs are fresh",
+     "items": [
+      {
+       "exercise": "bike",
+       "minutes": 5,
+       "note": "Easy warm-up"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "This week's pattern - see the running table"
+      },
+      {
+       "exercise": "leg_press",
+       "sets": 3,
+       "reps": "8-12"
+      },
+      {
+       "exercise": "split_squat",
+       "sets": 2,
+       "reps": "8",
+       "note": "Bodyweight, hold a rail",
+       "per_side": true
+      },
+      {
+       "exercise": "leg_extension",
+       "sets": 3,
+       "reps": "10-12",
+       "note": "3-second lowering"
+      },
+      {
+       "exercise": "chest_press",
+       "sets": 3,
+       "reps": "8-12"
+      },
+      {
+       "exercise": "seated_row",
+       "sets": 3,
+       "reps": "8-12"
+      },
+      {
+       "exercise": "plank",
+       "sets": 3,
+       "seconds": "30-45"
+      },
+      {
+       "exercise": "sauna",
+       "minutes": "10-15",
+       "optional": true
+      }
+     ]
+    },
+    "wed": {
+     "title": "Strength B + Swim",
+     "subtitle": "Lighter on the quads - back, hamstrings and core",
+     "items": [
+      {
+       "exercise": "bike",
+       "minutes": 10,
+       "note": "Easy warm-up"
+      },
+      {
+       "exercise": "goblet_squat",
+       "sets": 3,
+       "reps": "10"
+      },
+      {
+       "exercise": "db_rdl",
+       "sets": 3,
+       "reps": "10"
+      },
+      {
+       "exercise": "lat_pulldown",
+       "sets": 3,
+       "reps": "8-12"
+      },
+      {
+       "exercise": "shoulder_press",
+       "sets": 3,
+       "reps": "8-12"
+      },
+      {
+       "exercise": "calf_raise",
+       "sets": 3,
+       "reps": "15"
+      },
+      {
+       "exercise": "side_plank",
+       "sets": 2,
+       "seconds": "20-30",
+       "per_side": true
+      },
+      {
+       "exercise": "swim",
+       "minutes": 15,
+       "note": "Easy"
+      },
+      {
+       "exercise": "sauna",
+       "minutes": "10-15",
+       "optional": true
+      }
+     ]
+    },
+    "fri": {
+     "title": "Strength C + Run",
+     "subtitle": "Light legs - Saturday's run is the priority",
+     "items": [
+      {
+       "exercise": "bike",
+       "minutes": 5,
+       "note": "Easy warm-up"
+      },
+      {
+       "exercise": "step_up",
+       "sets": 2,
+       "reps": "10",
+       "note": "Low step",
+       "per_side": true
+      },
+      {
+       "exercise": "leg_curl",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
+       "exercise": "chest_press",
+       "sets": 3,
+       "reps": "8-12"
+      },
+      {
+       "exercise": "lat_pulldown",
+       "sets": 3,
+       "reps": "8-12"
+      },
+      {
+       "exercise": "farmer_carry",
+       "sets": 3,
+       "seconds": "40"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "Short easy run - see the running table"
+      },
+      {
+       "exercise": "sauna",
+       "minutes": "10-15",
+       "optional": true
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "strengthen",
+   "name": "Strengthen",
+   "weeks": [
+    9,
+    10,
+    11,
+    12
+   ],
+   "focus": "Heavier main lifts, kicking-specific quad work, longer continuous runs, then test week.",
+   "sessions": {
+    "mon": {
+     "title": "Run + Strength A",
+     "subtitle": "Hardest leg day - run first, while your legs are fresh",
+     "items": [
+      {
+       "exercise": "bike",
+       "minutes": 5,
+       "note": "Easy warm-up"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "This week's pattern - see the running table"
+      },
+      {
+       "exercise": "leg_press",
+       "sets": 3,
+       "reps": "8-10"
+      },
+      {
+       "exercise": "split_squat",
+       "sets": 3,
+       "reps": "8",
+       "note": "Holding dumbbells",
+       "per_side": true
+      },
+      {
+       "exercise": "leg_extension",
+       "sets": 3,
+       "reps": "8-12",
+       "note": "3-second lowering"
+      },
+      {
+       "exercise": "chest_press",
+       "sets": 3,
+       "reps": "8-10"
+      },
+      {
+       "exercise": "seated_row",
+       "sets": 3,
+       "reps": "8-10"
+      },
+      {
+       "exercise": "plank",
+       "sets": 3,
+       "seconds": "45-90"
+      },
+      {
+       "exercise": "sauna",
+       "minutes": "10-15",
+       "optional": true
+      }
+     ]
+    },
+    "wed": {
+     "title": "Strength B + Swim",
+     "subtitle": "Moderate legs - Thursday is a rest day",
+     "items": [
+      {
+       "exercise": "bike",
+       "minutes": 10,
+       "note": "Easy warm-up"
+      },
+      {
+       "exercise": "goblet_squat",
+       "sets": 3,
+       "reps": "8-10"
+      },
+      {
+       "exercise": "db_rdl",
+       "sets": 3,
+       "reps": "8-10"
+      },
+      {
+       "exercise": "reverse_nordic",
+       "sets": 2,
+       "reps": "5",
+       "note": "Only if stretch test is green",
+       "optional": true
+      },
+      {
+       "exercise": "lat_pulldown",
+       "sets": 3,
+       "reps": "8-10"
+      },
+      {
+       "exercise": "shoulder_press",
+       "sets": 3,
+       "reps": "8-10"
+      },
+      {
+       "exercise": "calf_raise",
+       "sets": 3,
+       "reps": "10-12",
+       "note": "Single leg",
+       "per_side": true
+      },
+      {
+       "exercise": "swim",
+       "minutes": 15,
+       "note": "Easy"
+      },
+      {
+       "exercise": "sauna",
+       "minutes": "10-15",
+       "optional": true
+      }
+     ]
+    },
+    "fri": {
+     "title": "Strength C + Run",
+     "subtitle": "Light legs - Saturday's run is the priority",
+     "items": [
+      {
+       "exercise": "bike",
+       "minutes": 5,
+       "note": "Easy warm-up"
+      },
+      {
+       "exercise": "step_up",
+       "sets": 2,
+       "reps": "10",
+       "per_side": true
+      },
+      {
+       "exercise": "cable_knee_drive",
+       "sets": 2,
+       "reps": "10",
+       "note": "Light",
+       "per_side": true
+      },
+      {
+       "exercise": "leg_curl",
+       "sets": 3,
+       "reps": "8-10"
+      },
+      {
+       "exercise": "chest_press",
+       "sets": 3,
+       "reps": "8-10"
+      },
+      {
+       "exercise": "lat_pulldown",
+       "sets": 3,
+       "reps": "8-10"
+      },
+      {
+       "exercise": "farmer_carry",
+       "sets": 3,
+       "seconds": "45-60"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "Short easy run - see the running table"
+      },
+      {
+       "exercise": "sauna",
+       "minutes": "10-15",
+       "optional": true
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "weeks": [
+  {
+   "week": 1,
+   "start_date": "2026-11-02",
+   "end_date": "2026-11-08",
+   "phase": "learn",
+   "lighter_week": false,
+   "test_week": false,
+   "sets_note": "2 sets of every exercise",
+   "runs": {
+    "mon": {
+     "type": "run_walk",
+     "reps": 4,
+     "run_min": 2,
+     "walk_min": 1,
+     "run_total_min": 8,
+     "text": "4 x (2 min run / 1 min walk)"
+    },
+    "fri": {
+     "type": "cross_trainer",
+     "minutes": 15,
+     "run_total_min": 0,
+     "text": "No run - 15 min cross trainer"
+    },
+    "sat": {
+     "type": "run_walk",
+     "reps": 6,
+     "run_min": 2,
+     "walk_min": 1,
+     "run_total_min": 12,
+     "text": "6 x (2 min run / 1 min walk)"
+    }
+   },
+   "strides": null,
+   "kick_stage": 0,
+   "measure_waist": true,
+   "notes": [
+    "Ask gym staff for a machine induction - they will set the machines up for your height.",
+    "Weeks 1-2: do 2 sets of every exercise, not 3. Start light and find your weights.",
+    "Record your starting bodyweight, waist, plank hold and quad stretch test."
+   ],
+   "days": {
+    "mon": {
+     "date": "2026-11-02",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2026-11-03",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2026-11-04",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2026-11-05",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2026-11-06",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2026-11-07",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2026-11-08",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 2,
+   "start_date": "2026-11-09",
+   "end_date": "2026-11-15",
+   "phase": "learn",
+   "lighter_week": false,
+   "test_week": false,
+   "sets_note": "2 sets of every exercise",
+   "runs": {
+    "mon": {
+     "type": "run_walk",
+     "reps": 5,
+     "run_min": 2,
+     "walk_min": 1,
+     "run_total_min": 10,
+     "text": "5 x (2 min run / 1 min walk)"
+    },
+    "fri": {
+     "type": "cross_trainer",
+     "minutes": 15,
+     "run_total_min": 0,
+     "text": "No run - 15 min cross trainer"
+    },
+    "sat": {
+     "type": "run_walk",
+     "reps": 5,
+     "run_min": 3,
+     "walk_min": 1,
+     "run_total_min": 15,
+     "text": "5 x (3 min run / 1 min walk)"
+    }
+   },
+   "strides": null,
+   "kick_stage": 0,
+   "measure_waist": false,
+   "notes": [
+    "Still 2 sets of everything.",
+    "Record this week's working weights for Leg Press, Chest Press and Seated Row - this is your strength baseline."
+   ],
+   "days": {
+    "mon": {
+     "date": "2026-11-09",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2026-11-10",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2026-11-11",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2026-11-12",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2026-11-13",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2026-11-14",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2026-11-15",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 3,
+   "start_date": "2026-11-16",
+   "end_date": "2026-11-22",
+   "phase": "learn",
+   "lighter_week": false,
+   "test_week": false,
+   "sets_note": "Sets as listed",
+   "runs": {
+    "mon": {
+     "type": "run_walk",
+     "reps": 4,
+     "run_min": 3,
+     "walk_min": 1,
+     "run_total_min": 12,
+     "text": "4 x (3 min run / 1 min walk)"
+    },
+    "fri": {
+     "type": "cross_trainer",
+     "minutes": 15,
+     "run_total_min": 0,
+     "text": "No run - 15 min cross trainer"
+    },
+    "sat": {
+     "type": "run_walk",
+     "reps": 5,
+     "run_min": 4,
+     "walk_min": 1,
+     "run_total_min": 20,
+     "text": "5 x (4 min run / 1 min walk)"
+    }
+   },
+   "strides": null,
+   "kick_stage": 0,
+   "measure_waist": false,
+   "notes": [
+    "Move up to the full sets listed."
+   ],
+   "days": {
+    "mon": {
+     "date": "2026-11-16",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2026-11-17",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2026-11-18",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2026-11-19",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2026-11-20",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2026-11-21",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2026-11-22",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 4,
+   "start_date": "2026-11-23",
+   "end_date": "2026-11-29",
+   "phase": "learn",
+   "lighter_week": true,
+   "test_week": false,
+   "sets_note": "One set fewer than listed",
+   "runs": {
+    "mon": {
+     "type": "run_walk",
+     "reps": 3,
+     "run_min": 3,
+     "walk_min": 1,
+     "run_total_min": 9,
+     "text": "3 x (3 min run / 1 min walk)"
+    },
+    "fri": {
+     "type": "cross_trainer",
+     "minutes": 15,
+     "run_total_min": 0,
+     "text": "No run - 15 min cross trainer"
+    },
+    "sat": {
+     "type": "run_walk",
+     "reps": 4,
+     "run_min": 4,
+     "walk_min": 1,
+     "run_total_min": 16,
+     "text": "4 x (4 min run / 1 min walk)"
+    }
+   },
+   "strides": null,
+   "kick_stage": 0,
+   "measure_waist": true,
+   "notes": [
+    "Lighter week: one set fewer on everything; keep weights the same. Let your body catch up.",
+    "Measure your waist."
+   ],
+   "days": {
+    "mon": {
+     "date": "2026-11-23",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2026-11-24",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2026-11-25",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2026-11-26",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2026-11-27",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2026-11-28",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2026-11-29",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 5,
+   "start_date": "2026-11-30",
+   "end_date": "2026-12-06",
+   "phase": "build",
+   "lighter_week": false,
+   "test_week": false,
+   "sets_note": "Sets as listed",
+   "runs": {
+    "mon": {
+     "type": "run_walk",
+     "reps": 3,
+     "run_min": 5,
+     "walk_min": 1,
+     "run_total_min": 15,
+     "text": "3 x (5 min run / 1 min walk)"
+    },
+    "fri": {
+     "type": "run_walk",
+     "reps": 3,
+     "run_min": 3,
+     "walk_min": 1,
+     "run_total_min": 9,
+     "text": "3 x (3 min run / 1 min walk)"
+    },
+    "sat": {
+     "type": "run_walk",
+     "reps": 3,
+     "run_min": 7,
+     "walk_min": 1,
+     "run_total_min": 21,
+     "text": "3 x (7 min run / 1 min walk)"
+    }
+   },
+   "strides": null,
+   "kick_stage": 1,
+   "measure_waist": false,
+   "notes": [
+    "Phase 2 starts: new exercises - ask staff to check your goblet squat and Romanian deadlift.",
+    "Friday's cardio becomes a short run.",
+    "Kicking Stage 1 starts. Record your first kick pain score."
+   ],
+   "days": {
+    "mon": {
+     "date": "2026-11-30",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2026-12-01",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2026-12-02",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2026-12-03",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2026-12-04",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2026-12-05",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2026-12-06",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 6,
+   "start_date": "2026-12-07",
+   "end_date": "2026-12-13",
+   "phase": "build",
+   "lighter_week": false,
+   "test_week": false,
+   "sets_note": "Sets as listed",
+   "runs": {
+    "mon": {
+     "type": "run_walk",
+     "reps": 3,
+     "run_min": 5,
+     "walk_min": 1,
+     "run_total_min": 15,
+     "text": "3 x (5 min run / 1 min walk)"
+    },
+    "fri": {
+     "type": "run_walk",
+     "reps": 2,
+     "run_min": 5,
+     "walk_min": 1,
+     "run_total_min": 10,
+     "text": "2 x 5 min run, 1 min walk between"
+    },
+    "sat": {
+     "type": "run_walk",
+     "reps": 2,
+     "run_min": 12,
+     "walk_min": 1,
+     "run_total_min": 24,
+     "text": "2 x 12 min run, 1 min walk between"
+    }
+   },
+   "strides": null,
+   "kick_stage": 1,
+   "measure_waist": false,
+   "notes": [],
+   "days": {
+    "mon": {
+     "date": "2026-12-07",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2026-12-08",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2026-12-09",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2026-12-10",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2026-12-11",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2026-12-12",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2026-12-13",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 7,
+   "start_date": "2026-12-14",
+   "end_date": "2026-12-20",
+   "phase": "build",
+   "lighter_week": false,
+   "test_week": false,
+   "sets_note": "Sets as listed",
+   "runs": {
+    "mon": {
+     "type": "run_walk",
+     "reps": 2,
+     "run_min": 8,
+     "walk_min": 1,
+     "run_total_min": 16,
+     "text": "2 x 8 min run, 1 min walk between"
+    },
+    "fri": {
+     "type": "continuous",
+     "minutes": 12,
+     "run_total_min": 12,
+     "text": "12 min continuous"
+    },
+    "sat": {
+     "type": "run_walk",
+     "reps": 2,
+     "run_min": 14,
+     "walk_min": 1,
+     "run_total_min": 28,
+     "text": "2 x 14 min run, 1 min walk between"
+    }
+   },
+   "strides": "4 x 15 sec",
+   "kick_stage": 2,
+   "measure_waist": false,
+   "notes": [
+    "Strides start: after the Saturday run, 4 x 15 sec of relaxed, faster running with a full walk back. Only if green."
+   ],
+   "days": {
+    "mon": {
+     "date": "2026-12-14",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2026-12-15",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2026-12-16",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2026-12-17",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2026-12-18",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2026-12-19",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2026-12-20",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 8,
+   "start_date": "2026-12-21",
+   "end_date": "2026-12-27",
+   "phase": "build",
+   "lighter_week": true,
+   "test_week": false,
+   "sets_note": "One set fewer than listed",
+   "runs": {
+    "mon": {
+     "type": "continuous",
+     "minutes": 12,
+     "run_total_min": 12,
+     "text": "12 min continuous"
+    },
+    "fri": {
+     "type": "continuous",
+     "minutes": 10,
+     "run_total_min": 10,
+     "text": "10 min continuous (only if you train Thu 24 Dec - otherwise rest)"
+    },
+    "sat": {
+     "type": "continuous",
+     "minutes": 20,
+     "run_total_min": 20,
+     "text": "20 min continuous"
+    }
+   },
+   "strides": null,
+   "kick_stage": 2,
+   "measure_waist": true,
+   "notes": [
+    "Christmas week - lighter week: one set fewer on everything.",
+    "Fri 25 Dec: gym probably closed. Do Friday's session on Thu 24 Dec if it is open, or skip it - the 30-session target allows for this.",
+    "Measure your waist."
+   ],
+   "days": {
+    "mon": {
+     "date": "2026-12-21",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2026-12-22",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2026-12-23",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2026-12-24",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2026-12-25",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2026-12-26",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2026-12-27",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 9,
+   "start_date": "2026-12-28",
+   "end_date": "2027-01-03",
+   "phase": "strengthen",
+   "lighter_week": false,
+   "test_week": false,
+   "sets_note": "Sets as listed",
+   "runs": {
+    "mon": {
+     "type": "continuous",
+     "minutes": 15,
+     "run_total_min": 15,
+     "text": "15 min continuous"
+    },
+    "fri": {
+     "type": "continuous",
+     "minutes": 12,
+     "run_total_min": 12,
+     "text": "12 min continuous"
+    },
+    "sat": {
+     "type": "continuous",
+     "minutes": 25,
+     "run_total_min": 25,
+     "text": "25 min continuous"
+    }
+   },
+   "strides": "6 x 15-20 sec",
+   "kick_stage": 3,
+   "measure_waist": false,
+   "notes": [
+    "Phase 3 starts: heavier, fewer reps on the main lifts.",
+    "Fri 1 Jan: check your gym's holiday hours. If closed, do Friday's session on Thu 31 Dec."
+   ],
+   "days": {
+    "mon": {
+     "date": "2026-12-28",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2026-12-29",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2026-12-30",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2026-12-31",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2027-01-01",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2027-01-02",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2027-01-03",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 10,
+   "start_date": "2027-01-04",
+   "end_date": "2027-01-10",
+   "phase": "strengthen",
+   "lighter_week": false,
+   "test_week": false,
+   "sets_note": "Sets as listed",
+   "runs": {
+    "mon": {
+     "type": "continuous",
+     "minutes": 18,
+     "run_total_min": 18,
+     "text": "18 min continuous"
+    },
+    "fri": {
+     "type": "continuous",
+     "minutes": 15,
+     "run_total_min": 15,
+     "text": "15 min continuous"
+    },
+    "sat": {
+     "type": "continuous",
+     "minutes": 28,
+     "run_total_min": 28,
+     "text": "28 min continuous"
+    }
+   },
+   "strides": "6 x 15-20 sec",
+   "kick_stage": 3,
+   "measure_waist": false,
+   "notes": [],
+   "days": {
+    "mon": {
+     "date": "2027-01-04",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2027-01-05",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2027-01-06",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2027-01-07",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2027-01-08",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2027-01-09",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2027-01-10",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 11,
+   "start_date": "2027-01-11",
+   "end_date": "2027-01-17",
+   "phase": "strengthen",
+   "lighter_week": false,
+   "test_week": false,
+   "sets_note": "Sets as listed",
+   "runs": {
+    "mon": {
+     "type": "continuous",
+     "minutes": 20,
+     "run_total_min": 20,
+     "text": "20 min continuous"
+    },
+    "fri": {
+     "type": "continuous",
+     "minutes": 15,
+     "run_total_min": 15,
+     "text": "15 min continuous"
+    },
+    "sat": {
+     "type": "continuous",
+     "minutes": 32,
+     "run_total_min": 32,
+     "text": "32 min continuous"
+    }
+   },
+   "strides": "6 x 15-20 sec",
+   "kick_stage": 4,
+   "measure_waist": false,
+   "notes": [
+    "Strength check: note your working weights for Leg Press, Chest Press and Seated Row and compare with Week 2."
+   ],
+   "days": {
+    "mon": {
+     "date": "2027-01-11",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2027-01-12",
+     "plan": "rest"
+    },
+    "wed": {
+     "date": "2027-01-13",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2027-01-14",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2027-01-15",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2027-01-16",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2027-01-17",
+     "plan": "rest"
+    }
+   }
+  },
+  {
+   "week": 12,
+   "start_date": "2027-01-18",
+   "end_date": "2027-01-24",
+   "phase": "strengthen",
+   "lighter_week": false,
+   "test_week": true,
+   "sets_note": "One set fewer on Wednesday; no leg work Friday",
+   "runs": {
+    "mon": {
+     "type": "continuous",
+     "minutes": 15,
+     "run_total_min": 15,
+     "text": "15 min continuous"
+    },
+    "fri": {
+     "type": "cross_trainer",
+     "minutes": 10,
+     "run_total_min": 0,
+     "text": "No run - 10 min easy cross trainer (5 km tomorrow)"
+    },
+    "sat": {
+     "type": "test",
+     "distance_km": 5,
+     "run_total_min": null,
+     "text": "5 km run - your goal run"
+    }
+   },
+   "strides": null,
+   "kick_stage": 4,
+   "measure_waist": true,
+   "notes": [
+    "Test week. Monday: plank test (best single hold).",
+    "Wednesday: one set fewer on everything.",
+    "Friday: upper body only and 10 min easy cross trainer - no leg work.",
+    "Tue 19 Jan: final kick test in the park (warm up, then Stage 4 strikes; record the pain score).",
+    "Sat 23 Jan: your 5 km run. Sun 24 Jan: final weigh-in and waist measurement."
+   ],
+   "days": {
+    "mon": {
+     "date": "2027-01-18",
+     "plan": "gym",
+     "session": "mon"
+    },
+    "tue": {
+     "date": "2027-01-19",
+     "plan": "kick_test"
+    },
+    "wed": {
+     "date": "2027-01-20",
+     "plan": "gym",
+     "session": "wed"
+    },
+    "thu": {
+     "date": "2027-01-21",
+     "plan": "rest"
+    },
+    "fri": {
+     "date": "2027-01-22",
+     "plan": "gym",
+     "session": "fri"
+    },
+    "sat": {
+     "date": "2027-01-23",
+     "plan": "run"
+    },
+    "sun": {
+     "date": "2027-01-24",
+     "plan": "rest"
+    }
+   }
+  }
+ ],
+ "running": {
+  "pace": "Easy: you can talk in sentences. Around 6:00-7:30 per km is fine - slower is better than faster.",
+  "rule": "Follow the time, not the distance. If a week went badly (amber or red), repeat it before moving on.",
+  "strides": "Strides = 15-20 seconds of relaxed, faster running (not a sprint), with a full walk back. Only on green weeks. They are the first step back towards sprinting.",
+  "saturday_warmup": [
+   "5 min brisk walk",
+   "Leg swings forwards and back - 10 each leg",
+   "Leg swings side to side - 10 each leg",
+   "Walking lunges - 10 steps (small steps at first)",
+   "High-knee marching - 20 steps",
+   "2 min very easy jog"
+  ]
+ },
+ "kicking": {
+  "rule": "Kick after the Saturday warm-up and BEFORE the run - a tired quad is more easily strained. Move up a stage only after two green sessions in a row. If amber, repeat the stage. If red, drop back a stage. Stages can take longer than the weeks shown - that is fine.",
+  "stages": [
+   {
+    "stage": 0,
+    "name": "No ball yet",
+    "weeks": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "what": "Build quad strength in the gym. Do the Saturday warm-up and the quad stretch test only."
+   },
+   {
+    "stage": 1,
+    "name": "Short side-foot passes",
+    "weeks": [
+     5,
+     6
+    ],
+    "what": "Side-foot passes over 10-15 m against a wall or with a friend. 2 x 15 passes with each foot."
+   },
+   {
+    "stage": 2,
+    "name": "Longer passes",
+    "weeks": [
+     7,
+     8
+    ],
+    "what": "Side-foot and laces passes over 20-30 m at about half power. 2 x 15 with each foot."
+   },
+   {
+    "stage": 3,
+    "name": "Driven passes",
+    "weeks": [
+     9,
+     10
+    ],
+    "what": "Driven passes and shots at about 70% power. 2 x 10 with the kicking leg, plus easy passes with the other."
+   },
+   {
+    "stage": 4,
+    "name": "Full strikes",
+    "weeks": [
+     11,
+     12
+    ],
+    "what": "Build to full-power strikes: 5 at 80%, then 5 at 90-100%. Only if Stage 3 was green twice in a row."
+   }
+  ]
+ },
+ "traffic_light": {
+  "how": "Rate quad pain 0-10 during each run, kick session and leg exercise, and again the next morning. 0 = nothing, 10 = worst imaginable.",
+  "green": {
+   "range": "0-2",
+   "meaning": "Fine. Carry on. Progress if the last two sessions were green."
+  },
+  "amber": {
+   "range": "3-4",
+   "meaning": "Finish at an easier level. Do not progress next time - repeat the step."
+  },
+  "red": {
+   "range": "5+, or sharp pain, or worse the next morning",
+   "meaning": "Stop that activity today. Next time, drop back one step."
+  },
+  "next_morning": "If the quad is clearly stiffer or sorer than usual the next morning, treat the session as amber.",
+  "stretch_test": "Quad stretch test - every Sunday, and before any reverse Nordic: standing quad stretch on the affected leg, gentle, 20 seconds. Rate the pain 0-10."
+ },
+ "stop_and_seek_advice": [
+  "A sudden sharp pain, a 'pop' or a 'pull' while kicking, sprinting or lifting.",
+  "Swelling or bruising on the thigh.",
+  "Limping, or pain walking or on the stairs.",
+  "Pain at rest or at night.",
+  "Two red days in any two-week period, or symptoms getting worse over two weeks.",
+  "Chest pain, feeling faint or dizzy, or unusual breathlessness during exercise - stop and speak to a GP."
+ ],
+ "lifting": {
+  "rest": "Rest 60-90 seconds between sets.",
+  "starting_weights": "Week 1: start with a weight you could lift 15+ times. Over the first two weeks, nudge it up until the listed reps feel moderately hard with 2-3 reps left in the tank.",
+  "progression": "Double progression: when you complete every set at the TOP of the rep range with 2-3 reps left in the tank, add the smallest weight step next time. If you can't reach the bottom of the range, go back down a step.",
+  "reps_in_reserve": "'Reps left in the tank' = how many more good reps you could have done. Aim for 2-3. Never grind to failure.",
+  "machines": "Write down seat and pad settings. Machine weights are not comparable between different machines or gyms, so compare like with like.",
+  "technique": "Controlled technique matters more than lifting heavier."
+ },
+ "effort_scale": [
+  {
+   "range": "1-2",
+   "label": "Very easy",
+   "feel": "Could do this all day"
+  },
+  {
+   "range": "3-4",
+   "label": "Easy",
+   "feel": "Could chat freely"
+  },
+  {
+   "range": "5-6",
+   "label": "Moderate",
+   "feel": "Working, but could still talk in sentences"
+  },
+  {
+   "range": "7-8",
+   "label": "Hard",
+   "feel": "Short phrases only"
+  },
+  {
+   "range": "9-10",
+   "label": "Maximum",
+   "feel": "Couldn't do any more - avoid in this plan"
+  }
+ ],
+ "body": {
+  "weigh_in": "Once a week, same morning, after the toilet, before eating. Sunday works well.",
+  "waist": "Weeks 1, 4, 8 and 12. Tape measure around your belly button, relaxed, after breathing out.",
+  "protein": [
+   "Have a palm-sized portion of protein at each meal (3 meals, plus a snack on gym days).",
+   "Good sources: eggs, Greek yoghurt, milk, chicken, fish, lean meat, beans, lentils, tofu, cottage cheese.",
+   "Rough daily guide for adults strength training: 1.2-1.6 g of protein per kg of bodyweight (for example, at 80 kg that's about 95-130 g a day). No need to count exactly."
+  ],
+  "other": [
+   "Eat something with carbohydrate 1-3 hours before a run (toast, banana, porridge).",
+   "Drink water through the day - more on sauna days.",
+   "Aim for 7+ hours of sleep. It is when you get stronger."
+  ]
+ },
+ "weekly_checkin": [
+  {
+   "id": "sessions",
+   "label": "Gym sessions this week",
+   "unit": "count",
+   "auto": true
+  },
+  {
+   "id": "sat_run",
+   "label": "Saturday run done",
+   "unit": "yes/no"
+  },
+  {
+   "id": "bodyweight",
+   "label": "Bodyweight",
+   "unit": "kg"
+  },
+  {
+   "id": "waist",
+   "label": "Waist (weeks 1, 4, 8, 12)",
+   "unit": "cm"
+  },
+  {
+   "id": "plank_best",
+   "label": "Best plank hold",
+   "unit": "seconds"
+  },
+  {
+   "id": "longest_run",
+   "label": "Longest continuous run",
+   "unit": "minutes"
+  },
+  {
+   "id": "stretch_test",
+   "label": "Quad stretch test",
+   "unit": "0-10"
+  },
+  {
+   "id": "kick_pain",
+   "label": "Kick pain (from Week 5)",
+   "unit": "0-10"
+  },
+  {
+   "id": "energy",
+   "label": "Energy",
+   "unit": "1-5"
+  },
+  {
+   "id": "enjoyment",
+   "label": "Enjoyment",
+   "unit": "1-5"
+  },
+  {
+   "id": "win",
+   "label": "Win of the week",
+   "unit": "text"
+  }
+ ],
+ "exercises": {
+  "bike": {
+   "name": "Exercise Bike",
+   "kind": "cardio",
+   "equipment": "Upright or recumbent exercise bike",
+   "what": "Warms up your legs and gently raises your heart rate before training.",
+   "steps": [
+    "Adjust the seat so your knee is slightly bent when the pedal is at the bottom.",
+    "Pedal at an easy pace - you should be able to chat.",
+    "For the last 2 minutes, pedal a little faster."
+   ],
+   "tips": [
+    "You should finish warmer, not tired."
+   ],
+   "cue": "Easy pace – warmer, not tired"
+  },
+  "treadmill_run": {
+   "name": "Treadmill Run",
+   "kind": "run",
+   "equipment": "Treadmill",
+   "what": "Your Monday (and from Week 5, Friday) run. A treadmill gives an even surface and makes it easy to control speed.",
+   "steps": [
+    "Clip the safety key to your clothing.",
+    "Walk briskly for 2 minutes to warm up.",
+    "Raise the speed to an easy jog. Start around 8-10 km/h (6:00-7:30 per km) - slower is fine.",
+    "Follow this week's run/walk pattern. For walk breaks, drop to a brisk walk.",
+    "Set the incline to 1% - it feels closer to running outdoors."
+   ],
+   "tips": [
+    "Easy means you could still talk in sentences.",
+    "Short, light steps. Hold the rails only to get on and off."
+   ],
+   "cue": "Easy, chatty pace. Short light steps"
+  },
+  "outdoor_run": {
+   "name": "Saturday Run (outdoors)",
+   "kind": "run",
+   "equipment": "Trainers, a flat route, a phone or watch for timing",
+   "what": "Your key run of the week. This is the one that builds towards 5 km.",
+   "steps": [
+    "Walk briskly for 5 minutes.",
+    "Do the Saturday warm-up (see below) - and kicking practice if it is on this week.",
+    "Run this week's pattern at an easy, chatty pace.",
+    "Walk for 5 minutes to cool down."
+   ],
+   "tips": [
+    "Choose a flat loop in the park so you can stop at any point.",
+    "If your phone or watch records distance, log it - but time is what the plan follows."
+   ],
+   "cue": "Flat loop, easy pace, walk 5 min after"
+  },
+  "cross_trainer": {
+   "name": "Cross Trainer",
+   "kind": "cardio",
+   "equipment": "Cross trainer (elliptical)",
+   "what": "Running-like movement with no impact - kind to the quad.",
+   "steps": [
+    "Step on, hold the moving handles and start pedalling slowly.",
+    "Settle into an easy-to-moderate pace for the set time.",
+    "Push and pull the handles to use your arms too."
+   ],
+   "tips": [
+    "Stand tall - avoid leaning on the handles."
+   ],
+   "cue": "Easy to moderate, stand tall"
+  },
+  "swim": {
+   "name": "Swim",
+   "kind": "cardio",
+   "equipment": "Pool",
+   "what": "Whole-body cardio with zero impact. Your Wednesday recovery cardio.",
+   "steps": [
+    "Swim any stroke at an easy pace.",
+    "Rest at the wall whenever you like.",
+    "Count total time, not lengths."
+   ],
+   "tips": [
+    "If breaststroke kick irritates the quad, swap to front crawl or use a float."
+   ],
+   "cue": "Any stroke, easy, rest at the wall"
+  },
+  "leg_press": {
+   "name": "Leg Press",
+   "kind": "strength",
+   "equipment": "Leg press machine",
+   "what": "Strengthens the front and back of your thighs and your bottom. Your main leg exercise.",
+   "steps": [
+    "Sit with your back flat against the pad.",
+    "Place your feet hip-width apart in the middle of the platform.",
+    "Push the platform up slightly and release the safety handles.",
+    "Bend your knees slowly until they are at about a right angle (or as far as is comfortable).",
+    "Push through your whole foot to straighten - stop just before your knees lock.",
+    "Put the safety handles back on when you finish."
+   ],
+   "tips": [
+    "Keep your lower back on the pad throughout.",
+    "Knees stay in line with your toes - don't let them cave in."
+   ],
+   "cue": "Push the platform away. Don't lock knees"
+  },
+  "leg_extension": {
+   "name": "Leg Extension",
+   "kind": "strength",
+   "equipment": "Leg extension machine",
+   "what": "Works the front-thigh (quad) muscles directly - the area you are rebuilding.",
+   "steps": [
+    "Sit with your back against the pad. Line your knee up with the machine's pivot (often marked with a dot).",
+    "Set the roller on the front of your lower shins, just above the ankles.",
+    "Straighten your legs over about 2 seconds and pause briefly.",
+    "Lower slowly over 3 seconds."
+   ],
+   "tips": [
+    "Start very light. This loads the quad directly, so use the traffic-light rules.",
+    "Hold the side handles and keep your hips down on the seat."
+   ],
+   "cue": "Straighten legs, lower slowly (3 sec)"
+  },
+  "chest_press": {
+   "name": "Chest Press",
+   "kind": "strength",
+   "equipment": "Chest press machine",
+   "what": "Strengthens chest, shoulders and the back of the arms.",
+   "steps": [
+    "Set the seat so the handles are level with the middle of your chest.",
+    "Sit back against the pad and grip the handles.",
+    "Push the handles forward until your arms are almost straight.",
+    "Return slowly until your hands are near your chest."
+   ],
+   "tips": [
+    "Keep your shoulders relaxed and down - don't shrug."
+   ],
+   "cue": "Push forward, return slowly. Shoulders down"
+  },
+  "seated_row": {
+   "name": "Seated Row",
+   "kind": "strength",
+   "equipment": "Seated row machine or low cable with a handle",
+   "what": "Strengthens your upper back - balances the chest press and helps posture.",
+   "steps": [
+    "Sit tall with your chest against the pad (machine) or knees soft (cable).",
+    "Pull the handles towards your lower ribs, squeezing your shoulder blades together gently.",
+    "Return slowly until your arms are straight."
+   ],
+   "tips": [
+    "Don't round your back or lean back to pull."
+   ],
+   "cue": "Pull to lower ribs. Sit tall"
+  },
+  "leg_curl": {
+   "name": "Leg Curl",
+   "kind": "strength",
+   "equipment": "Seated or lying leg curl machine",
+   "what": "Strengthens the back of your thighs (hamstrings) - important for running and kicking.",
+   "steps": [
+    "Line your knee up with the machine's pivot.",
+    "Set the padded roller just above your heels.",
+    "Bend your knees to move the roller towards the back of your thighs.",
+    "Straighten slowly."
+   ],
+   "tips": [
+    "Smooth and controlled - don't swing the weight."
+   ],
+   "cue": "Bend knees to pull the pad under. Return slowly"
+  },
+  "lat_pulldown": {
+   "name": "Lat Pulldown",
+   "kind": "strength",
+   "equipment": "Lat pulldown cable machine",
+   "what": "Strengthens your upper back and the sides of your back.",
+   "steps": [
+    "Adjust the thigh pad so your legs are held firmly.",
+    "Grip the bar a little wider than shoulder-width.",
+    "Lean back very slightly and pull the bar down to your upper chest.",
+    "Let it rise slowly until your arms are straight."
+   ],
+   "tips": [
+    "Never pull the bar behind your neck.",
+    "Don't swing your body to move the weight."
+   ],
+   "cue": "Pull bar to upper chest. Never behind neck"
+  },
+  "shoulder_press": {
+   "name": "Shoulder Press",
+   "kind": "strength",
+   "equipment": "Shoulder press machine",
+   "what": "Strengthens your shoulders and the back of your arms.",
+   "steps": [
+    "Set the seat so the handles start at about shoulder height.",
+    "Press the handles upwards through a comfortable range.",
+    "Lower slowly back to shoulder height."
+   ],
+   "tips": [
+    "Don't lock your elbows hard at the top.",
+    "Keep your back against the pad."
+   ],
+   "cue": "Press up, lower slowly to shoulders"
+  },
+  "cable_knee_drive": {
+   "name": "Cable Knee Drive",
+   "kind": "strength",
+   "equipment": "Low cable pulley with an ankle strap",
+   "what": "Strengthens the hip flexor and upper front thigh - the muscles that swing your leg into a kick.",
+   "steps": [
+    "Attach the ankle strap to the low pulley and to one ankle.",
+    "Stand facing away from the machine, holding something steady.",
+    "Drive your knee forwards and up to hip height.",
+    "Lower slowly. Do all reps, then switch legs."
+   ],
+   "tips": [
+    "Start very light - this is a kicking-specific muscle.",
+    "No ankle strap? Do slow standing knee raises with no weight."
+   ],
+   "cue": "Drive knee to hip height, lower slowly"
+  },
+  "plank": {
+   "name": "Plank",
+   "kind": "timed",
+   "equipment": "Floor mat",
+   "what": "Strengthens your core (stomach and lower back muscles) to keep your body steady when running.",
+   "steps": [
+    "Lie face down. Place your elbows under your shoulders.",
+    "Lift your body onto your forearms and toes (or knees for an easier version).",
+    "Hold a straight line from shoulders to heels (or knees).",
+    "Breathe normally. Stop when your hips start to sag."
+   ],
+   "tips": [
+    "Quality over time - stop before your lower back sags."
+   ],
+   "cue": "Straight line. Stop before hips sag"
+  },
+  "side_plank": {
+   "name": "Side Plank",
+   "kind": "timed",
+   "equipment": "Floor mat",
+   "what": "Strengthens the sides of your core and hips - helps you run without wobbling.",
+   "steps": [
+    "Lie on your side with your elbow under your shoulder.",
+    "Bend your knees (easier) or keep your legs straight.",
+    "Lift your hips so your body forms a straight line. Hold, then switch sides."
+   ],
+   "tips": [
+    "Keep your hips pushed forward, not sticking out behind."
+   ],
+   "cue": "Lift hips into a straight line"
+  },
+  "dead_bug": {
+   "name": "Dead Bug",
+   "kind": "strength",
+   "equipment": "Floor mat",
+   "what": "A gentle core exercise that teaches you to keep your lower back steady.",
+   "steps": [
+    "Lie on your back. Arms straight up, knees bent at a right angle above your hips.",
+    "Press your lower back gently into the floor.",
+    "Slowly lower one arm behind you and the opposite leg towards the floor.",
+    "Return and switch sides. That is one rep each side."
+   ],
+   "tips": [
+    "Move slowly. Breathe out as you lower."
+   ],
+   "cue": "Back pressed down. Lower opposite arm + leg"
+  },
+  "glute_bridge": {
+   "name": "Glute Bridge",
+   "kind": "strength",
+   "equipment": "Floor mat",
+   "what": "Strengthens your bottom (glutes) and hamstrings - key running muscles.",
+   "steps": [
+    "Lie on your back, knees bent, feet flat and hip-width apart.",
+    "Squeeze your bottom and lift your hips until shoulders, hips and knees form a line.",
+    "Pause for 1 second, then lower slowly."
+   ],
+   "tips": [
+    "Push through your heels. Don't arch your lower back at the top."
+   ],
+   "cue": "Squeeze bottom, lift hips, pause"
+  },
+  "calf_raise": {
+   "name": "Calf Raise",
+   "kind": "strength",
+   "equipment": "A step or the floor, a rail to hold",
+   "what": "Strengthens your calves and ankles. Runners need strong calves.",
+   "steps": [
+    "Stand with the balls of your feet on a step, holding a rail.",
+    "Rise up onto your toes as high as you can. Pause.",
+    "Lower your heels slowly below the step.",
+    "Weeks 9-12: do it on one leg at a time."
+   ],
+   "tips": [
+    "Slow on the way down - count 3 seconds."
+   ],
+   "cue": "Up on toes, lower heels slowly"
+  },
+  "farmer_carry": {
+   "name": "Farmer Carry",
+   "kind": "timed",
+   "equipment": "Two dumbbells or kettlebells, clear floor space",
+   "what": "Builds grip, core and whole-body strength. Teaches you to stay tall under load.",
+   "steps": [
+    "Bend your knees and pick up a weight in each hand with a flat back.",
+    "Stand tall with your shoulders level.",
+    "Walk steadily for the set time.",
+    "Bend your knees to put the weights down."
+   ],
+   "tips": [
+    "Choose a weight that is heavy but lets you walk without leaning."
+   ],
+   "cue": "Weight in each hand. Walk tall"
+  },
+  "goblet_squat": {
+   "name": "Goblet Squat",
+   "kind": "strength",
+   "equipment": "One dumbbell",
+   "what": "A squat holding a weight at your chest. Builds leg strength and mobility.",
+   "steps": [
+    "Hold one dumbbell upright against your chest, gripping the top end.",
+    "Stand with feet slightly wider than your hips, toes turned out a little.",
+    "Sit down between your heels as low as is comfortable.",
+    "Push through your feet to stand up."
+   ],
+   "tips": [
+    "Keep your chest up.",
+    "Squatting down to a bench is a good way to learn the depth. No weight is fine at first."
+   ],
+   "cue": "Weight at chest. Sit down between heels"
+  },
+  "split_squat": {
+   "name": "Split Squat",
+   "kind": "strength",
+   "equipment": "Floor space (later two dumbbells), a rail for balance",
+   "what": "Single-leg strength. Running is a single-leg sport - this is great preparation.",
+   "steps": [
+    "Stand with one foot forward and one back, about a stride apart. Back heel lifted.",
+    "Lower your back knee straight down towards the floor - stop just above it.",
+    "Push through your front foot to rise.",
+    "Do all reps on one side, then switch."
+   ],
+   "tips": [
+    "Hold a rail at first. Weeks 9-12: hold dumbbells.",
+    "Keep your body upright. Shorten the range if the front thigh complains."
+   ],
+   "cue": "Back knee down, push through front foot"
+  },
+  "db_rdl": {
+   "name": "Romanian Deadlift (dumbbells)",
+   "kind": "strength",
+   "equipment": "Two dumbbells",
+   "what": "A hip hinge that strengthens your hamstrings, bottom and lower back.",
+   "steps": [
+    "Stand holding the dumbbells in front of your thighs.",
+    "Soften your knees slightly - they stay at this bend.",
+    "Push your hips backwards and slide the weights down your thighs, keeping your back flat.",
+    "Stop when you feel a stretch in the back of your thighs (around knee to mid-shin).",
+    "Push your hips forward to stand tall."
+   ],
+   "tips": [
+    "It's a hinge, not a squat - your hips move back, your knees barely change.",
+    "Keep the weights close to your legs."
+   ],
+   "cue": "Hips back, flat back, weights close to legs"
+  },
+  "step_up": {
+   "name": "Step Up",
+   "kind": "strength",
+   "equipment": "A low, stable step or box (start 20-30 cm)",
+   "what": "Single-leg strength that mimics climbing and running.",
+   "steps": [
+    "Place your whole foot on the step.",
+    "Push through that foot to stand up tall on the step.",
+    "Lower the other foot back to the floor slowly.",
+    "Do all reps on one side, then switch."
+   ],
+   "tips": [
+    "Use a rail for balance. Push with the top leg - don't spring off the bottom one."
+   ],
+   "cue": "Push through the top foot. Step down slowly"
+  },
+  "reverse_nordic": {
+   "name": "Reverse Nordic (optional)",
+   "kind": "strength",
+   "equipment": "Padded mat",
+   "what": "Stretches and strengthens the front of the thigh at the same time - aimed at the tight, sore stretch.",
+   "steps": [
+    "Kneel upright on a padded mat, knees hip-width apart.",
+    "Keep a straight line from knees to shoulders.",
+    "Lean back slowly a short way (start with a small lean).",
+    "Use your thigh muscles to pull yourself back upright."
+   ],
+   "tips": [
+    "Only do it if your quad stretch test is 2/10 or less. Skip it on any amber day.",
+    "Lean back a little further only when the current range feels easy."
+   ],
+   "cue": "Lean back a little, body straight, come up"
+  },
+  "sauna": {
+   "name": "Sauna / Steam / Jacuzzi",
+   "kind": "recovery",
+   "equipment": "Gym spa area",
+   "what": "Your reward for turning up. Optional - but if it keeps you coming back, it is doing its job.",
+   "steps": [
+    "Drink water before going in.",
+    "Stay 10-15 minutes. Sit on a lower, cooler bench if it feels too hot.",
+    "Cool down and drink water afterwards."
+   ],
+   "tips": [
+    "Leave straight away if you feel dizzy or unwell.",
+    "Skip it after alcohol or if you are ill."
+   ],
+   "cue": "10–15 min. Drink water. Leave if dizzy"
+  }
+ }
+}

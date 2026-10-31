@@ -1,0 +1,5 @@
+# Local-only: build tools and tests mention personal details and are never published.
+tools/
+tests/
+__pycache__/
+*.pyc
