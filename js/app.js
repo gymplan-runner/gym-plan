@@ -121,8 +121,7 @@ function itemRow(it, colour, name) {
 }
 
 function gymButton(session) {
-  if (!session) return `<button type="button" class="btn big" data-go="start">Start workout</button>`;
-  if (session.status === "in_progress") return `<button type="button" class="btn big" data-go="resume">Resume workout</button>`;
+  if (!session || session.status === "in_progress") return "";
   return `<div class="done-banner">✓ Done · ${session.durationMin ?? "–"} min${session.effort ? ` · effort ${session.effort}/10` : ""}
     <button type="button" class="linkbtn" data-go="resume">View or edit</button></div>`;
 }
@@ -198,46 +197,15 @@ async function renderToday() {
   if (pos.status === "before") {
     const b = await db.getSetting("baselines", null);
     body = `<div class="card start-card"><b>Your plan starts ${fmt(parseDate(state.start), { weekday: "long", day: "numeric", month: "long" })}.</b>
-      <p class="small">Logging opens then – a <b>Start workout</b> button appears here on gym days, and <b>Start run</b> on Saturdays. Below is a preview of Monday.</p>
+      <p class="small"><b>Want to start now?</b> Tap <b>Do a workout</b> – Week 1's sessions can be done early and count towards Week 1.</p>
       <p class="small"><b>This weekend:</b> record your starting values – plank hold, how far you can run, kick pain, bodyweight and waist.</p>
       <button type="button" class="btn" data-go="baselines">${b ? "Update my starting values" : "Record my starting values"}</button></div>${body}`;
   }
 
-  // Flexible days: on any day, pick any of this week's sessions (A, B, C or the run). Each counts once, for that
-  // session. On Sundays, next week's gym sessions can be done early too.
-  let catchUp = "";
-  if (pos.status === "during" && !inProgress) {
-    const todayIso = isoDate(now);
-    const LETTER = { mon: "A", wed: "B", fri: "C" };
-    const optionsFor = async (wk) => {
-      const ww = weekInfo(wk);
-      const satRun = await db.get("runs", runId(ww.days.sat.date, "outdoor"));
-      return ["mon", "wed", "fri", "sat"].map((k) => {
-        const date = ww.days[k].date;
-        const done = k === "sat" ? satRun?.status === "finished" : finishedDates.has(date);
-        const title = k === "sat" ? "Run (Saturday's)" : `Session ${LETTER[k]}: ${dayPlan(wk, k).session.title}`;
-        return { wk, k, date, done, title, missed: !done && date < todayIso };
-      });
-    };
-    const btn = (c, prefix = "") => `<button type="button" class="pick ${c.done ? "done" : ""}" data-go="${c.k === "sat" ? "catchup-run" : "catchup"}"
-        data-day="${c.k}" data-week="${c.wk}" ${c.done ? "disabled" : ""}><span>${c.done ? "✓" : c.missed ? "!" : "›"}</span>${prefix}${esc(c.title)}${c.done ? " – done" : ""}</button>`;
-    const thisWeek = (await optionsFor(week)).filter((c) => !(c.k === pos.dayKey && c.date === todayIso));
-    let list = thisWeek.map((c) => btn(c)).join("");
-    if (pos.dayKey === "sun" && week < 12) {
-      list += `<p class="muted small" style="margin:8px 0 0">Or get ahead with next week's:</p>`
-        + (await optionsFor(week + 1)).filter((c) => c.k !== "sat").map((c) => btn(c, "Next week · ")).join("");
-    }
-    const left = thisWeek.filter((c) => !c.done).length;
-    catchUp = dp.kind !== "gym" && dp.kind !== "run" && left
-      ? `<div class="card pickcard"><b>Training today? Pick a session</b>
-          <p class="muted small">Any session, any day – it counts once. Suggested order: A, B, C, with the run on its own day.</p><div class="picks">${list}</div></div>`
-      : `<details class="card swap"><summary>Doing a different session today?</summary>
-          <p class="muted small">Pick any session from this week – it counts once.</p><div class="picks">${list}</div></details>`;
-  }
-
-  const resume = inProgress && inProgress.date !== w.days[showDay].date
-    ? `<div class="notice"><b>Unfinished workout:</b> ${esc(inProgress.title)} (${fmt(parseDate(inProgress.date), { weekday: "short", day: "numeric", month: "short" })})
-       <button type="button" class="linkbtn" data-go="resume-other">Resume</button></div>` : "";
+  // One clear way in: Do a workout -> which session -> what's in it -> log it.
+  const doBtn = pos.status === "after" ? "" : inProgress
+    ? `<button type="button" class="btn big" data-go="resume-other">▶ Resume workout: ${esc(inProgress.title)}</button>`
+    : `<button type="button" class="btn big" data-go="choose">▶ Do a workout</button>`;
 
   // Next-morning quad check for yesterday's (or the day before's) run, kicks or gym session.
   const m = await pendingMorning(now);
@@ -271,13 +239,12 @@ async function renderToday() {
       <button type="button" class="gear" data-go="settings" aria-label="Settings">⚙️</button></div>
     <h1>${hello}</h1>
     ${redBanner}${morningResult}${morningCard}${backupCard}
-    ${resume}
     <div class="card hero">${ring(pos.status === "before" ? 0 : week)}
       <div><div style="font-weight:700;font-size:18px">${headline}</div>
       <div class="muted small">${pos.status === "during" ? `Gym this week: <b style="color:#fff">${weekDone} of 3</b> · Total: <b style="color:#fff">${finished.length} of 30</b>` : esc(phase.focus)}</div></div></div>
     ${dayStrip(week, pos.status === "during" ? pos.dayKey : null, finishedDates)}
+    ${doBtn}
     ${body}
-    ${catchUp}
     ${dp.kind === "gym" && w.sets_note !== "Sets as listed" ? `<div class="notice">${esc(w.sets_note)}</div>` : ""}
     ${notes}
     <button type="button" class="btn ghost" data-go="poster">🖼️ This phase at a glance</button>`;
@@ -309,6 +276,65 @@ async function awayHint(week, todayDate) {
   return `<div class="card"><b>Been away?</b> <span class="muted small">Your last run was ${gap} days ago.</span>
     <p class="small">After a break it's wise to repeat the last step you completed (<b>${esc(last.plannedText)}</b>) before moving on to this week's (${esc(w.runs.sat.text)}).</p>
     <button type="button" class="btn ghost" data-go="repeat-run">Repeat my last step</button></div>`;
+}
+
+// ------------------------------------------------------------------ "Do a workout": which session?
+const LETTER = { mon: "A", wed: "B", fri: "C" };
+
+async function sessionChoices(wk, finishedDates, todayIso) {
+  const w = weekInfo(wk);
+  const satRun = await db.get("runs", runId(w.days.sat.date, "outdoor"));
+  return ["mon", "wed", "fri", "sat"].map((k) => {
+    const date = w.days[k].date;
+    const done = k === "sat" ? satRun?.status === "finished" : finishedDates.has(date);
+    return { wk, k, date, done, planned: date === todayIso };
+  });
+}
+
+async function choiceCard(c, suggested) {
+  const colour = DAY_COLOURS[c.k];
+  const status = c.done ? `<span class="badge ok">✓ Done</span>` : suggested ? `<span class="badge sug">Suggested</span>` : "";
+  if (c.k === "sat") {
+    const w = weekInfo(c.wk);
+    const run = await runToDo(c.wk);
+    const stage = w.kick_stage ? getPlan().kicking.stages.find((s) => s.stage === w.kick_stage) : null;
+    return `<div class="choice"><div class="choice-head" style="background:${colour}"><b>Run</b><span>usually Saturday</span>${status}</div>
+      <div class="choice-body">${itemRow({ exercise: "outdoor_run", run }, colour)}
+        ${stage ? `<p class="small">Kicking stage ${w.kick_stage} first (log it from Saturday's Today screen): ${esc(stage.what)}</p>` : ""}
+        <button type="button" class="btn ${c.done ? "ghost" : ""}" data-go="catchup-run" data-week="${c.wk}">${c.done ? "View or edit the run" : "Start the run"}</button></div></div>`;
+  }
+  const s = dayPlan(c.wk, c.k).session;
+  return `<div class="choice"><div class="choice-head" style="background:${colour}"><b>Session ${LETTER[c.k]}: ${esc(s.title)}</b><span>usually ${DAY_NAMES[c.k]}</span>${status}</div>
+    <div class="choice-body"><p class="muted small">${esc(s.subtitle)}</p>
+      <details class="preview" ${suggested && !c.done ? "open" : ""}><summary>What's in it (${s.items.length} items)</summary>${s.items.map((it) => itemRow(it, colour)).join("")}</details>
+      <button type="button" class="btn ${c.done ? "ghost" : ""}" data-go="catchup" data-day="${c.k}" data-week="${c.wk}">${c.done ? `View or edit Session ${LETTER[c.k]}` : `Start Session ${LETTER[c.k]}`}</button></div></div>`;
+}
+
+async function renderChooser() {
+  $tabs.hidden = true;
+  state.choosing = true;
+  const now = today();
+  const todayIso = isoDate(now);
+  const pos = position(now, state.start);
+  const finishedDates = new Set((await db.all("sessions")).filter((s) => s.status === "finished").map((s) => s.date));
+  const list = await sessionChoices(pos.week, finishedDates, todayIso);
+  // Suggest today's planned session if it's still to do, otherwise the first undone in order A, B, C, run.
+  const sug = list.find((c) => c.planned && !c.done) ?? list.find((c) => !c.done);
+  let next = "";
+  if (pos.status === "during" && pos.dayKey === "sun" && pos.week < 12) {
+    const nl = (await sessionChoices(pos.week + 1, finishedDates, todayIso)).filter((c) => c.k !== "sat");
+    next = `<h2>Get ahead: week ${pos.week + 1}</h2><p class="muted small">Free on a Sunday? Next week's sessions count towards next week.</p>
+      ${(await Promise.all(nl.map((c) => choiceCard(c, false)))).join("")}`;
+  }
+  const intro = pos.status === "before"
+    ? `<div class="notice">Starting early – these are <b>Week 1</b>'s sessions and count towards Week 1.</div>`
+    : `<p class="muted small">Any session, any day – each counts once. Suggested order: A, B, C, with the run on its own day.</p>`;
+  $screen.innerHTML = `<div class="wk-top" style="background:var(--navy)"><button type="button" class="back" data-go="choose-back">‹ Today</button>
+      <h1>Which session?</h1><p>Week ${pos.week} · ${esc(phaseFor(pos.week).name)}</p></div>
+    ${intro}
+    ${(await Promise.all(list.map((c) => choiceCard(c, c === sug)))).join("")}
+    ${next}`;
+  window.scrollTo(0, 0);
 }
 
 // ------------------------------------------------------------------ phase infographic (pinch to zoom)
@@ -357,6 +383,9 @@ $screen.addEventListener("click", async (e) => {
   const go = b.dataset.go;
   const c = state.current;
   const backToToday = () => show(state.tab);
+  if (go === "choose") return renderChooser();
+  if (go === "choose-back") { state.choosing = false; $tabs.hidden = false; return show("today"); }
+  if (state.choosing && (go === "catchup" || go === "catchup-run")) { state.choosing = false; $tabs.hidden = false; }
   if (go === "poster") return openPoster(Number(b.dataset.phase) || 0);
   if (go === "guide") return openGuide(b.dataset.ex);
   if (go === "baselines") {

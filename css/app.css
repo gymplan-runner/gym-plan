@@ -247,3 +247,14 @@ details.week .session-body { border: 1px solid var(--line); border-top: 0; }
 .pick.done { opacity: .6; } .pick.done span { color: var(--green); }
 details.swap summary { font-weight: 600; color: var(--blue); min-height: 40px; display: flex; align-items: center; }
 .start-card { border: 2px solid var(--blue); }
+
+/* ---------- which session? */
+.choice { background: var(--card); border-radius: 16px; margin: 12px 0; overflow: hidden; }
+.choice-head { color: #fff; padding: 10px 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.choice-head b { font-size: 17px; flex: 1 1 100%; }
+.choice-head span { font-size: 13px; opacity: .9; }
+.choice-head .badge { margin-left: auto; opacity: 1; }
+.badge.sug { background: #fff; color: var(--navy); }
+.choice-body { padding: 4px 12px 12px; }
+.choice-body .btn { margin-top: 10px; }
+details.preview summary { color: var(--blue); font-weight: 600; min-height: 40px; display: flex; align-items: center; }
