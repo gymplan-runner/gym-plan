@@ -16,12 +16,13 @@ export const gymId = (plannedDate) => `gym-${plannedDate}`;
 const loadOf = (item) => item.load ?? getPlan().exercises[item.exercise]?.load ?? "weights";
 
 function newItem(it) {
-  const type = CARDIO.has(it.exercise) ? "cardio" : TIMED.has(it.exercise) ? "timed" : "strength";
+  const stretch = getPlan().exercises[it.exercise]?.kind === "stretch";  // optional cool-down: just mark it done
+  const type = CARDIO.has(it.exercise) ? "cardio" : stretch ? "stretch" : TIMED.has(it.exercise) ? "timed" : "strength";
   const planned = { sets: it.sets ?? null, reps: it.reps ?? null, seconds: it.seconds ?? null,
     minutes: it.minutes ?? null, per_side: !!it.per_side, optional: !!it.optional, note: it.note ?? null,
     run: it.run ?? null, dose: doseText(it) };
   const minutes = type === "cardio" ? (it.run ? it.run.run_total_min : parseInt(it.minutes, 10) || null) : null;
-  const sets = type === "cardio" ? [] : Array.from({ length: it.sets || 1 }, () => ({ kg: null, reps: null, seconds: null, done: false }));
+  const sets = type === "cardio" || type === "stretch" ? [] : Array.from({ length: it.sets || 1 }, () => ({ kg: null, reps: null, seconds: null, done: false }));
   return { exercise: it.exercise, type, load: loadOf(it), planned, sets, minutes, status: "todo", rir: null, pain: null, note: "", setting: "" };
 }
 
@@ -154,6 +155,7 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
         <div class="setrow"><span>Running minutes</span>
         <input class="in" inputmode="decimal" data-field="minutes" data-i="${i}" value="${item.minutes ?? ""}" aria-label="Running minutes"></div>`;
     }
+    if (item.type === "stretch") return "";
     if (item.type === "cardio") {
       const label = item.exercise === "treadmill_run" ? "Running minutes" : "Minutes";
       return `<div class="setrow"><span>${label}</span>
@@ -198,7 +200,7 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
     return `<div class="ex open ${item.status}">${head}<div class="ex-body">
       ${item.planned.note ? `<p class="note">${esc(item.planned.note)}</p>` : ""}
       <p class="cue">${esc(ex.cue ?? "")}</p>${how}
-      ${lt ? `<p class="last">${esc(lastLine(lt, item.type))}${lt.setting ? ` · setting ${esc(lt.setting)}` : ""}</p>` : `<p class="last muted">First time – start light.</p>`}
+      ${lt ? `<p class="last">${esc(lastLine(lt, item.type))}${lt.setting ? ` · setting ${esc(lt.setting)}` : ""}</p>` : item.type === "stretch" ? "" : `<p class="last muted">First time – start light.</p>`}
       ${hint ? `<p class="hint">💡 ${esc(hint)}</p>` : ""}
       ${setting}${setRows(item, i)}${rir}${pain}
       <input class="in wide" data-field="note" data-i="${i}" value="${esc(item.note)}" placeholder="Note (optional)" aria-label="Note">

@@ -171,6 +171,27 @@
        "seconds": "20-30"
       },
       {
+       "exercise": "calf_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "hamstring_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "glute_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
        "exercise": "sauna",
        "minutes": "10-15",
        "optional": true
@@ -223,6 +244,27 @@
        "note": "Warm up 2 lengths backstroke. Main: 6 x 1 length front crawl, 30 s rest. Cool down 2 lengths backstroke."
       },
       {
+       "exercise": "calf_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "hamstring_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "glute_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
        "exercise": "sauna",
        "minutes": "10-15",
        "optional": true
@@ -268,6 +310,27 @@
        "exercise": "cross_trainer",
        "minutes": 15,
        "note": "Easy to moderate"
+      },
+      {
+       "exercise": "calf_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "hamstring_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "glute_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
       },
       {
        "exercise": "sauna",
@@ -336,6 +399,27 @@
        "seconds": "30-45"
       },
       {
+       "exercise": "calf_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "hamstring_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "glute_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
        "exercise": "sauna",
        "minutes": "10-15",
        "optional": true
@@ -388,6 +472,27 @@
        "note": "Warm up 2 lengths backstroke. Main: 8 x 1 length front crawl, 20-30 s rest. Cool down 2 lengths backstroke."
       },
       {
+       "exercise": "calf_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "hamstring_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "glute_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
        "exercise": "sauna",
        "minutes": "10-15",
        "optional": true
@@ -433,6 +538,27 @@
       {
        "exercise": "treadmill_run",
        "note": "Short easy run - see the running table"
+      },
+      {
+       "exercise": "calf_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "hamstring_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "glute_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
       },
       {
        "exercise": "sauna",
@@ -502,6 +628,27 @@
        "seconds": "45-90"
       },
       {
+       "exercise": "calf_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "hamstring_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "glute_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
        "exercise": "sauna",
        "minutes": "10-15",
        "optional": true
@@ -557,6 +704,27 @@
        "note": "Warm up 2 lengths backstroke. Main: 5 x 2 lengths front crawl, 30 s rest. Cool down 2 lengths backstroke."
       },
       {
+       "exercise": "calf_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "hamstring_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "glute_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
        "exercise": "sauna",
        "minutes": "10-15",
        "optional": true
@@ -608,6 +776,27 @@
       {
        "exercise": "treadmill_run",
        "note": "Short easy run - see the running table"
+      },
+      {
+       "exercise": "calf_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "hamstring_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
+      },
+      {
+       "exercise": "glute_stretch",
+       "sets": 1,
+       "seconds": "30",
+       "per_side": true,
+       "optional": true
       },
       {
        "exercise": "sauna",
@@ -1718,7 +1907,7 @@
     "Walk briskly for 5 minutes.",
     "Do the Saturday warm-up (see below) - and kicking practice if it is on this week.",
     "Run this week's pattern at an easy, chatty pace.",
-    "Walk for 5 minutes to cool down."
+    "Walk for 5 minutes to cool down, then the 3 cool-down stretches (calf, hamstring, glute)."
    ],
    "tips": [
     "Choose a flat loop in the park so you can stop at any point.",
@@ -2075,6 +2264,52 @@
     "Lean back a little further only when the current range feels easy."
    ],
    "cue": "Lean back a little, body straight, come up"
+  },
+  "calf_stretch": {
+   "name": "Calf Stretch (wall)",
+   "kind": "stretch",
+   "equipment": "A wall",
+   "what": "Eases tight calves - they work hard as your running builds.",
+   "steps": [
+    "Hands on the wall. Step one foot back, keeping that leg straight and the heel down.",
+    "Bend the front knee and lean towards the wall until you feel a stretch in the back calf.",
+    "Hold 30 seconds, breathing normally. Swap legs."
+   ],
+   "tips": [
+    "A gentle stretch, never pain. No bouncing."
+   ],
+   "cue": "Back leg straight, heel down, lean in"
+  },
+  "hamstring_stretch": {
+   "name": "Hamstring Stretch",
+   "kind": "stretch",
+   "equipment": "A low step or bench",
+   "what": "Eases the back of the thighs after running and leg work.",
+   "steps": [
+    "Put one heel on a low step, leg straight, toes up. Hands on your thighs.",
+    "Keep your back flat and lean forward from the hips until you feel a stretch behind the thigh.",
+    "Hold 30 seconds. Swap legs."
+   ],
+   "tips": [
+    "Stretch, not strain - stop well before it pulls. Don't round your back."
+   ],
+   "cue": "Heel on step, flat back, lean forward"
+  },
+  "glute_stretch": {
+   "name": "Glute Stretch (figure 4)",
+   "kind": "stretch",
+   "equipment": "Floor mat",
+   "what": "Eases the bottom and outer hip, which tighten with running.",
+   "steps": [
+    "Lie on your back with both knees bent and feet flat.",
+    "Cross one ankle over the other knee, making a '4'.",
+    "Lift the bottom foot and hold behind that thigh, drawing both legs gently towards you.",
+    "Hold 30 seconds. Swap sides."
+   ],
+   "tips": [
+    "Keep your head and shoulders relaxed on the mat. You should feel it in the bottom of the crossed leg."
+   ],
+   "cue": "Ankle over knee, draw legs in gently"
   },
   "sauna": {
    "name": "Sauna / Steam / Jacuzzi",
