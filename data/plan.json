@@ -220,7 +220,7 @@
       {
        "exercise": "swim",
        "minutes": 15,
-       "note": "Easy"
+       "note": "Warm up 2 lengths backstroke. Main: 6 x 1 length front crawl, 30 s rest. Cool down 2 lengths backstroke."
       },
       {
        "exercise": "sauna",
@@ -385,7 +385,7 @@
       {
        "exercise": "swim",
        "minutes": 15,
-       "note": "Easy"
+       "note": "Warm up 2 lengths backstroke. Main: 8 x 1 length front crawl, 20-30 s rest. Cool down 2 lengths backstroke."
       },
       {
        "exercise": "sauna",
@@ -477,6 +477,7 @@
        "sets": 3,
        "reps": "8",
        "note": "Holding dumbbells",
+       "load": "weights",
        "per_side": true
       },
       {
@@ -553,7 +554,7 @@
       {
        "exercise": "swim",
        "minutes": 15,
-       "note": "Easy"
+       "note": "Warm up 2 lengths backstroke. Main: 5 x 2 lengths front crawl, 30 s rest. Cool down 2 lengths backstroke."
       },
       {
        "exercise": "sauna",
@@ -1744,16 +1745,18 @@
    "name": "Swim",
    "kind": "cardio",
    "equipment": "Pool",
-   "what": "Whole-body cardio with zero impact. Your Wednesday recovery cardio.",
+   "what": "Whole-body fitness with zero impact. Wednesday's structured set, mostly front crawl.",
    "steps": [
-    "Swim any stroke at an easy pace.",
-    "Rest at the wall whenever you like.",
-    "Count total time, not lengths."
+    "Warm up: 2 easy lengths of backstroke.",
+    "Main set: this week's front crawl lengths (see the session), resting at the wall between them.",
+    "Swim the main set 'comfortably hard': about 6 out of 10, breathing hard but in control.",
+    "Cool down: 2 easy lengths of backstroke."
    ],
    "tips": [
-    "If breaststroke kick irritates the quad, swap to front crawl or use a float."
+    "Breaststroke only as an easy recovery length, and only if your knee is happy: its kick strains the inside of the knee.",
+    "If front crawl breathing is hard, swap a length for backstroke. Rest longer rather than stopping."
    ],
-   "cue": "Any stroke, easy, rest at the wall"
+   "cue": "Front crawl lengths, rest at the wall"
   },
   "leg_press": {
    "name": "Leg Press",
@@ -1922,6 +1925,7 @@
   "dead_bug": {
    "name": "Dead Bug",
    "kind": "strength",
+   "load": "bodyweight",
    "equipment": "Floor mat",
    "what": "A gentle core exercise that teaches you to keep your lower back steady.",
    "steps": [
@@ -1938,6 +1942,7 @@
   "glute_bridge": {
    "name": "Glute Bridge",
    "kind": "strength",
+   "load": "bodyweight",
    "equipment": "Floor mat",
    "what": "Strengthens your bottom (glutes) and hamstrings - key running muscles.",
    "steps": [
@@ -1953,6 +1958,7 @@
   "calf_raise": {
    "name": "Calf Raise",
    "kind": "strength",
+   "load": "bodyweight",
    "equipment": "A step or the floor, a rail to hold",
    "what": "Strengthens your calves and ankles. Runners need strong calves.",
    "steps": [
@@ -2002,6 +2008,7 @@
   "split_squat": {
    "name": "Split Squat",
    "kind": "strength",
+   "load": "bodyweight",
    "equipment": "Floor space (later two dumbbells), a rail for balance",
    "what": "Single-leg strength. Running is a single-leg sport - this is great preparation.",
    "steps": [
@@ -2037,6 +2044,7 @@
   "step_up": {
    "name": "Step Up",
    "kind": "strength",
+   "load": "bodyweight",
    "equipment": "A low, stable step or box (start 20-30 cm)",
    "what": "Single-leg strength that mimics climbing and running.",
    "steps": [
@@ -2053,6 +2061,7 @@
   "reverse_nordic": {
    "name": "Reverse Nordic (optional)",
    "kind": "strength",
+   "load": "bodyweight",
    "equipment": "Padded mat",
    "what": "Stretches and strengthens the front of the thigh at the same time - aimed at the tight, sore stretch.",
    "steps": [

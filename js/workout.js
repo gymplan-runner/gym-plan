@@ -12,6 +12,9 @@ const REST_DEFAULT = 90;
 
 export const gymId = (plannedDate) => `gym-${plannedDate}`;
 
+// "bodyweight" exercises log reps only (kg can be added); the plan can override per session (e.g. "weights").
+const loadOf = (item) => item.load ?? getPlan().exercises[item.exercise]?.load ?? "weights";
+
 function newItem(it) {
   const type = CARDIO.has(it.exercise) ? "cardio" : TIMED.has(it.exercise) ? "timed" : "strength";
   const planned = { sets: it.sets ?? null, reps: it.reps ?? null, seconds: it.seconds ?? null,
@@ -19,7 +22,26 @@ function newItem(it) {
     run: it.run ?? null, dose: doseText(it) };
   const minutes = type === "cardio" ? (it.run ? it.run.run_total_min : parseInt(it.minutes, 10) || null) : null;
   const sets = type === "cardio" ? [] : Array.from({ length: it.sets || 1 }, () => ({ kg: null, reps: null, seconds: null, done: false }));
-  return { exercise: it.exercise, type, planned, sets, minutes, status: "todo", rir: null, pain: null, note: "", setting: "" };
+  return { exercise: it.exercise, type, load: loadOf(it), planned, sets, minutes, status: "todo", rir: null, pain: null, note: "", setting: "" };
+}
+
+// Heaviest weight lifted in a past record of an exercise, or null.
+function heaviest(rec) {
+  const kgs = (rec?.sets ?? []).filter((x) => x.done && x.kg != null).map((x) => x.kg);
+  return kgs.length ? Math.max(...kgs) : null;
+}
+
+// Start each set at last time's working weight, so it isn't done from memory. Prefer the same day's session
+// (Friday's leg press is lighter than Monday's); with no same-day record, skip items the plan marks lighter.
+async function prefillWeights(s) {
+  const { sameDay, any } = await lastTimes(s.date, s.dayKey);
+  for (const item of s.items) {
+    if (item.type !== "strength") continue;
+    const kg = heaviest(sameDay[item.exercise]) ?? (/lighter/i.test(item.planned.note ?? "") ? null : heaviest(any[item.exercise]));
+    if (kg == null || (item.load === "bodyweight" && kg <= 0)) continue;
+    for (const st of item.sets) st.kg = kg;
+    if (item.load === "bodyweight") item.addKg = true;
+  }
 }
 
 export async function getOrCreateSession(week, dayKey, plannedDate, performedOn) {
@@ -30,22 +52,25 @@ export async function getOrCreateSession(week, dayKey, plannedDate, performedOn)
   const s = { id, kind: "gym", date: plannedDate, performedOn, week, dayKey, title: plan.title,
     status: "in_progress", startedAt: Date.now(), items: plan.items.map(newItem) };
   for (const item of s.items) item.setting = (await db.getSetting(`setting:${item.exercise}`, "")) || "";
+  await prefillWeights(s);
   await db.put("sessions", s);
   return s;
 }
 
-// Most recent finished record of an exercise (from an earlier session).
-async function lastTimes(beforeDate) {
+// Most recent finished record of each exercise (from an earlier session): from any day, and from the same weekday slot.
+async function lastTimes(beforeDate, dayKey) {
   const sessions = (await db.all("sessions"))
     .filter((s) => s.kind === "gym" && s.status === "finished" && s.date < beforeDate)
     .sort((a, b) => (a.date < b.date ? 1 : -1));
-  const last = {};
+  const any = {}, sameDay = {};
   for (const s of sessions) {
     for (const it of s.items) {
-      if (!last[it.exercise] && it.status !== "skipped" && it.sets.some((x) => x.done)) last[it.exercise] = { ...it, date: s.date };
+      if (it.status === "skipped" || !it.sets.some((x) => x.done)) continue;
+      if (!any[it.exercise]) any[it.exercise] = { ...it, date: s.date };
+      if (s.dayKey === dayKey && !sameDay[it.exercise]) sameDay[it.exercise] = { ...it, date: s.date };
     }
   }
-  return last;
+  return { any, sameDay };
 }
 
 function topOfRange(reps) {
@@ -57,8 +82,10 @@ function lastLine(last, type) {
   if (!last) return "";
   const done = last.sets.filter((x) => x.done);
   if (type === "timed") return `Last time: ${done.map((x) => `${x.seconds ?? "–"}s`).join(", ")}`;
+  const reps = done.map((x) => x.reps ?? "–").join(", ");
+  if (!done.some((x) => x.kg > 0)) return `Last time: ${reps} reps`;
   const kgs = [...new Set(done.map((x) => x.kg ?? "–"))];
-  return `Last time: ${kgs.join("/")} kg × ${done.map((x) => x.reps ?? "–").join(", ")}`;
+  return `Last time: ${kgs.join("/")} kg × ${reps}`;
 }
 
 function progressionHint(last, item) {
@@ -81,7 +108,8 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
 
   async function start(session) {
     S = session;
-    last = await lastTimes(S.date);
+    const lt = await lastTimes(S.date, S.dayKey);
+    last = { ...lt.any, ...lt.sameDay };  // the same weekday's record wins (Friday's leg press is lighter)
     open = pendingOpen ?? S.items.findIndex((i) => i.status === "todo");
     pendingOpen = null;
     if (open < 0) open = null;
@@ -131,15 +159,20 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
       return `<div class="setrow"><span>${label}</span>
         <input class="in" inputmode="decimal" data-field="minutes" data-i="${i}" value="${item.minutes ?? ""}" aria-label="${label}"></div>`;
     }
-    return item.sets.map((st, j) => {
+    // Bodyweight moves log reps only, unless a weight is added (or was logged before).
+    const kgBox = item.type === "strength" && (loadOf(item) !== "bodyweight" || item.addKg || item.sets.some((x) => x.kg > 0));
+    const rows = item.sets.map((st, j) => {
       const fields = item.type === "timed"
         ? `<input class="in" inputmode="numeric" data-field="seconds" data-i="${i}" data-j="${j}" value="${st.seconds ?? ""}" placeholder="sec" aria-label="Set ${j + 1} seconds">
            <button type="button" class="sw" data-act="stopwatch" data-i="${i}" data-j="${j}">${stopwatch && stopwatch.i === i && stopwatch.j === j ? "Stop" : "⏱"}</button>`
-        : `<input class="in" inputmode="decimal" data-field="kg" data-i="${i}" data-j="${j}" value="${st.kg ?? ""}" placeholder="kg" aria-label="Set ${j + 1} kg">
+        : `${kgBox ? `<input class="in" inputmode="decimal" data-field="kg" data-i="${i}" data-j="${j}" value="${st.kg ?? ""}" placeholder="kg" aria-label="Set ${j + 1} kg">` : ""}
            <input class="in" inputmode="numeric" data-field="reps" data-i="${i}" data-j="${j}" value="${st.reps ?? ""}" placeholder="${esc(String(item.planned.reps ?? "reps"))}" aria-label="Set ${j + 1} reps">`;
       return `<div class="setrow ${st.done ? "done" : ""}"><span>Set ${j + 1}</span>${fields}
         <button type="button" class="tickbtn" data-act="tick" data-i="${i}" data-j="${j}" aria-label="Set ${j + 1} done" aria-pressed="${st.done}">${st.done ? "✓" : "○"}</button></div>`;
     }).join("");
+    const addKg = item.type === "strength" && !kgBox
+      ? `<button type="button" class="linkbtn" data-act="addkg" data-i="${i}">+ Add weight (holding a dumbbell?)</button>` : "";
+    return rows + addKg;
   }
 
   function card(item, i) {
@@ -294,11 +327,12 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
         }
         break;
       }
+      case "addkg": item.addKg = true; break;
       case "rir": item.rir = item.rir === b.dataset.v ? null : b.dataset.v; break;
       case "pain": item.pain = item.pain === Number(b.dataset.v) ? null : Number(b.dataset.v); break;
       case "done":
         item.status = "done";
-        if (item.type !== "cardio") for (const st of item.sets) if (st.kg != null || st.reps != null || st.seconds != null) st.done = true;
+        if (item.type !== "cardio") for (const st of item.sets) if (st.reps != null || st.seconds != null) st.done = true;
         open = S.items.findIndex((x, k) => k > i && x.status === "todo");
         if (open < 0) open = null;
         break;
