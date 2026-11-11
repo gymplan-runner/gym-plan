@@ -343,6 +343,8 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
           return;
         }
         st.done = !st.done;
+        // When each set was done, so it can be matched to watch heart rate later.
+        if (st.done) st.at = Date.now(); else delete st.at;
         if (st.done && j < item.sets.length - 1) startRest();
         if (item.sets.every((x) => x.done)) { clearInterval(restTimer); rest = null; }
         break;
@@ -352,6 +354,7 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
           clearInterval(stopwatch.timer);
           item.sets[j].seconds = Math.round((Date.now() - stopwatch.t0) / 1000);
           item.sets[j].done = true;
+          item.sets[j].at = Date.now();
           stopwatch = null;
           if (j < item.sets.length - 1) startRest();
         } else {
@@ -377,7 +380,10 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
       case "pain": item.pain = item.pain === Number(b.dataset.v) ? null : Number(b.dataset.v); break;
       case "done":
         item.status = "done";
-        if (item.type !== "cardio") for (const st of item.sets) if (st.reps != null || st.seconds != null) st.done = true;
+        item.doneAt = Date.now();
+        if (item.type !== "cardio") {
+          for (const st of item.sets) if (!st.done && (st.reps != null || st.seconds != null)) { st.done = true; st.at = Date.now(); }
+        }
         open = S.items.findIndex((x, k) => k > i && x.status === "todo");
         if (open < 0) open = null;
         break;

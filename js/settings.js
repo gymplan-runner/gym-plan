@@ -46,15 +46,16 @@ function csv(rows) {
 export async function exportCsv() {
   const ex = getPlan().exercises;
   const sessions = (await db.all("sessions")).sort((a, b) => (a.date < b.date ? -1 : 1));
-  const sets = [["date", "performed_on", "week", "session", "exercise", "set", "kg", "reps", "seconds", "minutes", "status", "reps_left_in_tank", "quad_pain", "setting", "note"]];
+  const hhmm = (ms) => (ms ? new Date(ms).toTimeString().slice(0, 8) : "");  // local time a set was ticked
+  const sets = [["date", "performed_on", "week", "session", "exercise", "set", "kg", "reps", "seconds", "minutes", "status", "reps_left_in_tank", "quad_pain", "setting", "note", "time_done"]];
   const summary = [["date", "performed_on", "week", "session", "status", "duration_min", "effort", "quad_pain_during", "quad_pain_next_morning", "note"]];
   for (const s of sessions) {
     summary.push([s.date, s.performedOn, s.week, s.title, s.status, s.durationMin, s.effort, s.painDuring, s.painNextMorning, s.note]);
     for (const it of s.items) {
       const name = ex[it.exercise]?.name ?? it.exercise;
-      if (!it.sets.length) sets.push([s.date, s.performedOn, s.week, s.title, name, "", "", "", "", it.minutes, it.status, "", it.pain, it.setting, it.note]);
+      if (!it.sets.length) sets.push([s.date, s.performedOn, s.week, s.title, name, "", "", "", "", it.minutes, it.status, "", it.pain, it.setting, it.note, hhmm(it.doneAt)]);
       it.sets.forEach((st, j) => sets.push([s.date, s.performedOn, s.week, s.title, name, j + 1, st.kg, st.reps, st.seconds, "",
-        st.done ? it.status : "not done", it.rir, it.pain, it.setting, it.note]));
+        st.done ? it.status : "not done", it.rir, it.pain, it.setting, it.note, hhmm(st.at)]));
     }
   }
   const runs = [["date", "week", "where", "planned", "running_min", "longest_non_stop_min", "distance_km", "pace_min_per_km", "effort", "quad_pain_during", "quad_pain_next_morning", "strides", "note"]];
