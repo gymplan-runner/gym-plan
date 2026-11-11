@@ -84,21 +84,24 @@ export function sessionFor(week, dayKey) {
   const w = weekInfo(week);
   let items = template.items.map((it) => adjustSets(it, week, dayKey));
   if (w.test_week && dayKey === "fri") items = items.filter((it) => !LEG_WORK.has(it.exercise));
-  items = items.map((it) => (it.exercise === "treadmill_run" ? { ...it, run: w.runs[dayKey] } : it));
-  if (dayKey === "fri" && w.runs.fri.type === "cross_trainer" && !items.some((it) => it.exercise === "cross_trainer")) {
+  // A day with no run this week (e.g. Wednesday in Weeks 1-2) drops the run item.
+  items = items.filter((it) => it.exercise !== "treadmill_run" || w.runs[dayKey])
+    .map((it) => (it.exercise === "treadmill_run" ? { ...it, run: w.runs[dayKey] } : it));
+  if (dayKey === "fri" && w.runs.fri?.type === "cross_trainer" && !items.some((it) => it.exercise === "cross_trainer")) {
     items = items.map((it) => (it.exercise === "treadmill_run"
       ? { exercise: "cross_trainer", minutes: w.runs.fri.minutes, note: w.runs.fri.text } : it));
   }
   return { ...template, items, phase, week: w };
 }
 
-// What's planned for a date: gym session, Saturday run, kick test, or rest.
+// What's planned for a date: gym session, Saturday run (5 km test), kick test, Sunday kicking + check-in, or rest.
 export function dayPlan(week, dayKey) {
   const w = weekInfo(week);
   const d = w.days[dayKey];
   if (d.plan === "gym") return { kind: "gym", session: sessionFor(week, dayKey) };
-  if (d.plan === "run") return { kind: "run", run: w.runs.sat, strides: w.strides, kickStage: w.kick_stage };
+  if (d.plan === "run") return { kind: "run", run: w.runs.sat, strides: null, kickStage: 0 };
   if (d.plan === "kick_test") return { kind: "kick_test" };
+  if (d.plan === "kick") return { kind: "checkin", kickStage: w.kick_stage };
   return { kind: dayKey === "sun" ? "checkin" : "rest" };
 }
 
@@ -117,5 +120,6 @@ export function runText(r) {
   if (r.type === "continuous") return `${r.minutes} min non-stop`;
   if (r.type === "cross_trainer") return `Cross trainer ${r.minutes} min`;
   if (r.type === "test") return `${r.distance_km} km run`;
+  if (r.type === "hr_cap") return `${r.minutes} min, heart rate under ${r.cap}${r.test ? " – test" : ""}`;
   return r.text;
 }

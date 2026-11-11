@@ -19,7 +19,7 @@
    },
    "target": "5 km continuous at an easy pace",
    "due": "2027-01-23",
-   "measured_by": "Saturday run log"
+   "measured_by": "Friday long runs, then the 5 km on Sat 23 Jan"
   },
   {
    "id": "kick",
@@ -95,8 +95,8 @@
   },
   {
    "day": "Wed",
-   "what": "Strength B + Swim",
-   "why": "Lighter on the quads. The real recovery-friendly session."
+   "what": "Heart-rate run + Strength B (swim optional)",
+   "why": "A measured run: distance in a set time under HR 145."
   },
   {
    "day": "Thu",
@@ -105,18 +105,18 @@
   },
   {
    "day": "Fri",
-   "what": "Strength C + short run/cardio",
-   "why": "Light legs, so you are fresh for Saturday."
+   "what": "Long run + Strength C",
+   "why": "The key run of the week, on the treadmill, before light strength."
   },
   {
    "day": "Sat",
-   "what": "Outdoor run + kicking stage",
-   "why": "The key session of the week."
+   "what": "Rest",
+   "why": "Recovery. Sat 23 Jan: the 5 km run."
   },
   {
    "day": "Sun",
-   "what": "Rest + weekly check-in",
-   "why": "Record your numbers. Plan next week."
+   "what": "Kicking (from Week 5) + weekly check-in",
+   "why": "Kick on rested legs. Record your numbers."
   }
  ],
  "phases": [
@@ -138,7 +138,7 @@
       {
        "exercise": "bike",
        "minutes": 5,
-       "note": "Easy warm-up"
+       "note": "Level 5-6, heart rate 110-125 by the end. Log km"
       },
       {
        "exercise": "treadmill_run",
@@ -171,6 +171,17 @@
        "seconds": "20-30"
       },
       {
+       "exercise": "bird_dog",
+       "sets": 2,
+       "reps": "8",
+       "per_side": true
+      },
+      {
+       "exercise": "back_extension",
+       "sets": 2,
+       "reps": "10"
+      },
+      {
        "exercise": "calf_stretch",
        "sets": 1,
        "seconds": "30",
@@ -199,13 +210,17 @@
      ]
     },
     "wed": {
-     "title": "Strength B + Swim",
-     "subtitle": "Lighter on the quads - back, hamstrings and core",
+     "title": "HR Run + Strength B",
+     "subtitle": "Run first, then back, hamstrings and core. Thursday is rest",
      "items": [
       {
        "exercise": "bike",
-       "minutes": 10,
-       "note": "Easy warm-up"
+       "minutes": 5,
+       "note": "Level 5-6, heart rate 110-125 by the end. Log km"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "Heart-rate run: jog under 145, walk until under 130. Log the distance"
       },
       {
        "exercise": "leg_curl",
@@ -241,7 +256,8 @@
       {
        "exercise": "swim",
        "minutes": 15,
-       "note": "Warm up 2 lengths backstroke. Main: 6 x 1 length front crawl, 30 s rest. Cool down 2 lengths backstroke."
+       "note": "Warm up 2 lengths backstroke. Main: 6 x 1 length front crawl, 30 s rest. Cool down 2 lengths backstroke.",
+       "optional": true
       },
       {
        "exercise": "calf_stretch",
@@ -272,13 +288,17 @@
      ]
     },
     "fri": {
-     "title": "Strength C + Cardio",
-     "subtitle": "Light legs - Saturday's run is the priority",
+     "title": "Long Run + Strength C",
+     "subtitle": "The key run of the week first, then light strength",
      "items": [
       {
        "exercise": "bike",
        "minutes": 5,
-       "note": "Easy warm-up"
+       "note": "Level 5-6, heart rate 110-125 by the end. Log km"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "Your long run - the key run of the week"
       },
       {
        "exercise": "leg_press",
@@ -304,12 +324,19 @@
       {
        "exercise": "farmer_carry",
        "sets": 3,
-       "seconds": "30"
+       "seconds": "30",
+       "load": "weights"
       },
       {
-       "exercise": "cross_trainer",
-       "minutes": 15,
-       "note": "Easy to moderate"
+       "exercise": "bird_dog",
+       "sets": 2,
+       "reps": "8",
+       "per_side": true
+      },
+      {
+       "exercise": "back_extension",
+       "sets": 2,
+       "reps": "10"
       },
       {
        "exercise": "calf_stretch",
@@ -350,7 +377,7 @@
     7,
     8
    ],
-   "focus": "Add free weights and single-leg work. Third weekly run starts. Kicking starts.",
+   "focus": "Add free weights and single-leg work. Longer runs. Kicking starts on Sundays.",
    "sessions": {
     "mon": {
      "title": "Run + Strength A",
@@ -359,7 +386,7 @@
       {
        "exercise": "bike",
        "minutes": 5,
-       "note": "Easy warm-up"
+       "note": "Level 5-6, heart rate 110-125 by the end. Log km"
       },
       {
        "exercise": "treadmill_run",
@@ -399,6 +426,17 @@
        "seconds": "30-45"
       },
       {
+       "exercise": "bird_dog",
+       "sets": 3,
+       "reps": "8",
+       "per_side": true
+      },
+      {
+       "exercise": "back_extension",
+       "sets": 3,
+       "reps": "10"
+      },
+      {
        "exercise": "calf_stretch",
        "sets": 1,
        "seconds": "30",
@@ -427,13 +465,17 @@
      ]
     },
     "wed": {
-     "title": "Strength B + Swim",
-     "subtitle": "Lighter on the quads - back, hamstrings and core",
+     "title": "HR Run + Strength B",
+     "subtitle": "Run first, then back, hamstrings and core. Thursday is rest",
      "items": [
       {
        "exercise": "bike",
-       "minutes": 10,
-       "note": "Easy warm-up"
+       "minutes": 5,
+       "note": "Level 5-6, heart rate 110-125 by the end. Log km"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "Heart-rate run: jog under 145, walk until under 130. Log the distance"
       },
       {
        "exercise": "goblet_squat",
@@ -469,7 +511,8 @@
       {
        "exercise": "swim",
        "minutes": 15,
-       "note": "Warm up 2 lengths backstroke. Main: 8 x 1 length front crawl, 20-30 s rest. Cool down 2 lengths backstroke."
+       "note": "Warm up 2 lengths backstroke. Main: 8 x 1 length front crawl, 20-30 s rest. Cool down 2 lengths backstroke.",
+       "optional": true
       },
       {
        "exercise": "calf_stretch",
@@ -500,13 +543,17 @@
      ]
     },
     "fri": {
-     "title": "Strength C + Run",
-     "subtitle": "Light legs - Saturday's run is the priority",
+     "title": "Long Run + Strength C",
+     "subtitle": "The key run of the week first, then light strength",
      "items": [
       {
        "exercise": "bike",
        "minutes": 5,
-       "note": "Easy warm-up"
+       "note": "Level 5-6, heart rate 110-125 by the end. Log km"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "Your long run - the key run of the week"
       },
       {
        "exercise": "step_up",
@@ -533,11 +580,19 @@
       {
        "exercise": "farmer_carry",
        "sets": 3,
-       "seconds": "40"
+       "seconds": "40",
+       "load": "weights"
       },
       {
-       "exercise": "treadmill_run",
-       "note": "Short easy run - see the running table"
+       "exercise": "bird_dog",
+       "sets": 3,
+       "reps": "8",
+       "per_side": true
+      },
+      {
+       "exercise": "back_extension",
+       "sets": 3,
+       "reps": "10"
       },
       {
        "exercise": "calf_stretch",
@@ -587,7 +642,7 @@
       {
        "exercise": "bike",
        "minutes": 5,
-       "note": "Easy warm-up"
+       "note": "Level 5-6, heart rate 110-125 by the end. Log km"
       },
       {
        "exercise": "treadmill_run",
@@ -628,6 +683,17 @@
        "seconds": "45-90"
       },
       {
+       "exercise": "bird_dog",
+       "sets": 3,
+       "reps": "8",
+       "per_side": true
+      },
+      {
+       "exercise": "back_extension",
+       "sets": 3,
+       "reps": "10-12"
+      },
+      {
        "exercise": "calf_stretch",
        "sets": 1,
        "seconds": "30",
@@ -656,13 +722,17 @@
      ]
     },
     "wed": {
-     "title": "Strength B + Swim",
-     "subtitle": "Moderate legs - Thursday is a rest day",
+     "title": "HR Run + Strength B",
+     "subtitle": "Run first, then moderate legs. Thursday is rest",
      "items": [
       {
        "exercise": "bike",
-       "minutes": 10,
-       "note": "Easy warm-up"
+       "minutes": 5,
+       "note": "Level 5-6, heart rate 110-125 by the end. Log km"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "Heart-rate run: jog under 145, walk until under 130. Log the distance"
       },
       {
        "exercise": "goblet_squat",
@@ -701,7 +771,8 @@
       {
        "exercise": "swim",
        "minutes": 15,
-       "note": "Warm up 2 lengths backstroke. Main: 5 x 2 lengths front crawl, 30 s rest. Cool down 2 lengths backstroke."
+       "note": "Warm up 2 lengths backstroke. Main: 5 x 2 lengths front crawl, 30 s rest. Cool down 2 lengths backstroke.",
+       "optional": true
       },
       {
        "exercise": "calf_stretch",
@@ -732,13 +803,17 @@
      ]
     },
     "fri": {
-     "title": "Strength C + Run",
-     "subtitle": "Light legs - Saturday's run is the priority",
+     "title": "Long Run + Strength C",
+     "subtitle": "The key run of the week first, then light strength",
      "items": [
       {
        "exercise": "bike",
        "minutes": 5,
-       "note": "Easy warm-up"
+       "note": "Level 5-6, heart rate 110-125 by the end. Log km"
+      },
+      {
+       "exercise": "treadmill_run",
+       "note": "Your long run - the key run of the week"
       },
       {
        "exercise": "step_up",
@@ -771,11 +846,19 @@
       {
        "exercise": "farmer_carry",
        "sets": 3,
-       "seconds": "45-60"
+       "seconds": "45-60",
+       "load": "weights"
       },
       {
-       "exercise": "treadmill_run",
-       "note": "Short easy run - see the running table"
+       "exercise": "bird_dog",
+       "sets": 3,
+       "reps": "8",
+       "per_side": true
+      },
+      {
+       "exercise": "back_extension",
+       "sets": 3,
+       "reps": "10-12"
       },
       {
        "exercise": "calf_stretch",
@@ -826,6 +909,7 @@
      "run_total_min": 8,
      "text": "4 x (2 min run / 1 min walk)"
     },
+    "wed": null,
     "fri": {
      "type": "cross_trainer",
      "minutes": 15,
@@ -900,26 +984,23 @@
      "run_total_min": 10,
      "text": "5 x (2 min run / 1 min walk)"
     },
+    "wed": null,
     "fri": {
-     "type": "cross_trainer",
-     "minutes": 15,
-     "run_total_min": 0,
-     "text": "No run - 15 min cross trainer"
-    },
-    "sat": {
      "type": "run_walk",
      "reps": 5,
      "run_min": 3,
      "walk_min": 1,
      "run_total_min": 15,
      "text": "5 x (3 min run / 1 min walk)"
-    }
+    },
+    "sat": null
    },
    "strides": null,
    "kick_stage": 0,
    "measure_waist": false,
    "notes": [
     "Still 2 sets of everything.",
+    "New from Fri 13 Nov: Friday is your long run (run first). No Saturday run.",
     "Record this week's working weights for Leg Press, Chest Press and Seated Row - this is your strength baseline."
    ],
    "days": {
@@ -948,7 +1029,7 @@
     },
     "sat": {
      "date": "2026-11-14",
-     "plan": "run"
+     "plan": "rest"
     },
     "sun": {
      "date": "2026-11-15",
@@ -973,26 +1054,32 @@
      "run_total_min": 12,
      "text": "4 x (3 min run / 1 min walk)"
     },
-    "fri": {
-     "type": "cross_trainer",
-     "minutes": 15,
-     "run_total_min": 0,
-     "text": "No run - 15 min cross trainer"
+    "wed": {
+     "type": "hr_cap",
+     "minutes": 20,
+     "cap": 145,
+     "floor": 130,
+     "run_total_min": 20,
+     "test": true,
+     "text": "TEST: 20 min, HR under 145 - log the distance"
     },
-    "sat": {
+    "fri": {
      "type": "run_walk",
      "reps": 5,
      "run_min": 4,
      "walk_min": 1,
      "run_total_min": 20,
      "text": "5 x (4 min run / 1 min walk)"
-    }
+    },
+    "sat": null
    },
    "strides": null,
    "kick_stage": 0,
    "measure_waist": false,
    "notes": [
-    "Move up to the full sets listed."
+    "Move up to the full sets listed.",
+    "Wednesday is now a heart-rate run. This week is the test: log the distance you cover in 20 minutes.",
+    "New: bird dog and back extension on Mondays and Fridays."
    ],
    "days": {
     "mon": {
@@ -1020,7 +1107,7 @@
     },
     "sat": {
      "date": "2026-11-21",
-     "plan": "run"
+     "plan": "rest"
     },
     "sun": {
      "date": "2026-11-22",
@@ -1045,20 +1132,24 @@
      "run_total_min": 9,
      "text": "3 x (3 min run / 1 min walk)"
     },
-    "fri": {
-     "type": "cross_trainer",
-     "minutes": 15,
-     "run_total_min": 0,
-     "text": "No run - 15 min cross trainer"
+    "wed": {
+     "type": "hr_cap",
+     "minutes": 20,
+     "cap": 145,
+     "floor": 130,
+     "run_total_min": 20,
+     "test": false,
+     "text": "20 min, HR under 145 - lighter week, just log the distance"
     },
-    "sat": {
+    "fri": {
      "type": "run_walk",
      "reps": 4,
      "run_min": 4,
      "walk_min": 1,
      "run_total_min": 16,
      "text": "4 x (4 min run / 1 min walk)"
-    }
+    },
+    "sat": null
    },
    "strides": null,
    "kick_stage": 0,
@@ -1093,7 +1184,7 @@
     },
     "sat": {
      "date": "2026-11-28",
-     "plan": "run"
+     "plan": "rest"
     },
     "sun": {
      "date": "2026-11-29",
@@ -1118,30 +1209,31 @@
      "run_total_min": 15,
      "text": "3 x (5 min run / 1 min walk)"
     },
-    "fri": {
-     "type": "run_walk",
-     "reps": 3,
-     "run_min": 3,
-     "walk_min": 1,
-     "run_total_min": 9,
-     "text": "3 x (3 min run / 1 min walk)"
+    "wed": {
+     "type": "hr_cap",
+     "minutes": 20,
+     "cap": 145,
+     "floor": 130,
+     "run_total_min": 20,
+     "test": false,
+     "text": "20 min, HR under 145 - beat your last test distance"
     },
-    "sat": {
+    "fri": {
      "type": "run_walk",
      "reps": 3,
      "run_min": 7,
      "walk_min": 1,
      "run_total_min": 21,
      "text": "3 x (7 min run / 1 min walk)"
-    }
+    },
+    "sat": null
    },
    "strides": null,
    "kick_stage": 1,
    "measure_waist": false,
    "notes": [
     "Phase 2 starts: new exercises - ask staff to check your goblet squat and Romanian deadlift.",
-    "Friday's cardio becomes a short run.",
-    "Kicking Stage 1 starts. Record your first kick pain score."
+    "Kicking Stage 1 starts on Sunday (about 20 min in the park). Record your first kick pain score."
    ],
    "days": {
     "mon": {
@@ -1169,11 +1261,11 @@
     },
     "sat": {
      "date": "2026-12-05",
-     "plan": "run"
+     "plan": "rest"
     },
     "sun": {
      "date": "2026-12-06",
-     "plan": "rest"
+     "plan": "kick"
     }
    }
   },
@@ -1194,22 +1286,24 @@
      "run_total_min": 15,
      "text": "3 x (5 min run / 1 min walk)"
     },
-    "fri": {
-     "type": "run_walk",
-     "reps": 2,
-     "run_min": 5,
-     "walk_min": 1,
-     "run_total_min": 10,
-     "text": "2 x 5 min run, 1 min walk between"
+    "wed": {
+     "type": "hr_cap",
+     "minutes": 20,
+     "cap": 145,
+     "floor": 130,
+     "run_total_min": 20,
+     "test": false,
+     "text": "20 min, HR under 145 - beat your last test distance"
     },
-    "sat": {
+    "fri": {
      "type": "run_walk",
      "reps": 2,
      "run_min": 12,
      "walk_min": 1,
      "run_total_min": 24,
      "text": "2 x 12 min run, 1 min walk between"
-    }
+    },
+    "sat": null
    },
    "strides": null,
    "kick_stage": 1,
@@ -1241,11 +1335,11 @@
     },
     "sat": {
      "date": "2026-12-12",
-     "plan": "run"
+     "plan": "rest"
     },
     "sun": {
      "date": "2026-12-13",
-     "plan": "rest"
+     "plan": "kick"
     }
    }
   },
@@ -1266,26 +1360,30 @@
      "run_total_min": 16,
      "text": "2 x 8 min run, 1 min walk between"
     },
-    "fri": {
-     "type": "continuous",
-     "minutes": 12,
-     "run_total_min": 12,
-     "text": "12 min continuous"
+    "wed": {
+     "type": "hr_cap",
+     "minutes": 20,
+     "cap": 145,
+     "floor": 130,
+     "run_total_min": 20,
+     "test": false,
+     "text": "20 min, HR under 145 - beat your last test distance"
     },
-    "sat": {
+    "fri": {
      "type": "run_walk",
      "reps": 2,
      "run_min": 14,
      "walk_min": 1,
      "run_total_min": 28,
      "text": "2 x 14 min run, 1 min walk between"
-    }
+    },
+    "sat": null
    },
    "strides": "4 x 15 sec",
    "kick_stage": 2,
    "measure_waist": false,
    "notes": [
-    "Strides start: after the Saturday run, 4 x 15 sec of relaxed, faster running with a full walk back. Only if green."
+    "Strides start: after the Friday run, 4 x 15 sec of relaxed, faster running with a full walk back. Only if green."
    ],
    "days": {
     "mon": {
@@ -1313,11 +1411,11 @@
     },
     "sat": {
      "date": "2026-12-19",
-     "plan": "run"
+     "plan": "rest"
     },
     "sun": {
      "date": "2026-12-20",
-     "plan": "rest"
+     "plan": "kick"
     }
    }
   },
@@ -1336,25 +1434,30 @@
      "run_total_min": 12,
      "text": "12 min continuous"
     },
-    "fri": {
-     "type": "continuous",
-     "minutes": 10,
-     "run_total_min": 10,
-     "text": "10 min continuous (only if you train Thu 24 Dec - otherwise rest)"
+    "wed": {
+     "type": "hr_cap",
+     "minutes": 20,
+     "cap": 145,
+     "floor": 130,
+     "run_total_min": 20,
+     "test": true,
+     "text": "TEST: 20 min, HR under 145 - log the distance"
     },
-    "sat": {
+    "fri": {
      "type": "continuous",
      "minutes": 20,
      "run_total_min": 20,
      "text": "20 min continuous"
-    }
+    },
+    "sat": null
    },
    "strides": null,
    "kick_stage": 2,
    "measure_waist": true,
    "notes": [
     "Christmas week - lighter week: one set fewer on everything.",
-    "Fri 25 Dec: gym probably closed. Do Friday's session on Thu 24 Dec if it is open, or skip it - the 30-session target allows for this.",
+    "Wednesday: heart-rate retest - compare with Week 3.",
+    "Fri 25 Dec: gym probably closed. Do the 20 min run outdoors (Thu 24, Fri 25 or Sat 26 Dec); skip Friday's strength if you need to.",
     "Measure your waist."
    ],
    "days": {
@@ -1383,11 +1486,11 @@
     },
     "sat": {
      "date": "2026-12-26",
-     "plan": "run"
+     "plan": "rest"
     },
     "sun": {
      "date": "2026-12-27",
-     "plan": "rest"
+     "plan": "kick"
     }
    }
   },
@@ -1406,25 +1509,29 @@
      "run_total_min": 15,
      "text": "15 min continuous"
     },
-    "fri": {
-     "type": "continuous",
-     "minutes": 12,
-     "run_total_min": 12,
-     "text": "12 min continuous"
+    "wed": {
+     "type": "hr_cap",
+     "minutes": 25,
+     "cap": 145,
+     "floor": 130,
+     "run_total_min": 25,
+     "test": false,
+     "text": "25 min, HR under 145 - log the distance"
     },
-    "sat": {
+    "fri": {
      "type": "continuous",
      "minutes": 25,
      "run_total_min": 25,
      "text": "25 min continuous"
-    }
+    },
+    "sat": null
    },
    "strides": "6 x 15-20 sec",
    "kick_stage": 3,
    "measure_waist": false,
    "notes": [
     "Phase 3 starts: heavier, fewer reps on the main lifts.",
-    "Fri 1 Jan: check your gym's holiday hours. If closed, do Friday's session on Thu 31 Dec."
+    "Fri 1 Jan: check your gym's holiday hours. If closed, do Friday's session on Thu 31 Dec, or the long run outdoors."
    ],
    "days": {
     "mon": {
@@ -1452,11 +1559,11 @@
     },
     "sat": {
      "date": "2027-01-02",
-     "plan": "run"
+     "plan": "rest"
     },
     "sun": {
      "date": "2027-01-03",
-     "plan": "rest"
+     "plan": "kick"
     }
    }
   },
@@ -1475,18 +1582,22 @@
      "run_total_min": 18,
      "text": "18 min continuous"
     },
-    "fri": {
-     "type": "continuous",
-     "minutes": 15,
-     "run_total_min": 15,
-     "text": "15 min continuous"
+    "wed": {
+     "type": "hr_cap",
+     "minutes": 25,
+     "cap": 145,
+     "floor": 130,
+     "run_total_min": 25,
+     "test": false,
+     "text": "25 min, HR under 145 - more distance than last week"
     },
-    "sat": {
+    "fri": {
      "type": "continuous",
      "minutes": 28,
      "run_total_min": 28,
      "text": "28 min continuous"
-    }
+    },
+    "sat": null
    },
    "strides": "6 x 15-20 sec",
    "kick_stage": 3,
@@ -1518,11 +1629,11 @@
     },
     "sat": {
      "date": "2027-01-09",
-     "plan": "run"
+     "plan": "rest"
     },
     "sun": {
      "date": "2027-01-10",
-     "plan": "rest"
+     "plan": "kick"
     }
    }
   },
@@ -1541,23 +1652,28 @@
      "run_total_min": 20,
      "text": "20 min continuous"
     },
-    "fri": {
-     "type": "continuous",
-     "minutes": 15,
-     "run_total_min": 15,
-     "text": "15 min continuous"
+    "wed": {
+     "type": "hr_cap",
+     "minutes": 20,
+     "cap": 145,
+     "floor": 130,
+     "run_total_min": 20,
+     "test": true,
+     "text": "FINAL TEST: 20 min, HR under 145 - aim for 10% further than Week 3"
     },
-    "sat": {
+    "fri": {
      "type": "continuous",
      "minutes": 32,
      "run_total_min": 32,
      "text": "32 min continuous"
-    }
+    },
+    "sat": null
    },
    "strides": "6 x 15-20 sec",
    "kick_stage": 4,
    "measure_waist": false,
    "notes": [
+    "Wednesday: final heart-rate test - aim for 10% further than Week 3.",
     "Strength check: note your working weights for Leg Press, Chest Press and Seated Row and compare with Week 2."
    ],
    "days": {
@@ -1586,11 +1702,11 @@
     },
     "sat": {
      "date": "2027-01-16",
-     "plan": "run"
+     "plan": "rest"
     },
     "sun": {
      "date": "2027-01-17",
-     "plan": "rest"
+     "plan": "kick"
     }
    }
   },
@@ -1609,11 +1725,20 @@
      "run_total_min": 15,
      "text": "15 min continuous"
     },
+    "wed": {
+     "type": "hr_cap",
+     "minutes": 15,
+     "cap": 145,
+     "floor": 130,
+     "run_total_min": 15,
+     "test": false,
+     "text": "15 min, HR under 145 - easy, 5 km on Saturday"
+    },
     "fri": {
-     "type": "cross_trainer",
+     "type": "continuous",
      "minutes": 10,
-     "run_total_min": 0,
-     "text": "No run - 10 min easy cross trainer (5 km tomorrow)"
+     "run_total_min": 10,
+     "text": "10 min very easy jog (5 km tomorrow)"
     },
     "sat": {
      "type": "test",
@@ -1628,7 +1753,7 @@
    "notes": [
     "Test week. Monday: plank test (best single hold).",
     "Wednesday: one set fewer on everything.",
-    "Friday: upper body only and 10 min easy cross trainer - no leg work.",
+    "Friday: upper body only and a 10 min very easy jog - no leg work.",
     "Tue 19 Jan: final kick test in the park (warm up, then Stage 4 strikes; record the pain score).",
     "Sat 23 Jan: your 5 km run. Sun 24 Jan: final weigh-in and waist measurement."
    ],
@@ -1668,7 +1793,8 @@
   }
  ],
  "running": {
-  "pace": "Easy: you can talk in sentences. Around 6:00-7:30 per km is fine - slower is better than faster.",
+  "pace": "Easy: running under heart rate 145 (you can talk in sentences). If it reaches 145, walk until under 130. Slower is better than faster.",
+  "heart_rate": "Your highest logged heart rate is 180 (treadmill, Week 1). The 145 cap is about 80% of that - easy to steady. Wednesday's heart-rate run is the fitness measure: more distance in the same time at the same cap means you are fitter.",
   "rule": "Follow the time, not the distance. If a week went badly (amber or red), repeat it before moving on.",
   "strides": "Strides = 15-20 seconds of relaxed, faster running (not a sprint), with a full walk back. Only on green weeks. They are the first step back towards sprinting.",
   "saturday_warmup": [
@@ -1681,7 +1807,7 @@
   ]
  },
  "kicking": {
-  "rule": "Kick after the Saturday warm-up and BEFORE the run - a tired quad is more easily strained. Move up a stage only after two green sessions in a row. If amber, repeat the stage. If red, drop back a stage. Stages can take longer than the weeks shown - that is fine.",
+  "rule": "Kick on Sundays, after the warm-up, on rested legs - a tired quad is more easily strained. Move up a stage only after two green sessions in a row. If amber, repeat the stage. If red, drop back a stage. Stages can take longer than the weeks shown - that is fine.",
   "stages": [
    {
     "stage": 0,
@@ -1692,7 +1818,7 @@
      3,
      4
     ],
-    "what": "Build quad strength in the gym. Do the Saturday warm-up and the quad stretch test only."
+    "what": "Build quad strength in the gym. Kicking starts in Week 5."
    },
    {
     "stage": 1,
@@ -1815,8 +1941,8 @@
   },
   {
    "id": "sat_run",
-   "label": "Saturday run done",
-   "unit": "yes/no"
+   "label": "Runs done (Mon, Wed, Fri)",
+   "unit": "count"
   },
   {
    "id": "bodyweight",
@@ -1872,19 +1998,21 @@
    "what": "Warms up your legs and gently raises your heart rate before training.",
    "steps": [
     "Adjust the seat so your knee is slightly bent when the pedal is at the bottom.",
-    "Pedal at an easy pace - you should be able to chat.",
-    "For the last 2 minutes, pedal a little faster."
+    "Set level 5-6 and pedal at a steady pace.",
+    "Target: heart rate 110-125 by the end - warmer, not tired.",
+    "Log the distance (and average heart rate if your watch shows it)."
    ],
    "tips": [
-    "You should finish warmer, not tired."
+    "Your 11 Nov reference: level 6, 4 km in 10 min, 95 W average.",
+    "If your heart rate goes above 125, ease off - it is a warm-up."
    ],
-   "cue": "Easy pace – warmer, not tired"
+   "cue": "Level 5–6, heart rate 110–125 by the end"
   },
   "treadmill_run": {
    "name": "Treadmill Run",
    "kind": "run",
    "equipment": "Treadmill",
-   "what": "Your Monday (and from Week 5, Friday) run. A treadmill gives an even surface and makes it easy to control speed.",
+   "what": "Your Monday, Wednesday and Friday run. A treadmill gives an even surface and makes it easy to control speed.",
    "steps": [
     "Clip the safety key to your clothing.",
     "Walk briskly for 2 minutes to warm up.",
@@ -1894,18 +2022,19 @@
    ],
    "tips": [
     "Easy means you could still talk in sentences.",
+    "Heart rate: keep the running under 145. If it reaches 145, walk until it is under 130, then jog again.",
     "Short, light steps. Hold the rails only to get on and off."
    ],
-   "cue": "Easy, chatty pace. Short light steps"
+   "cue": "Running under HR 145. Walk until under 130"
   },
   "outdoor_run": {
-   "name": "Saturday Run (outdoors)",
+   "name": "5 km Run (outdoors)",
    "kind": "run",
    "equipment": "Trainers, a flat route, a phone or watch for timing",
-   "what": "Your key run of the week. This is the one that builds towards 5 km.",
+   "what": "Your goal run: 5 km outdoors on Saturday 23 January. The Friday long runs build up to it.",
    "steps": [
     "Walk briskly for 5 minutes.",
-    "Do the Saturday warm-up (see below) - and kicking practice if it is on this week.",
+    "Do the run warm-up (see below).",
     "Run this week's pattern at an easy, chatty pace.",
     "Walk for 5 minutes to cool down, then the 3 cool-down stretches (calf, hamstring, glute)."
    ],
@@ -1913,7 +2042,7 @@
     "Choose a flat loop in the park so you can stop at any point.",
     "If your phone or watch records distance, log it - but time is what the plan follows."
    ],
-   "cue": "Flat loop, easy pace, walk 5 min after"
+   "cue": "5 km, easy pace, walk 5 min after"
   },
   "cross_trainer": {
    "name": "Cross Trainer",
@@ -1934,7 +2063,7 @@
    "name": "Swim",
    "kind": "cardio",
    "equipment": "Pool",
-   "what": "Whole-body fitness with zero impact. Wednesday's structured set, mostly front crawl.",
+   "what": "Optional extra after Wednesday's session. Whole-body fitness with zero impact. Target: complete the set and log the lengths.",
    "steps": [
     "Warm up: 2 easy lengths of backstroke.",
     "Main set: this week's front crawl lengths (see the session), resting at the wall between them.",
@@ -1945,7 +2074,7 @@
     "Breaststroke only as an easy recovery length, and only if your knee is happy: its kick strains the inside of the knee.",
     "If front crawl breathing is hard, swap a length for backstroke. Rest longer rather than stopping."
    ],
-   "cue": "Front crawl lengths, rest at the wall"
+   "cue": "Optional. Front crawl lengths, log them"
   },
   "leg_press": {
    "name": "Leg Press",
@@ -2089,12 +2218,14 @@
     "Lie face down. Place your elbows under your shoulders.",
     "Lift your body onto your forearms and toes (or knees for an easier version).",
     "Hold a straight line from shoulders to heels (or knees).",
+    "Squeeze your bottom and tuck your tailbone slightly under - this takes the strain off your lower back.",
     "Breathe normally. Stop when your hips start to sag."
    ],
    "tips": [
-    "Quality over time - stop before your lower back sags."
+    "Quality over time - stop before your lower back sags.",
+    "Lower back feels it? Squeeze your glutes harder, or drop to your knees."
    ],
-   "cue": "Straight line. Stop before hips sag"
+   "cue": "Squeeze glutes, tuck tailbone. Stop before hips sag"
   },
   "side_plank": {
    "name": "Side Plank",
@@ -2127,6 +2258,42 @@
     "Move slowly. Breathe out as you lower."
    ],
    "cue": "Back pressed down. Lower opposite arm + leg"
+  },
+  "bird_dog": {
+   "name": "Bird Dog",
+   "kind": "strength",
+   "load": "bodyweight",
+   "equipment": "Floor mat",
+   "what": "Strengthens the muscles along your spine and your glutes - steadies your lower back.",
+   "steps": [
+    "Kneel on all fours: hands under shoulders, knees under hips, back flat.",
+    "Slowly reach one arm forward and the opposite leg back until both are level with your body.",
+    "Hold for 2 seconds without letting your hips tilt or your back sag.",
+    "Return slowly and switch sides. That is one rep each side."
+   ],
+   "tips": [
+    "Imagine a cup of tea on your lower back - don't spill it.",
+    "Move slowly. Reach long rather than high."
+   ],
+   "cue": "Opposite arm + leg out. Hips level, hold 2 sec"
+  },
+  "back_extension": {
+   "name": "Back Extension",
+   "kind": "strength",
+   "load": "bodyweight",
+   "equipment": "45-degree back extension (hyperextension) bench",
+   "what": "Strengthens your lower back, glutes and hamstrings together - the muscles that keep you upright when running.",
+   "steps": [
+    "Set the pad so it sits just below your hip bones. Hook your ankles under the rollers.",
+    "Cross your arms over your chest. Keep your back straight.",
+    "Hinge at the hips and lower your body slowly until you feel a gentle hamstring stretch.",
+    "Squeeze your glutes to lift back up until your body is in a straight line - no higher."
+   ],
+   "tips": [
+    "Don't arch backwards at the top - stop at a straight line.",
+    "Slow and controlled. Stop if it pinches your lower back."
+   ],
+   "cue": "Hinge down slowly, lift to a straight line"
   },
   "glute_bridge": {
    "name": "Glute Bridge",
@@ -2173,7 +2340,8 @@
     "Bend your knees to put the weights down."
    ],
    "tips": [
-    "Choose a weight that is heavy but lets you walk without leaning."
+    "Choose a weight that is heavy but lets you walk without leaning.",
+    "Log the weight per hand in the kg box."
    ],
    "cue": "Weight in each hand. Walk tall"
   },

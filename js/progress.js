@@ -39,9 +39,11 @@ const bestHold = (s) => {
   return v.length ? Math.max(...v) : null;
 };
 
-function satTarget(w) {
-  const r = weekInfo(w).runs.sat;
-  return r.type === "run_walk" ? r.run_min : r.type === "continuous" ? r.minutes : null;
+// The plan's longest non-stop run in a week (the Friday long run; Saturday in Week 1).
+function longTarget(w) {
+  const mins = Object.values(weekInfo(w).runs).filter(Boolean)
+    .map((r) => (r.type === "run_walk" ? r.run_min : r.type === "continuous" ? r.minutes : null)).filter((v) => v != null);
+  return mins.length ? Math.max(...mins) : null;
 }
 
 function fiveKDone(runs) {
@@ -88,10 +90,11 @@ function goalsSection(d, nowWeek) {
 function attendanceSection(d, todayIso) {
   const finished = new Set(d.sessions.map((s) => s.date));
   const runDates = new Set(d.runs.filter((r) => r.where === "outdoor").map((r) => r.date));
-  const cols = ["mon", "wed", "fri", "sat"];
+  const cols = ["mon", "wed", "fri", "sat"];  // Saturday only has a run in Week 1 and the 5 km week
   const rows = getPlan().weeks.map((w) => {
     const cells = cols.map((k) => {
       const date = w.days[k].date;
+      if (k === "sat" && w.days.sat.plan !== "run") return `<td class="rest" aria-label="Saturday week ${w.week}: rest"></td>`;
       const done = k === "sat" ? runDates.has(date) : finished.has(date);
       const cls = done ? "done" : date < todayIso ? "missed" : date === todayIso ? "today" : "planned";
       const sym = done ? "✓" : date < todayIso ? "–" : date === todayIso ? "●" : "";
@@ -101,20 +104,20 @@ function attendanceSection(d, todayIso) {
     return `<tr class="${w.lighter_week ? "lighter" : ""}"><th>${w.week}</th>${cells}</tr>`;
   }).join("");
   return `<h2>Attendance</h2><div class="card">
-    <p><b>${d.sessions.length}</b> of 30 gym sessions · <b>${runDates.size}</b> of 12 Saturday runs</p>
-    <table class="att"><tr><th>Wk</th><th>Mon</th><th>Wed</th><th>Fri</th><th>Sat run</th></tr>${rows}</table>
+    <p><b>${d.sessions.length}</b> of 30 gym sessions</p>
+    <table class="att"><tr><th>Wk</th><th>Mon</th><th>Wed</th><th>Fri</th><th>Sat</th></tr>${rows}</table>
     <p class="muted small">✓ done · – not done · ● today · blank = still to come. Shaded weeks are lighter weeks.</p></div>`;
 }
 
 function runSection(d) {
   if (!d.runs.length) return `<h2>5 km journey</h2><div class="card empty">Your first run will start this chart.</div>`;
   const actual = perWeek(d.runs, (r) => r.longestMin);
-  const plan = getPlan().weeks.map((w) => ({ x: w.week, y: satTarget(w.week) })).filter((p) => p.y != null);
+  const plan = getPlan().weeks.map((w) => ({ x: w.week, y: longTarget(w.week) })).filter((p) => p.y != null);
   const five = fiveKDone(d.runs);
   return `<h2>5 km journey</h2><div class="card">
     ${five ? `<p class="win">🎉 5 km non-stop on ${fmt(parseDate(five.date), { day: "numeric", month: "long" })}!</p>` : ""}
     ${actual.length >= 2 ? lineChart({ title: "Longest non-stop run (minutes) by week", unit: " min",
-      series: [{ name: "You", points: actual }, { name: "Plan (Saturday)", points: plan, dashed: true }] })
+      series: [{ name: "You", points: actual }, { name: "Plan (long run)", points: plan, dashed: true }] })
       : `<p>Longest non-stop run so far: <b>${actual[0].y} min</b> (week ${actual[0].x}). The chart appears after your second week of runs.</p>`}
     <p class="muted small">5 km is roughly 30–35 minutes at an easy pace.</p></div>`;
 }

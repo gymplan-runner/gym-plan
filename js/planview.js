@@ -2,7 +2,7 @@
 import { getPlan, phaseFor, sessionFor, picto, doseText, DAY_COLOURS, parseDate } from "./plan.js";
 import { esc, fmt } from "./ui.js";
 
-const NAMES = { mon: "Monday", wed: "Wednesday", fri: "Friday", sat: "Saturday" };
+const NAMES = { mon: "Monday", wed: "Wednesday", fri: "Friday", sat: "Saturday", sun: "Sunday" };
 
 function row(it, colour) {
   const ex = getPlan().exercises[it.exercise];
@@ -23,15 +23,16 @@ export function renderPlan($screen, currentWeek) {
         <div class="session-body">${s.items.map((it) => row(it, DAY_COLOURS[k])).join("")}</div>`;
     }).join("");
     const stage = plan.kicking.stages.find((s) => s.stage === w.kick_stage);
-    const sat = `<div class="session-head small-head" style="background:${DAY_COLOURS.sat}"><b>Saturday: outdoor run${w.kick_stage ? " + kicking" : ""}</b></div>
-      <div class="session-body">${row({ exercise: "outdoor_run", run: w.runs.sat }, DAY_COLOURS.sat)}
-      ${w.strides ? `<p class="small muted">+ strides ${esc(w.strides)} if your quad is green</p>` : ""}
-      ${w.kick_stage ? `<p class="small"><b>Kicking stage ${w.kick_stage}:</b> ${esc(stage.what)}</p>` : ""}</div>`;
+    const strides = w.strides ? `<p class="small muted">Friday: + strides ${esc(w.strides)} after the run, if your quad is green</p>` : "";
+    const sat = w.runs.sat ? `<div class="session-head small-head" style="background:${DAY_COLOURS.sat}"><b>Saturday: outdoor run</b></div>
+      <div class="session-body">${row({ exercise: "outdoor_run", run: w.runs.sat }, DAY_COLOURS.sat)}</div>` : "";
+    const sun = w.days.sun.plan === "kick" ? `<div class="session-head small-head" style="background:${DAY_COLOURS.sat}"><b>Sunday: kicking (about 20 min)</b></div>
+      <div class="session-body"><p class="small"><b>Stage ${w.kick_stage}:</b> ${esc(stage.what)}</p></div>` : "";
     return `<details class="week" ${w.week === currentWeek ? "open" : ""} id="wk-${w.week}">
       <summary><b>Week ${w.week}</b> <span class="muted small">${fmt(parseDate(w.start_date), { day: "numeric", month: "short" })} · ${esc(ph.name)}${tag}</span></summary>
       ${w.sets_note !== "Sets as listed" ? `<div class="notice">${esc(w.sets_note)}</div>` : ""}
       ${w.notes.length ? `<div class="notice">${w.notes.map(esc).join("<br>")}</div>` : ""}
-      ${days}${sat}</details>`;
+      ${days}${strides}${sat}${sun}</details>`;
   }).join("");
   $screen.innerHTML = `<h1>Plan</h1>
     <div class="phase-btns">${plan.phases.map((p, i) => `<button type="button" class="btn ghost" data-go="poster" data-phase="${i + 1}">🖼️ ${esc(p.name)}<br><span class="small">weeks ${p.weeks[0]}–${p.weeks[p.weeks.length - 1]}</span></button>`).join("")}</div>

@@ -5,6 +5,14 @@ import { esc, toast, celebrate, num, mmss } from "./ui.js";
 import { beep, unlockAudio } from "./beep.js";
 
 const TIMED = new Set(["plank", "side_plank", "farmer_carry"]);
+const TIMED_KG = new Set(["farmer_carry"]);  // timed, but the weight carried matters too
+// Extra numbers logged for cardio, so every session has something measurable to compare.
+const CARDIO_FIELDS = {
+  bike: [["level", "Level"], ["km", "Distance (km)"], ["hr", "Average heart rate"]],
+  cross_trainer: [["level", "Level"], ["km", "Distance (km)"], ["hr", "Average heart rate"]],
+  treadmill_run: [["km", "Distance (km)"], ["hr", "Average heart rate"]],
+  swim: [["lengths", "Lengths swum"]],
+};
 const CARDIO = new Set(["bike", "treadmill_run", "cross_trainer", "swim", "sauna"]);
 const MACHINES = new Set(["leg_press", "leg_extension", "leg_curl", "chest_press", "seated_row", "lat_pulldown",
   "shoulder_press", "cable_knee_drive"]);
@@ -37,7 +45,7 @@ function heaviest(rec) {
 async function prefillWeights(s) {
   const { sameDay, any } = await lastTimes(s.date, s.dayKey);
   for (const item of s.items) {
-    if (item.type !== "strength") continue;
+    if (item.type !== "strength" && !TIMED_KG.has(item.exercise)) continue;
     const kg = heaviest(sameDay[item.exercise]) ?? (/lighter/i.test(item.planned.note ?? "") ? null : heaviest(any[item.exercise]));
     if (kg == null || (item.load === "bodyweight" && kg <= 0)) continue;
     for (const st of item.sets) st.kg = kg;
@@ -66,7 +74,7 @@ async function lastTimes(beforeDate, dayKey) {
   const any = {}, sameDay = {};
   for (const s of sessions) {
     for (const it of s.items) {
-      if (it.status === "skipped" || !it.sets.some((x) => x.done)) continue;
+      if (it.status === "skipped" || (it.type === "cardio" ? it.status !== "done" : !it.sets.some((x) => x.done))) continue;
       if (!any[it.exercise]) any[it.exercise] = { ...it, date: s.date };
       if (s.dayKey === dayKey && !sameDay[it.exercise]) sameDay[it.exercise] = { ...it, date: s.date };
     }
@@ -80,9 +88,14 @@ function topOfRange(reps) {
 }
 
 function lastLine(last, type) {
-  if (!last) return "";
+  if (!last || type === "stretch") return "";
+  if (type === "cardio") {
+    const parts = [last.minutes != null && `${last.minutes} min`, last.level != null && `level ${last.level}`,
+      last.km != null && `${last.km} km`, last.hr != null && `HR ${last.hr}`, last.lengths != null && `${last.lengths} lengths`].filter(Boolean);
+    return parts.length ? `Last time: ${parts.join(" · ")}` : "";
+  }
   const done = last.sets.filter((x) => x.done);
-  if (type === "timed") return `Last time: ${done.map((x) => `${x.seconds ?? "–"}s`).join(", ")}`;
+  if (type === "timed") return `Last time: ${done.map((x) => `${x.kg ? `${x.kg} kg × ` : ""}${x.seconds ?? "–"}s`).join(", ")}`;
   const reps = done.map((x) => x.reps ?? "–").join(", ");
   if (!done.some((x) => x.kg > 0)) return `Last time: ${reps} reps`;
   const kgs = [...new Set(done.map((x) => x.kg ?? "–"))];
@@ -101,7 +114,7 @@ function progressionHint(last, item) {
 
 // ------------------------------------------------------------------ view
 export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
-  let S, last = {}, open = null, pendingOpen = null, rest = null, restTimer = null, clock = null, stopwatch = null, wakeLock = null, finishing = false;
+  let S, last = {}, hrTests = [], open = null, pendingOpen = null, rest = null, restTimer = null, clock = null, stopwatch = null, wakeLock = null, finishing = false;
 
   async function save() {
     try { await db.put("sessions", S); } catch { toast("Couldn't save – try again", "bad"); }
@@ -111,6 +124,8 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
     S = session;
     const lt = await lastTimes(S.date, S.dayKey);
     last = { ...lt.any, ...lt.sameDay };  // the same weekday's record wins (Friday's leg press is lighter)
+    hrTests = (await db.all("runs")).filter((r) => r.status === "finished" && r.planned?.type === "hr_cap" && r.planned.test
+      && r.distanceKm && r.date < S.date).sort((a, b) => (a.date < b.date ? -1 : 1));
     open = pendingOpen ?? S.items.findIndex((i) => i.status === "todo");
     pendingOpen = null;
     if (open < 0) open = null;
@@ -148,33 +163,54 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
         aria-pressed="${String(selected) === String(v)}">${labels[v] ?? v}</button>`).join("")}</div>`;
   }
 
+  // Wednesday heart-rate run: the number to beat, from the earlier tests.
+  function hrTarget(run) {
+    const first = hrTests[0], latest = hrTests[hrTests.length - 1];
+    let t;
+    if (run.test && !first) t = "This is your test: run the full time under the cap, then log the distance.";
+    else if (run.test && /10%/.test(run.text)) t = `Aim for ${(first.distanceKm * 1.1).toFixed(2)} km – 10% more than your Week ${first.week} test (${first.distanceKm} km).`;
+    else if (run.test) t = `Retest. Your Week ${first.week} test: ${first.distanceKm} km.`;
+    else if (latest) t = `Beat ${latest.distanceKm} km (your Week ${latest.week} test).`;
+    else t = "Log the distance – it becomes your number to beat.";
+    return `<p class="hint">🎯 ${esc(t)}</p>`;
+  }
+
+  function cardioFields(item, i) {
+    return (CARDIO_FIELDS[item.exercise] ?? []).map(([f, label]) => `<div class="setrow"><span>${label}</span>
+      <input class="in" inputmode="decimal" data-field="${f}" data-i="${i}" value="${item[f] ?? ""}" aria-label="${label}"></div>`).join("");
+  }
+
   function setRows(item, i) {
     if (item.exercise === "treadmill_run" && item.planned.run) {
-      return `<button type="button" class="btn" data-act="runtimer" data-i="${i}">▶ ${item.runId ? "Open run log" : "Start run timer"}</button>
+      return `${item.planned.run.type === "hr_cap" ? hrTarget(item.planned.run) : ""}<button type="button" class="btn" data-act="runtimer" data-i="${i}">▶ ${item.runId ? "Open run log" : "Start run timer"}</button>
         ${item.runId ? `<p class="muted small">Logged: ${item.minutes ?? "–"} min running.</p>` : `<p class="muted small">Or type the minutes if you didn't use the timer:</p>`}
         <div class="setrow"><span>Running minutes</span>
-        <input class="in" inputmode="decimal" data-field="minutes" data-i="${i}" value="${item.minutes ?? ""}" aria-label="Running minutes"></div>`;
+        <input class="in" inputmode="decimal" data-field="minutes" data-i="${i}" value="${item.minutes ?? ""}" aria-label="Running minutes"></div>
+        ${item.runId ? "" : cardioFields(item, i)}`;
     }
     if (item.type === "stretch") return "";
     if (item.type === "cardio") {
       const label = item.exercise === "treadmill_run" ? "Running minutes" : "Minutes";
       return `<div class="setrow"><span>${label}</span>
-        <input class="in" inputmode="decimal" data-field="minutes" data-i="${i}" value="${item.minutes ?? ""}" aria-label="${label}"></div>`;
+        <input class="in" inputmode="decimal" data-field="minutes" data-i="${i}" value="${item.minutes ?? ""}" aria-label="${label}"></div>${cardioFields(item, i)}`;
     }
     // Bodyweight moves log reps only, unless a weight is added (or was logged before).
-    const kgBox = item.type === "strength" && (loadOf(item) !== "bodyweight" || item.addKg || item.sets.some((x) => x.kg > 0));
+    const kgBox = (item.type === "strength" && (loadOf(item) !== "bodyweight" || item.addKg || item.sets.some((x) => x.kg > 0)))
+      || TIMED_KG.has(item.exercise);
     const rows = item.sets.map((st, j) => {
+      const kgIn = `<input class="in" inputmode="decimal" data-field="kg" data-i="${i}" data-j="${j}" value="${st.kg ?? ""}" placeholder="kg" aria-label="Set ${j + 1} kg">`;
       const fields = item.type === "timed"
-        ? `<input class="in" inputmode="numeric" data-field="seconds" data-i="${i}" data-j="${j}" value="${st.seconds ?? ""}" placeholder="sec" aria-label="Set ${j + 1} seconds">
+        ? `${kgBox ? kgIn : ""}<input class="in" inputmode="numeric" data-field="seconds" data-i="${i}" data-j="${j}" value="${st.seconds ?? ""}" placeholder="sec" aria-label="Set ${j + 1} seconds">
            <button type="button" class="sw" data-act="stopwatch" data-i="${i}" data-j="${j}">${stopwatch && stopwatch.i === i && stopwatch.j === j ? "Stop" : "⏱"}</button>`
-        : `${kgBox ? `<input class="in" inputmode="decimal" data-field="kg" data-i="${i}" data-j="${j}" value="${st.kg ?? ""}" placeholder="kg" aria-label="Set ${j + 1} kg">` : ""}
+        : `${kgBox ? kgIn : ""}
            <input class="in" inputmode="numeric" data-field="reps" data-i="${i}" data-j="${j}" value="${st.reps ?? ""}" placeholder="${esc(String(item.planned.reps ?? "reps"))}" aria-label="Set ${j + 1} reps">`;
       return `<div class="setrow ${st.done ? "done" : ""}"><span>Set ${j + 1}</span>${fields}
         <button type="button" class="tickbtn" data-act="tick" data-i="${i}" data-j="${j}" aria-label="Set ${j + 1} done" aria-pressed="${st.done}">${st.done ? "✓" : "○"}</button></div>`;
     }).join("");
     const addKg = item.type === "strength" && !kgBox
       ? `<button type="button" class="linkbtn" data-act="addkg" data-i="${i}">+ Add weight (holding a dumbbell?)</button>` : "";
-    return rows + addKg;
+    const addSet = `<button type="button" class="linkbtn" data-act="addset" data-i="${i}">+ Add set</button>`;
+    return rows + addSet + addKg;
   }
 
   function card(item, i) {
@@ -252,7 +288,9 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
       <div class="wk-top" style="background:${colour()}"><button type="button" class="back" data-act="unfinish">‹ Back to workout</button>
         <h1>Nice work 👏</h1><p>${esc(S.title)}</p></div>
       <div class="card">
-        <p><b>${done}</b> done${skipped ? ` · ${skipped} skipped` : ""}${S.items.length - done - skipped ? ` · ${S.items.length - done - skipped} not marked` : ""} · about <b>${mins} min</b></p>
+        <p><b>${done}</b> done${skipped ? ` · ${skipped} skipped` : ""}${S.items.length - done - skipped ? ` · ${S.items.length - done - skipped} not marked` : ""}</p>
+        <label class="mini">Session length (minutes) – correct it if the workout was left open
+          <input class="in wide" inputmode="numeric" data-field="duration" value="${S.durationEdit ?? mins}" aria-label="Session length in minutes"></label>
         <p class="q">How hard was the session overall? (1–10)</p>
         ${chips("effort", -1, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], S.effort)}
         <p class="muted small" id="effortlabel">${esc(effortLabel(S.effort))}</p>
@@ -330,6 +368,11 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
         break;
       }
       case "addkg": item.addKg = true; break;
+      case "addset": {
+        const prev = item.sets[item.sets.length - 1];
+        item.sets.push({ kg: prev?.kg ?? null, reps: null, seconds: null, done: false });
+        break;
+      }
       case "rir": item.rir = item.rir === b.dataset.v ? null : b.dataset.v; break;
       case "pain": item.pain = item.pain === Number(b.dataset.v) ? null : Number(b.dataset.v); break;
       case "done":
@@ -355,6 +398,9 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
           S.finishedAt = Date.now();
           S.durationMin = Math.round((S.finishedAt - S.startedAt) / 60000);
         }
+        // The clock runs from opening the workout, so a corrected length wins.
+        if (S.durationEdit != null) S.durationMin = S.durationEdit;
+        delete S.durationEdit;
         for (const it of S.items) if (it.setting) await db.setSetting(`setting:${it.exercise}`, it.setting);
         await save();
         if (first) celebrate("Session done", "That's one more towards your 30. Enjoy the sauna.");
@@ -382,6 +428,8 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
     else if (f === "note") S.items[i].note = el.value;
     else if (f === "setting") S.items[i].setting = el.value;
     else if (f === "minutes") S.items[i].minutes = num(el.value);
+    else if (f === "duration") S.durationEdit = num(el.value);
+    else if (["level", "km", "hr", "lengths"].includes(f)) S.items[i][f] = num(el.value);
     else S.items[i].sets[j][f] = num(el.value);
     save();
   }

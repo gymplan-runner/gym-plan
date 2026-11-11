@@ -26,7 +26,8 @@ const workout = createWorkoutView({
   onRun: async (session, i) => {
     const item = session.items[i];
     const rec = (await db.get("runs", runId(session.date, "treadmill")))
-      ?? newRun({ date: session.date, week: session.week, where: "treadmill", run: item.planned.run, source: "gym" });
+      ?? newRun({ date: session.date, week: session.week, where: "treadmill", run: item.planned.run, source: "gym",
+        strides: session.dayKey === "fri" ? weekInfo(session.week).strides : null });
     runView.start(rec, async (done, how = {}) => {
       const s = await db.get("sessions", session.id);
       const it = s.items[i];
@@ -100,7 +101,7 @@ function ring(week) {
 
 function dayStrip(week, todayKey, finishedDates) {
   const w = weekInfo(week);
-  const label = { gym: "Gym", run: "Run", rest: "Rest", kick_test: "Kick" };
+  const label = { gym: "Gym", run: "5 km", rest: "Rest", kick_test: "Kick", kick: "Kick" };
   return `<div class="daystrip">${DAY_KEYS.map((k) => {
     const p = w.days[k].plan;
     const train = p === "gym" || p === "run";
@@ -124,6 +125,20 @@ function gymButton(session) {
   if (!session || session.status === "in_progress") return "";
   return `<div class="done-banner">✓ Done · ${session.durationMin ?? "–"} min${session.effort ? ` · effort ${session.effort}/10` : ""}
     <button type="button" class="linkbtn" data-go="resume">View or edit</button></div>`;
+}
+
+// Kicking: this week's stage (or the suggested one), with a button to log it.
+async function kickBlock(date, planStage) {
+  const kick = await db.get("kicks", kickId(date));
+  const sug = await suggestion();
+  const stage = getPlan().kicking.stages.find((k) => k.stage === sug.stage);
+  return kick
+    ? `<div class="done-banner">✓ Kicking logged · stage ${kick.stage} · pain ${kick.painDuring}/10 <button type="button" class="linkbtn" data-go="kick">Edit</button></div>`
+    : `<div class="card"><b>Kicking – your stage: ${sug.stage}</b>${sug.stage !== planStage ? ` <span class="muted small">(plan guide this week: stage ${planStage} – it's fine to take longer)</span>` : ""}
+        <p class="small">${esc(stage.what)}</p>
+        <p class="hint">💡 ${esc(sug.text)}</p>
+        ${sug.to ? `<button type="button" class="btn ghost" data-go="stage" data-to="${sug.to}">${sug.kind === "up" ? `Move up to Stage ${sug.to}` : `Drop back to Stage ${sug.to}`}</button>` : ""}
+        <button type="button" class="btn" data-go="kick">Log kicking</button></div>`;
 }
 
 async function renderToday() {
@@ -159,26 +174,14 @@ async function renderToday() {
   } else if (dp.kind === "run") {
     const date = w.days[showDay].date;
     const run = await db.get("runs", runId(date, "outdoor"));
-    const kick = dp.kickStage ? await db.get("kicks", kickId(date)) : null;
-    const sug = dp.kickStage ? await suggestion() : null;
-    const stage = sug ? getPlan().kicking.stages.find((k) => k.stage === sug.stage) : null;
-    const kickBlock = !dp.kickStage ? "" : kick
-      ? `<div class="done-banner">✓ Kicking logged · stage ${kick.stage} · pain ${kick.painDuring}/10 <button type="button" class="linkbtn" data-go="kick">Edit</button></div>`
-      : `<div class="card"><b>Kicking – your stage: ${sug.stage}</b>${sug.stage !== dp.kickStage ? ` <span class="muted small">(plan guide this week: stage ${dp.kickStage} – it's fine to take longer)</span>` : ""}
-          <p class="small">${esc(stage.what)}</p>
-          <p class="hint">💡 ${esc(sug.text)}</p>
-          ${sug.to ? `<button type="button" class="btn ghost" data-go="stage" data-to="${sug.to}">${sug.kind === "up" ? `Move up to Stage ${sug.to}` : `Drop back to Stage ${sug.to}`}</button>` : ""}
-          <button type="button" class="btn" data-go="kick">Log kicking (before the run)</button></div>`;
     const runBlock = run?.status === "finished"
       ? `<div class="done-banner">✓ Run logged · ${run.totalRunMin} min${run.distanceKm ? ` · ${run.distanceKm} km` : ""} <button type="button" class="linkbtn" data-go="run">Edit</button></div>`
       : `<button type="button" class="btn big" data-go="run">${run ? "Resume run" : "Start run"}</button>`;
-    body = `<div class="session-head" style="background:${colour}"><h2>${dayLabel}: Outdoor run</h2><p>The key session of the week</p></div>
+    body = `<div class="session-head" style="background:${colour}"><h2>${dayLabel}: 5 km run</h2><p>Your goal run – outdoors, easy pace</p></div>
       <div class="session-body">
         ${itemRow({ exercise: "outdoor_run", run: run?.planned ?? await runToDo(week) }, colour)}
-        ${dp.kickStage ? itemRow({ exercise: "kick", note: "Warm up, kick, then run." }, colour, `Kicking stage ${sug.stage}: ${stage.name}`) : ""}
-        ${dp.strides ? `<p class="small muted">+ strides ${esc(dp.strides)} if your quad is green.</p>` : ""}
       </div>
-      ${pos.status === "during" ? (run?.status === "finished" ? "" : await awayHint(week, now)) + kickBlock + runBlock : ""}`;
+      ${pos.status === "during" ? (run?.status === "finished" ? "" : await awayHint(week, now)) + runBlock : ""}`;
   } else if (dp.kind === "kick_test") {
     const kick = await db.get("kicks", kickId(w.days[showDay].date));
     body = `<div class="card"><h2 style="margin-top:0">${dayLabel}: final kick test</h2><p>Warm up, then Stage 4 strikes. Record the pain score.</p>
@@ -189,8 +192,12 @@ async function renderToday() {
     const ciBtn = dp.kind !== "checkin" || pos.status !== "during" ? ""
       : ci ? `<div class="done-banner">✓ Check-in done <button type="button" class="linkbtn" data-go="checkin">Edit</button></div>`
         : `<button type="button" class="btn" data-go="checkin">Start Sunday check-in</button>`;
-    body = `<div class="card"><h2 style="margin-top:0">${dayLabel}: rest${dp.kind === "checkin" ? " + Sunday check-in" : ""}</h2>
-      <p class="muted">${dp.kind === "checkin" ? "Rest, then five minutes to record your week." : "Recovery is part of the plan. An easy walk is fine."}</p>${ciBtn}</div>`;
+    const kicking = dp.kickStage && pos.status === "during";
+    body = `<div class="card"><h2 style="margin-top:0">${dayLabel}: ${dp.kickStage ? "kicking" : "rest"}${dp.kind === "checkin" ? " + Sunday check-in" : ""}</h2>
+      <p class="muted">${dp.kickStage ? "About 20 minutes in the park on rested legs: warm up, then this week's kicking stage. Then five minutes to record your week."
+        : dp.kind === "checkin" ? "Rest, then five minutes to record your week." : "Recovery is part of the plan. An easy walk is fine."}</p>
+      ${dp.kickStage ? `<div class="session-body">${itemRow({ exercise: "kick", note: getPlan().running.saturday_warmup.slice(0, 5).join(" · ") }, DAY_COLOURS.sat, `Kicking – plan stage ${dp.kickStage}`)}</div>` : ""}
+      ${kicking ? await kickBlock(w.days[showDay].date, dp.kickStage) : ""}${ciBtn}</div>`;
   }
 
   // Before the plan starts: say when logging opens, and invite the starting values.
@@ -264,6 +271,7 @@ async function runToDo(week) {
 
 async function awayHint(week, todayDate) {
   const w = weekInfo(week);
+  if (!w.runs.sat) return "";
   const last = await lastOutdoorRun(w.days.sat.date);
   if (!last || week === 1) return "";
   const gap = Math.round((todayDate - parseDate(last.date)) / 86400000);
@@ -284,7 +292,7 @@ const LETTER = { mon: "A", wed: "B", fri: "C" };
 async function sessionChoices(wk, finishedDates, todayIso) {
   const w = weekInfo(wk);
   const satRun = await db.get("runs", runId(w.days.sat.date, "outdoor"));
-  return ["mon", "wed", "fri", "sat"].map((k) => {
+  return ["mon", "wed", "fri", ...(w.runs.sat ? ["sat"] : [])].map((k) => {
     const date = w.days[k].date;
     const done = k === "sat" ? satRun?.status === "finished" : finishedDates.has(date);
     return { wk, k, date, done, planned: date === todayIso };
@@ -297,10 +305,8 @@ async function choiceCard(c, suggested) {
   if (c.k === "sat") {
     const w = weekInfo(c.wk);
     const run = await runToDo(c.wk);
-    const stage = w.kick_stage ? getPlan().kicking.stages.find((s) => s.stage === w.kick_stage) : null;
-    return `<div class="choice"><div class="choice-head" style="background:${colour}"><b>Run</b><span>usually Saturday</span>${status}</div>
+    return `<div class="choice"><div class="choice-head" style="background:${colour}"><b>Run outdoors</b><span>Saturday</span>${status}</div>
       <div class="choice-body">${itemRow({ exercise: "outdoor_run", run }, colour)}
-        ${stage ? `<p class="small">Kicking stage ${w.kick_stage} first (log it from Saturday's Today screen): ${esc(stage.what)}</p>` : ""}
         <button type="button" class="btn ${c.done ? "ghost" : ""}" data-go="catchup-run" data-week="${c.wk}">${c.done ? "View or edit the run" : "Start the run"}</button></div></div>`;
   }
   const s = dayPlan(c.wk, c.k).session;

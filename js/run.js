@@ -17,6 +17,9 @@ export function segmentsFor(run, where) {
     }
   } else if (run.type === "continuous") {
     segs.push({ kind: "run", label: `Run ${run.minutes} min non-stop`, sec: run.minutes * 60 });
+  } else if (run.type === "hr_cap") {
+    // One block: jog, walking whenever heart rate reaches the cap. Distance covered is the measure.
+    segs.push({ kind: "run", label: `Jog under HR ${run.cap} – walk if it hits ${run.cap}, jog again under ${run.floor}`, sec: run.minutes * 60, capped: true });
   } else if (run.type === "test") {
     segs.push({ kind: "run", label: `${run.distance_km} km run – easy pace`, sec: null }); // open-ended
   }
@@ -56,7 +59,7 @@ function runStats(R) {
   R.segs.forEach((s, i) => {
     const len = s.sec == null ? Infinity : s.sec * 1000;
     const covered = Math.max(0, Math.min(len, ms - acc)) - (s.skippedMs ?? 0);
-    if (s.kind === "run") { total += covered; longest = Math.max(longest, covered); }
+    if (s.kind === "run") { total += covered; if (!s.capped) longest = Math.max(longest, covered); }
     acc += len;
   });
   const min = (x) => Math.round(x / 30000) / 2; // nearest half minute
@@ -132,13 +135,13 @@ export function createRunView({ $screen, $tabs }) {
   function render() {
     if (form) return renderForm();
     const head = `<div class="wk-top" style="background:${colour()}"><button type="button" class="back" data-ract="exit">‹ ${R.source === "gym" ? "Back to workout" : "Today"}</button>
-      <h1>${R.where === "outdoor" ? "Saturday run" : "Treadmill run"}</h1><p>${esc(R.plannedText)}</p></div>`;
+      <h1>${R.where === "outdoor" ? "Outdoor run" : "Treadmill run"}</h1><p>${esc(R.plannedText)}</p></div>`;
     if (!R.timer) {
       const sat = R.where === "outdoor"
         ? `<div class="card"><b>Before you run – warm-up</b><ul class="small">${getPlan().running.saturday_warmup.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
-           <p class="muted small">Kicking this week? Do it after the warm-up and before the run.</p></div>` : "";
+</div>` : "";
       $screen.innerHTML = `${head}
-        <div class="card"><p><b>Easy pace</b> – you can talk in sentences. Slower is fine.</p>
+        <div class="card"><p><b>Easy pace</b> – running under heart rate ${R.planned.cap ?? 145}, able to talk in sentences. If it goes over, walk until it's under ${R.planned.floor ?? 130}.</p>
           <ol class="seglist">${R.segs.map((s) => `<li class="${s.kind}">${esc(s.label)}${s.sec ? ` · ${mmss(s.sec)}` : ""}</li>`).join("")}</ol>
           <p class="muted small">Beeps: two for run, one for walk, three when you're done. Keep the screen on – iPhones pause timers and sound when locked, but the time stays correct.</p></div>
         ${sat}
@@ -169,7 +172,7 @@ export function createRunView({ $screen, $tabs }) {
     if (R.totalRunMin == null && R.timer) {
       const st = runStats(R);
       R.totalRunMin = st.total;
-      R.longestMin = st.longest;
+      R.longestMin = st.longest || null;  // a heart-rate run has no fixed non-stop block
     }
     const pace = R.distanceKm && R.totalRunMin ? R.totalRunMin / R.distanceKm : null;
     const stridesQ = R.strides
@@ -182,8 +185,10 @@ export function createRunView({ $screen, $tabs }) {
           <input class="in wide" inputmode="decimal" data-rfield="totalRunMin" value="${R.totalRunMin ?? ""}"></label>
         <label class="mini">Longest non-stop run (minutes)
           <input class="in wide" inputmode="decimal" data-rfield="longestMin" value="${R.longestMin ?? ""}"></label>
-        <label class="mini">Distance in km (optional – if your phone or watch measured it)
+        <label class="mini">${R.planned.type === "hr_cap" ? "Distance in km – the measure for this run (from the treadmill)" : "Distance in km (optional – if your phone or watch measured it)"}
           <input class="in wide" inputmode="decimal" data-rfield="distanceKm" value="${R.distanceKm ?? ""}" placeholder="e.g. 2.4"></label>
+        <label class="mini">Average heart rate (optional – from your watch)
+          <input class="in wide" inputmode="numeric" data-rfield="avgHr" value="${R.avgHr ?? ""}" placeholder="e.g. 138"></label>
         <p class="muted small" id="pace">${pace ? `Pace: ${mmss(pace * 60)} per km` : ""}</p>
         ${stridesQ}
         <p class="q">How hard was it? (1–10 · runs should mostly feel 3–5)</p>

@@ -16,7 +16,7 @@ async function weekFacts(week) {
     .filter((v) => v != null);
   return {
     sessions: sessions.length,
-    satRun: runs.some((r) => r.where === "outdoor"),
+    runs: runs.length,
     plank: holds.length ? Math.max(...holds) : null,
     longest: runs.length ? Math.max(...runs.map((r) => r.longestMin ?? 0)) : null,
     kickPain: kicks.length ? Math.max(...kicks.map((k) => k.painDuring)) : null,
@@ -49,7 +49,7 @@ export function createCheckinView({ $screen, $tabs }) {
     $screen.innerHTML = `<div class="wk-top" style="background:var(--navy)"><button type="button" class="back" data-cact="exit">‹ Back</button>
         <h1>Week ${C.week} check-in</h1><p>Five minutes to record your week</p></div>
       <div class="card"><b>This week, from your logs</b>
-        ${fact("Gym sessions", `${F.sessions} of 3`)}${fact("Saturday run", F.satRun ? "Done ✓" : "Not logged")}
+        ${fact("Gym sessions", `${F.sessions} of 3`)}${fact("Runs", `${F.runs} of ${Object.values(w.runs).filter(Boolean).length}`)}
         ${fact("Longest non-stop run", F.longest != null ? `${F.longest} min` : null)}${fact("Best plank", F.plank != null ? `${F.plank} sec` : null)}
         ${fact("Kick pain (highest)", F.kickPain != null ? `${F.kickPain}/10` : null)}</div>
       <div class="card">
@@ -62,7 +62,7 @@ export function createCheckinView({ $screen, $tabs }) {
         <label class="mini">Win of the week<input class="in wide" data-cfield="win" value="${esc(C.win)}" placeholder="Anything you're pleased with"></label>
         <button type="button" class="btn" data-cact="save">Save check-in</button></div>
       ${next ? `<div class="card"><b>Next week (week ${next.week})</b>${nextPhase}
-        <p class="small">Saturday run: ${esc(runText(next.runs.sat))}${next.strides ? ` + strides ${esc(next.strides)}` : ""}</p>
+        <p class="small">Runs: ${["mon", "wed", "fri", "sat"].filter((k) => next.runs[k]).map((k) => `${k[0].toUpperCase() + k.slice(1)} ${esc(runText(next.runs[k]))}`).join(" · ")}${next.strides ? ` · Fri + strides ${esc(next.strides)}` : ""}</p>
         ${next.notes.length ? `<p class="small">${next.notes.map(esc).join("<br>")}</p>` : ""}</div>` : ""}`;
   }
 

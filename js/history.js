@@ -12,7 +12,7 @@ export async function renderHistory($screen) {
     ...sessions.map((s) => ({ store: "sessions", r: s, icon: "🏋️", title: s.title,
       detail: s.status === "finished" ? `${s.items.filter((i) => i.status === "done").length} exercises · ${s.durationMin ?? "–"} min${s.effort ? ` · effort ${s.effort}` : ""}` : "In progress",
       pain: s.painDuring, morning: s.painNextMorning })),
-    ...runs.filter((r) => r.source !== "gym").map((r) => ({ store: "runs", r, icon: "🏃", title: r.where === "outdoor" ? "Saturday run" : "Treadmill run",
+    ...runs.filter((r) => r.source !== "gym").map((r) => ({ store: "runs", r, icon: "🏃", title: r.where === "outdoor" ? "Outdoor run" : "Treadmill run",
       detail: r.status === "finished" ? `${r.totalRunMin ?? "–"} min running${r.longestMin != null ? ` · longest ${r.longestMin} min` : ""}${r.distanceKm ? ` · ${r.distanceKm} km` : ""}` : "In progress",
       pain: r.painDuring, morning: r.painNextMorning })),
     ...kicks.filter((k) => k.status === "finished").map((k) => ({ store: "kicks", r: k, icon: "⚽", title: k.test ? "Final kick test" : `Kicking – stage ${k.stage}`,
