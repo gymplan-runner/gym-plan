@@ -268,4 +268,7 @@ details.preview summary { color: var(--blue); font-weight: 600; min-height: 40px
 .tick.on { background: var(--green); border-color: var(--green); }
 button.tick { min-width: 44px; min-height: 44px; flex-basis: 44px; }
 .coachnote { border-left: 4px solid var(--blue); }
+.habit .light { margin: 8px 0 4px; }
+.habit table { width: 100%; margin-top: 10px; border-collapse: collapse; }
+.habit td { padding: 4px 0; border-bottom: 1px solid var(--line); }
 .win + .win { margin-top: 8px; }
