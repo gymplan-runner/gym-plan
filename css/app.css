@@ -65,7 +65,7 @@ input[type=text], input[type=date], input[type=number] {
 .btn { display: block; width: 100%; min-height: 52px; border: 0; border-radius: 14px; font: inherit; font-weight: 700; font-size: 17px; background: var(--blue); color: #fff; margin-top: 18px; }
 .btn:active { transform: scale(.99); opacity: .9; }
 
-.tabs { position: fixed; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: repeat(4, 1fr);
+.tabs { position: fixed; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: repeat(5, 1fr);
   background: var(--card); border-top: 1px solid var(--line); padding-bottom: var(--safe-b); z-index: 10; }
 .tabs[hidden] { display: none; }
 .tabs button { border: 0; background: none; color: var(--muted); font: inherit; font-size: 12px; min-height: var(--tabh);
@@ -258,3 +258,14 @@ details.swap summary { font-weight: 600; color: var(--blue); min-height: 40px; d
 .choice-body { padding: 4px 12px 12px; }
 .choice-body .btn { margin-top: 10px; }
 details.preview summary { color: var(--blue); font-weight: 600; min-height: 40px; display: flex; align-items: center; }
+
+/* Coach tab */
+.focus { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.focus:last-child { border-bottom: 0; }
+.focus .badge { margin-left: 6px; }
+.tick { flex: 0 0 32px; width: 32px; height: 32px; border-radius: 10px; border: 2px solid var(--line); background: var(--card);
+  color: #fff; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; font-size: 17px; }
+.tick.on { background: var(--green); border-color: var(--green); }
+button.tick { min-width: 44px; min-height: 44px; flex-basis: 44px; }
+.coachnote { border-left: 4px solid var(--blue); }
+.win + .win { margin-top: 8px; }

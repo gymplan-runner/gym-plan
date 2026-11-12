@@ -14,6 +14,7 @@ import { renderProgress, bindProgress } from "./progress.js";
 import { renderHistory } from "./history.js";
 import { createCheckinView, checkinId } from "./checkin.js";
 import { renderPlan, openGuide } from "./planview.js";
+import { renderCoach, bindCoach } from "./coach.js";
 
 const $screen = document.getElementById("screen");
 const $tabs = document.getElementById("tabs");
@@ -46,6 +47,7 @@ const settingsView = createSettingsView({ $screen, $tabs });
 const checkinView = createCheckinView({ $screen, $tabs });
 const viewActive = () => workout.active() || runView.active() || kickView.active() || settingsView.active() || checkinView.active();
 bindProgress($screen, () => state.tab === "progress" && !viewActive());
+bindCoach($screen, () => state.tab === "coach" && !viewActive());
 const DAY_NAMES = { mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday" };
 
 // ------------------------------------------------------------------ first run
@@ -362,6 +364,7 @@ function openPoster(phase) {
 const screens = {
   today: renderToday,
   plan: () => renderPlan($screen, position(today(), state.start).week),
+  coach: () => renderCoach($screen),
   progress: () => renderProgress($screen),
   history: () => renderHistory($screen),
 };

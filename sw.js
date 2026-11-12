@@ -1,11 +1,11 @@
 // Offline support: cache the app files on first load, serve them from the cache afterwards.
 // Bump VERSION whenever any file below changes so phones pick up the update.
-const VERSION = "gymplan-v15";
+const VERSION = "gymplan-v17";
 const FILES = [
   "./", "index.html", "manifest.webmanifest", "css/app.css",
   "js/app.js", "js/db.js", "js/plan.js", "js/ui.js", "js/beep.js", "js/workout.js",
   "js/run.js", "js/kick.js", "js/symptoms.js", "js/settings.js",
-  "js/charts.js", "js/progress.js", "js/history.js", "js/checkin.js", "js/planview.js",
+  "js/charts.js", "js/progress.js", "js/history.js", "js/checkin.js", "js/planview.js", "js/coach.js",
   "data/plan.json", "data/pictos.json",
   "img/phase-1.jpg", "img/phase-2.jpg", "img/phase-3.jpg",
   "icons/icon-180.png", "icons/icon-192.png", "icons/icon-512.png",
