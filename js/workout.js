@@ -229,7 +229,7 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
     const setting = MACHINES.has(item.exercise)
       ? `<label class="mini">Machine / seat setting<input class="in wide" data-field="setting" data-i="${i}" value="${esc(item.setting)}" placeholder="e.g. seat 4, back pad 2"></label>` : "";
     const rir = item.type === "strength"
-      ? `<p class="q">Reps left in the tank? <span class="muted small">(how many more good reps you could have done – aim for 2–3)</span></p>
+      ? `<p class="q">How many more good reps could you have done? <span class="muted small">(aim for 2–3)</span></p>
          ${chips("rir", i, ["0", "1", "2", "3", "4+"], item.rir)}` : "";
     const pain = LEG_WORK.has(item.exercise)
       ? `<p class="q">Quad pain during (0–10)</p>${chips("pain", i, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], item.pain)}` : "";

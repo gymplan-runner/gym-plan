@@ -2,6 +2,7 @@
 import * as db from "./db.js";
 import { getPlan, parseDate, isoDate } from "./plan.js";
 import { esc, toast, fmt } from "./ui.js";
+import { loadActivities, activityTitle } from "./activity.js";
 
 const BACKUP_EVERY_DAYS = 14;
 
@@ -67,8 +68,18 @@ export async function exportCsv() {
   for (const k of (await db.all("kicks")).filter((x) => x.status === "finished").sort((a, b) => (a.date < b.date ? -1 : 1))) {
     kicks.push([k.date, k.week, k.stage, k.test ? "yes" : "", k.what, k.effortPct, k.painDuring, k.painNextMorning, k.note]);
   }
+  // Activities outside the plan: one row per set, or one row if no exercises were entered.
+  const acts = [["date", "type", "name", "minutes", "distance_km", "effort", "quad_pain", "note", "exercise", "set", "kg", "reps", "seconds"]];
+  for (const a of await loadActivities()) {
+    const base = [a.date, a.type, activityTitle(a), a.minutes, a.km, a.effort, a.pain, a.note];
+    if (!a.items?.length) acts.push(base);
+    for (const it of a.items ?? []) {
+      const name = it.exercise ? ex[it.exercise]?.name ?? it.exercise : it.name;
+      it.sets.forEach((st, j) => acts.push([...base, name, j + 1, st.kg, st.reps, st.seconds]));
+    }
+  }
   const d = stamp();
-  const files = [["gym-sets", sets], ["gym-sessions", summary], ["runs", runs], ["kicks", kicks]]
+  const files = [["gym-sets", sets], ["gym-sessions", summary], ["runs", runs], ["kicks", kicks], ["activities", acts]]
     .map(([n, rows]) => new File([`﻿${csv(rows)}`], `${n}-${d}.csv`, { type: "text/csv" }));
   if (await saveFiles(files)) toast("Spreadsheet files exported");
 }
@@ -86,7 +97,8 @@ export function readBackup(file) {
 
 export async function needsBackupReminder(now = new Date()) {
   const last = await db.getSetting("lastBackup", null);
-  const logged = (await db.all("sessions")).length + (await db.all("runs")).length + (await db.all("kicks")).length;
+  const logged = (await db.all("sessions")).length + (await db.all("runs")).length + (await db.all("kicks")).length
+    + (await loadActivities()).length;
   if (!logged) return null;
   if (!last) return "You haven't backed up yet.";
   const days = Math.floor((now - new Date(last)) / 86400000);

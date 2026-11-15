@@ -1,6 +1,7 @@
 // Plan tab: all 12 weeks (current week open) and the exercise guide with pictures.
 import { getPlan, phaseFor, sessionFor, picto, doseText, DAY_COLOURS, parseDate } from "./plan.js";
 import { esc, fmt } from "./ui.js";
+import { calendarCard, eventsBetween, EVENT_TYPES, when } from "./calendar.js";
 
 const NAMES = { mon: "Monday", wed: "Wednesday", fri: "Friday", sat: "Saturday", sun: "Sunday" };
 
@@ -12,11 +13,14 @@ function row(it, colour) {
     <span class="dose">${esc(doseText(it))}</span></span><span class="chev" aria-hidden="true">›</span></button>`;
 }
 
-export function renderPlan($screen, currentWeek) {
+export function renderPlan($screen, currentWeek, events = []) {
   const plan = getPlan();
   const weeks = plan.weeks.map((w) => {
     const ph = phaseFor(w.week);
     const tag = w.test_week ? " · test week" : w.lighter_week ? " · lighter week" : "";
+    const evs = eventsBetween(events, w.days.mon.date, w.days.sun.date);
+    const evIcons = [...new Set(evs.map((ev) => EVENT_TYPES[ev.type]?.[0] ?? "📌"))].join("");
+    const evNote = evs.length ? `<div class="notice cal-week">${evs.map((ev) => `${EVENT_TYPES[ev.type]?.[0] ?? "📌"} <b>${esc(EVENT_TYPES[ev.type]?.[1] ?? "Event")}</b>${ev.note ? `: ${esc(ev.note)}` : ""} · ${when(ev)}`).join("<br>")}</div>` : "";
     const days = ["mon", "wed", "fri"].map((k) => {
       const s = sessionFor(w.week, k);
       return `<div class="session-head small-head" style="background:${DAY_COLOURS[k]}"><b>${NAMES[k]}: ${esc(s.title)}</b></div>
@@ -29,13 +33,15 @@ export function renderPlan($screen, currentWeek) {
     const sun = w.days.sun.plan === "kick" ? `<div class="session-head small-head" style="background:${DAY_COLOURS.sat}"><b>Sunday: kicking (about 20 min)</b></div>
       <div class="session-body"><p class="small"><b>Stage ${w.kick_stage}:</b> ${esc(stage.what)}</p></div>` : "";
     return `<details class="week" ${w.week === currentWeek ? "open" : ""} id="wk-${w.week}">
-      <summary><b>Week ${w.week}</b> <span class="muted small">${fmt(parseDate(w.start_date), { day: "numeric", month: "short" })} · ${esc(ph.name)}${tag}</span></summary>
+      <summary><b>Week ${w.week}</b> <span class="muted small">${fmt(parseDate(w.start_date), { day: "numeric", month: "short" })} · ${esc(ph.name)}${tag}</span>${evIcons ? ` <span aria-label="${evs.length} calendar event${evs.length === 1 ? "" : "s"}">${evIcons}</span>` : ""}</summary>
+      ${evNote}
       ${w.sets_note !== "Sets as listed" ? `<div class="notice">${esc(w.sets_note)}</div>` : ""}
       ${w.notes.length ? `<div class="notice">${w.notes.map(esc).join("<br>")}</div>` : ""}
       ${days}${strides}${sat}${sun}</details>`;
   }).join("");
   $screen.innerHTML = `<h1>Plan</h1>
     <div class="phase-btns">${plan.phases.map((p, i) => `<button type="button" class="btn ghost" data-go="poster" data-phase="${i + 1}">🖼️ ${esc(p.name)}<br><span class="small">weeks ${p.weeks[0]}–${p.weeks[p.weeks.length - 1]}</span></button>`).join("")}</div>
+    ${calendarCard(events)}
     <p class="muted small">Tap a week to open it, and any exercise for how to do it.</p>${weeks}
     <h2>Rules of thumb</h2><div class="card small">
       <p><b>Lifting:</b> ${esc(plan.lifting.progression)}</p><p>${esc(plan.lifting.reps_in_reserve)}</p>

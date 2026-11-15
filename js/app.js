@@ -15,6 +15,9 @@ import { renderHistory } from "./history.js";
 import { createCheckinView, checkinId } from "./checkin.js";
 import { renderPlan, openGuide } from "./planview.js";
 import { renderCoach, bindCoach } from "./coach.js";
+import { createActivityView, loadActivities, activityTitle, activityIcon } from "./activity.js";
+import { todayEventsCard, loadEvents, bindCalendar } from "./calendar.js";
+import { bindOwnGoals } from "./owngoals.js";
 
 const $screen = document.getElementById("screen");
 const $tabs = document.getElementById("tabs");
@@ -45,8 +48,12 @@ const workout = createWorkoutView({
 });
 const settingsView = createSettingsView({ $screen, $tabs });
 const checkinView = createCheckinView({ $screen, $tabs });
-const viewActive = () => workout.active() || runView.active() || kickView.active() || settingsView.active() || checkinView.active();
+const activityView = createActivityView({ $screen, $tabs });
+const viewActive = () => workout.active() || runView.active() || kickView.active() || settingsView.active() || checkinView.active()
+  || activityView.active();
 bindProgress($screen, () => state.tab === "progress" && !viewActive());
+bindOwnGoals($screen, () => state.tab === "progress" && !viewActive(), () => renderProgress($screen));
+bindCalendar($screen, () => state.tab === "plan" && !viewActive(), () => screens.plan());
 bindCoach($screen, () => state.tab === "coach" && !viewActive());
 const DAY_NAMES = { mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday" };
 
@@ -215,6 +222,12 @@ async function renderToday() {
   const doBtn = pos.status === "after" ? "" : inProgress
     ? `<button type="button" class="btn big" data-go="resume-other">▶ Resume workout: ${esc(inProgress.title)}</button>`
     : `<button type="button" class="btn big" data-go="choose">▶ Do a workout</button>`;
+  // Anything outside the plan (a swim, a class, a match): logged as an extra.
+  const todayActs = (await loadActivities()).filter((a) => a.date === isoDate(now));
+  const actBtn = `${todayActs.map((a) => `<div class="done-banner">✓ ${activityIcon(a)} ${esc(activityTitle(a))}${a.minutes != null ? ` · ${a.minutes} min` : ""}
+      <button type="button" class="linkbtn" data-go="act-open" data-id="${esc(a.id)}">Edit</button></div>`).join("")}
+    <button type="button" class="btn ghost" data-go="activity">+ Enter an activity</button>`;
+  const eventsCard = await todayEventsCard(now);
 
   // Next-morning quad check for yesterday's (or the day before's) run, kicks or gym session.
   const m = await pendingMorning(now);
@@ -252,7 +265,9 @@ async function renderToday() {
       <div><div style="font-weight:700;font-size:18px">${headline}</div>
       <div class="muted small">${pos.status === "during" ? `Gym this week: <b style="color:#fff">${weekDone} of 3</b> · Total: <b style="color:#fff">${finished.length} of 30</b>` : esc(phase.focus)}</div></div></div>
     ${dayStrip(week, pos.status === "during" ? pos.dayKey : null, finishedDates)}
+    ${eventsCard}
     ${doBtn}
+    ${actBtn}
     ${body}
     ${dp.kind === "gym" && w.sets_note !== "Sets as listed" ? `<div class="notice">${esc(w.sets_note)}</div>` : ""}
     ${notes}
@@ -363,7 +378,7 @@ function openPoster(phase) {
 
 const screens = {
   today: renderToday,
-  plan: () => renderPlan($screen, position(today(), state.start).week),
+  plan: async () => renderPlan($screen, position(today(), state.start).week, await loadEvents()),
   coach: () => renderCoach($screen),
   progress: () => renderProgress($screen),
   history: () => renderHistory($screen),
@@ -402,6 +417,12 @@ $screen.addEventListener("click", async (e) => {
     return document.getElementById("baselines")?.scrollIntoView();
   }
   if (go === "checkin") return checkinView.start(c.week, c.date, () => show(state.tab));
+  if (go === "activity") return activityView.start(null, () => show(state.tab));
+  if (go === "act-open" || (go === "h-open" && b.dataset.store === "activities")) {
+    const rec = (await loadActivities()).find((a) => a.id === b.dataset.id);
+    if (rec) return activityView.start(rec, () => show(state.tab));
+    return;
+  }
   if (go === "h-open") {
     const store = b.dataset.store, rec = await db.get(store, b.dataset.id);
     if (!rec) return;

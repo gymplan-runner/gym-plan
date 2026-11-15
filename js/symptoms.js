@@ -78,5 +78,7 @@ export async function redDays(todayDate) {
     if (during != null && during >= 5) days.add(day);
     if (r.painNextMorning != null && r.painNextMorning >= 5) days.add(isoDate(addDays(parseDate(day), 1)));
   }
+  // Activities outside the plan count too (pain during only).
+  for (const a of (await db.getSetting("activities", null)) ?? []) if (a.pain != null && a.pain >= 5) days.add(a.date);
   return [...days].filter((d) => d >= from && d <= todayIso).sort();
 }

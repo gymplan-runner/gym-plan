@@ -272,3 +272,19 @@ button.tick { min-width: 44px; min-height: 44px; flex-basis: 44px; }
 .habit table { width: 100%; margin-top: 10px; border-collapse: collapse; }
 .habit td { padding: 4px 0; border-bottom: 1px solid var(--line); }
 .win + .win { margin-top: 8px; }
+
+/* Activities outside the plan, calendar events and your own goals */
+.act-ex b { display: block; margin-bottom: 4px; }
+.act-ex .linkbtn { margin-right: 12px; }
+.cal-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1px solid var(--line); padding: 4px 0; }
+.cal-form { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 10px; }
+.card.cal-today { border: 2px solid var(--blue); }
+.card.cal-today p { margin: 4px 0; }
+.cal-week { background: var(--sky); }
+.bar { height: 14px; border-radius: 7px; background: var(--line); overflow: hidden; margin: 10px 0 4px; }
+.bar span { display: block; height: 100%; background: var(--green); border-radius: 7px; min-width: 4px; }
+.step { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; border: 0; border-top: 1px solid var(--line); background: none;
+  color: var(--ink); font: inherit; padding: 10px 2px; min-height: 44px; }
+.step > span:first-child { font-weight: 700; color: var(--muted); width: 18px; }
+.step.on > span:first-child { color: var(--green); }
+.card.owngoal.achieved { border: 2px solid var(--green); }

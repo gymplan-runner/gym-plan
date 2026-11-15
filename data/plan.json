@@ -1885,9 +1885,9 @@
  ],
  "lifting": {
   "rest": "Rest 60-90 seconds between sets.",
-  "starting_weights": "Week 1: start with a weight you could lift 15+ times. Over the first two weeks, nudge it up until the listed reps feel moderately hard with 2-3 reps left in the tank.",
-  "progression": "Double progression: when you complete every set at the TOP of the rep range with 2-3 reps left in the tank, add the smallest weight step next time. If you can't reach the bottom of the range, go back down a step.",
-  "reps_in_reserve": "'Reps left in the tank' = how many more good reps you could have done. Aim for 2-3. Never grind to failure.",
+  "starting_weights": "Week 1: start with a weight you could lift 15+ times. Over the first two weeks, nudge it up until the listed reps feel moderately hard with 2-3 more good reps still possible.",
+  "progression": "Double progression: when you complete every set at the TOP of the rep range with 2-3 more good reps still possible, add the smallest weight step next time. If you can't reach the bottom of the range, go back down a step.",
+  "reps_in_reserve": "After each exercise, ask: how many more good reps could I have done? Aim for 2-3. Never grind to failure.",
   "machines": "Write down seat and pad settings. Machine weights are not comparable between different machines or gyms, so compare like with like.",
   "technique": "Controlled technique matters more than lifting heavier."
  },

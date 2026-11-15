@@ -4,6 +4,8 @@ import { getPlan, weekInfo, parseDate, isoDate } from "./plan.js";
 import { esc, fmt, toast, num, today } from "./ui.js";
 import { lineChart } from "./charts.js";
 import { lightOf } from "./symptoms.js";
+import { loadActivities, activityTitle, activityIcon, activityDetail } from "./activity.js";
+import { ownGoalsSection } from "./owngoals.js";
 
 const LIFTS = [["leg_press", "Leg Press"], ["chest_press", "Chest Press"], ["seated_row", "Seated Row"]];
 
@@ -15,6 +17,7 @@ export async function loadAll() {
     kicks: kicks.filter((k) => k.status === "finished"),
     checkins: checkins.sort((a, b) => a.week - b.week),
     baselines: (await db.getSetting("baselines", null)) ?? {},
+    activities: await loadActivities(),
   };
 }
 
@@ -109,6 +112,20 @@ function attendanceSection(d, todayIso) {
     <p class="muted small">✓ done · – not done · ● today · blank = still to come. Shaded weeks are lighter weeks.</p></div>`;
 }
 
+// Activities outside the plan: extras, never counted as plan sessions.
+function extrasSection(d, todayIso) {
+  if (!d.activities.length) return "";
+  const from = isoDate(new Date(parseDate(todayIso).getTime() - 27 * 86400000));
+  const recent = d.activities.filter((a) => a.date >= from && a.date <= todayIso);
+  const mins = recent.reduce((t, a) => t + (a.minutes ?? 0), 0);
+  const list = [...d.activities].sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 8);
+  return `<h2>Extra activities</h2><div class="card">
+    <p><b>${recent.length}</b> in the last 4 weeks${mins ? ` · <b>${mins}</b> min` : ""} · ${d.activities.length} in total</p>
+    ${list.map((a) => `<div class="g-row"><span>${fmt(parseDate(a.date), { day: "numeric", month: "short" })}</span>
+      <b>${activityIcon(a)} ${esc(activityTitle(a))}</b><span>${esc(activityDetail(a).replace(/ · extra$/, ""))}</span></div>`).join("")}
+    <p class="muted small">On top of your plan. They don't count towards the 30 gym sessions.</p></div>`;
+}
+
 function runSection(d) {
   if (!d.runs.length) return `<h2>5 km journey</h2><div class="card empty">Your first run will start this chart.</div>`;
   const actual = perWeek(d.runs, (r) => r.longestMin);
@@ -153,6 +170,7 @@ function quadSection(d) {
     ...d.runs.filter((r) => r.source !== "gym").map((r) => ({ date: r.date, what: "Run", during: r.painDuring, morning: r.painNextMorning })),
     ...d.kicks.map((k) => ({ date: k.date, what: k.test ? "Kick test" : `Kicking stage ${k.stage}`, during: k.painDuring, morning: k.painNextMorning })),
     ...d.checkins.filter((c) => c.stretch != null).map((c) => ({ date: c.date, what: "Stretch test", during: c.stretch, morning: null })),
+    ...d.activities.map((a) => ({ date: a.date, what: activityTitle(a), during: a.pain, morning: null })),
   ].filter((r) => r.during != null || r.morning != null).sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 30);
   if (!rows.length) return `<h2>Quad</h2><div class="card empty">Pain scores you log will show here.</div>`;
   const name = { g: "Green", a: "Amber", r: "Red" };
@@ -194,7 +212,9 @@ export async function renderProgress($screen) {
   const nowWeek = Math.min(12, Math.max(1, Math.floor(days / 7) + 1));
   $screen.innerHTML = `<h1>Progress</h1>
     ${goalsSection(d, nowWeek)}
+    ${await ownGoalsSection()}
     ${attendanceSection(d, isoDate(now))}
+    ${extrasSection(d, isoDate(now))}
     ${runSection(d)}
     ${strengthSection(d)}
     ${plankSection(d)}

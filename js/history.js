@@ -3,11 +3,13 @@ import * as db from "./db.js";
 import { parseDate } from "./plan.js";
 import { esc, fmt } from "./ui.js";
 import { lightOf } from "./symptoms.js";
+import { loadActivities, activityTitle, activityIcon, activityDetail } from "./activity.js";
 
 const LIGHT = { g: "Green", a: "Amber", r: "Red" };
 
 export async function renderHistory($screen) {
   const [sessions, runs, kicks, checkins] = await Promise.all(["sessions", "runs", "kicks", "checkins"].map((s) => db.all(s)));
+  const acts = await loadActivities();
   const rows = [
     ...sessions.map((s) => ({ store: "sessions", r: s, icon: "🏋️", title: s.title,
       detail: s.status === "finished" ? `${s.items.filter((i) => i.status === "done").length} exercises · ${s.durationMin ?? "–"} min${s.feeling ? ` · feeling ${s.feeling}` : ""}${s.effort ? ` · effort ${s.effort}` : ""}` : "In progress",
@@ -20,10 +22,11 @@ export async function renderHistory($screen) {
     ...checkins.map((c) => ({ store: "checkins", r: c, icon: "📋", title: `Week ${c.week} check-in`,
       detail: [c.bodyweight != null && `${c.bodyweight} kg`, c.energy && `energy ${c.energy}/5`, c.win && `“${c.win}”`].filter(Boolean).join(" · "),
       pain: c.stretch, morning: null })),
+    ...acts.map((a) => ({ store: "activities", r: a, icon: activityIcon(a), title: activityTitle(a), detail: activityDetail(a), pain: a.pain, morning: null })),
   ].sort((a, b) => (a.r.date < b.r.date ? 1 : a.r.date > b.r.date ? -1 : 0));
 
   if (!rows.length) {
-    $screen.innerHTML = `<h1>History</h1><div class="card empty">Nothing logged yet. Your sessions, runs, kicks and check-ins will appear here – tap any of them to correct it.</div>`;
+    $screen.innerHTML = `<h1>History</h1><div class="card empty">Nothing logged yet. Your sessions, runs, kicks, check-ins and other activities will appear here – tap any of them to correct it.</div>`;
     return;
   }
   let lastDate = "";
