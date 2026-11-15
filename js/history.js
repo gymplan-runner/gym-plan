@@ -10,7 +10,7 @@ export async function renderHistory($screen) {
   const [sessions, runs, kicks, checkins] = await Promise.all(["sessions", "runs", "kicks", "checkins"].map((s) => db.all(s)));
   const rows = [
     ...sessions.map((s) => ({ store: "sessions", r: s, icon: "🏋️", title: s.title,
-      detail: s.status === "finished" ? `${s.items.filter((i) => i.status === "done").length} exercises · ${s.durationMin ?? "–"} min${s.effort ? ` · effort ${s.effort}` : ""}` : "In progress",
+      detail: s.status === "finished" ? `${s.items.filter((i) => i.status === "done").length} exercises · ${s.durationMin ?? "–"} min${s.feeling ? ` · feeling ${s.feeling}` : ""}${s.effort ? ` · effort ${s.effort}` : ""}` : "In progress",
       pain: s.painDuring, morning: s.painNextMorning })),
     ...runs.filter((r) => r.source !== "gym").map((r) => ({ store: "runs", r, icon: "🏃", title: r.where === "outdoor" ? "Outdoor run" : "Treadmill run",
       detail: r.status === "finished" ? `${r.totalRunMin ?? "–"} min running${r.longestMin != null ? ` · longest ${r.longestMin} min` : ""}${r.distanceKm ? ` · ${r.distanceKm} km` : ""}` : "In progress",

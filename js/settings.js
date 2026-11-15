@@ -48,9 +48,9 @@ export async function exportCsv() {
   const sessions = (await db.all("sessions")).sort((a, b) => (a.date < b.date ? -1 : 1));
   const hhmm = (ms) => (ms ? new Date(ms).toTimeString().slice(0, 8) : "");  // local time a set was ticked
   const sets = [["date", "performed_on", "week", "session", "exercise", "set", "kg", "reps", "seconds", "minutes", "status", "reps_left_in_tank", "quad_pain", "setting", "note", "time_done"]];
-  const summary = [["date", "performed_on", "week", "session", "status", "duration_min", "effort", "quad_pain_during", "quad_pain_next_morning", "note"]];
+  const summary = [["date", "performed_on", "week", "session", "status", "duration_min", "effort", "quad_pain_during", "quad_pain_next_morning", "note", "feeling_before", "feeling_note"]];
   for (const s of sessions) {
-    summary.push([s.date, s.performedOn, s.week, s.title, s.status, s.durationMin, s.effort, s.painDuring, s.painNextMorning, s.note]);
+    summary.push([s.date, s.performedOn, s.week, s.title, s.status, s.durationMin, s.effort, s.painDuring, s.painNextMorning, s.note, s.feeling, s.feelingNote]);
     for (const it of s.items) {
       const name = ex[it.exercise]?.name ?? it.exercise;
       if (!it.sets.length) sets.push([s.date, s.performedOn, s.week, s.title, name, "", "", "", "", it.minutes, it.status, "", it.pain, it.setting, it.note, hhmm(it.doneAt)]);

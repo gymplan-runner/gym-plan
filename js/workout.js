@@ -247,13 +247,14 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
 
   function render() {
     if (finishing) return renderFinish();
+    if (S.status === "in_progress" && S.feeling === undefined) return renderBefore();
     const total = S.items.length;
     const editing = S.status === "finished";
     $screen.innerHTML = `
       <div class="wk-top" style="background:${colour()}">
         <button type="button" class="back" data-act="exit">‹ Today</button>
         <h1>${esc(S.title)}</h1>
-        <p>${editing ? "Editing a finished session" : `<span id="elapsed">${Math.round((Date.now() - S.startedAt) / 60000)} min</span>`} · ${doneCount()} of ${total} done</p>
+        <p>${editing ? "Editing a finished session" : `<span id="elapsed">${Math.round((Date.now() - S.startedAt) / 60000)} min</span>`} · ${doneCount()} of ${total} done${S.feeling ? ` · feeling ${S.feeling}/10` : ""}</p>
       </div>
       <div class="exlist">${S.items.map(card).join("")}</div>
       <button type="button" class="btn finish" data-act="finish">${editing ? "Save changes" : "Finish workout"}</button>
@@ -274,6 +275,22 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
     }, 1000);
   }
 
+  // Before the first exercise: how you feel today, so the weekly review can set it against sleep and the session.
+  function renderBefore() {
+    $screen.innerHTML = `
+      <div class="wk-top" style="background:${colour()}"><button type="button" class="back" data-act="exit">‹ Today</button>
+        <h1>${esc(S.title)}</h1><p>Before you start</p></div>
+      <div class="card feel">
+        <p class="q">How are you feeling today? (1–10)</p>
+        ${chips("feel", -1, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], S.feelingDraft)}
+        <p class="muted small">1 = exhausted or unwell · 5 = OK · 10 = full of energy</p>
+        <label class="mini">Note (optional)<input class="in wide" data-field="fnote" value="${esc(S.feelingNote ?? "")}"
+          placeholder="Slept badly, stiff back, great mood…"></label>
+        <button type="button" class="btn" data-act="feelok" ${S.feelingDraft ? "" : "disabled"}>Start workout</button>
+        <button type="button" class="linkbtn" data-act="feelskip">Skip for today</button>
+      </div>`;
+  }
+
   function renderFinish() {
     const done = S.items.filter((i) => i.status === "done").length;
     const skipped = S.items.filter((i) => i.status === "skipped").length;
@@ -291,6 +308,8 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
         <p><b>${done}</b> done${skipped ? ` · ${skipped} skipped` : ""}${S.items.length - done - skipped ? ` · ${S.items.length - done - skipped} not marked` : ""}</p>
         <label class="mini">Session length (minutes) – correct it if the workout was left open
           <input class="in wide" inputmode="numeric" data-field="duration" value="${S.durationEdit ?? mins}" aria-label="Session length in minutes"></label>
+        <p class="q">How you felt before you started (1–10)</p>
+        ${chips("feelafter", -1, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], S.feeling)}
         <p class="q">How hard was the session overall? (1–10)</p>
         ${chips("effort", -1, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], S.effort)}
         <p class="muted small" id="effortlabel">${esc(effortLabel(S.effort))}</p>
@@ -393,6 +412,10 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
       case "restskip": clearInterval(restTimer); rest = null; break;
       case "finish": finishing = true; break;
       case "unfinish": finishing = false; break;
+      case "feel": S.feelingDraft = Number(b.dataset.v); break;
+      case "feelok": S.feeling = S.feelingDraft ?? null; delete S.feelingDraft; break;
+      case "feelskip": S.feeling = null; delete S.feelingDraft; break;
+      case "feelafter": S.feeling = S.feeling === Number(b.dataset.v) ? null : Number(b.dataset.v); break;
       case "effort": S.effort = S.effort === Number(b.dataset.v) ? null : Number(b.dataset.v); break;
       case "spain": S.painDuring = S.painDuring === Number(b.dataset.v) ? null : Number(b.dataset.v); break;
       case "confirm": {
@@ -431,6 +454,7 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
     if (!el || !S) return;
     const f = el.dataset.field, i = Number(el.dataset.i), j = Number(el.dataset.j);
     if (f === "snote") S.note = el.value;
+    else if (f === "fnote") S.feelingNote = el.value || undefined;
     else if (f === "note") S.items[i].note = el.value;
     else if (f === "setting") S.items[i].setting = el.value;
     else if (f === "minutes") S.items[i].minutes = num(el.value);
