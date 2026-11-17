@@ -504,7 +504,24 @@ async function init() {
   show("today");
 }
 
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+  // iPhones don't always finish checking for a new version on their own, so check on every return to the app.
+  // When a new version takes over, reload once to show it, but never in the middle of a session.
+  // The first install also "takes over"; only a later change is a new version.
+  let hadController = !!navigator.serviceWorker.controller;
+  let pendingReload = false;
+  const reloadIfFree = () => { if (viewActive()) pendingReload = true; else location.reload(); };
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadController) { hadController = true; return; }
+    if (!pendingReload) reloadIfFree();
+  });
+  document.addEventListener("visibilitychange", async () => {
+    if (document.visibilityState !== "visible") return;
+    if (pendingReload && !viewActive()) return location.reload();
+    (await navigator.serviceWorker.getRegistration())?.update().catch(() => {});
+  });
+}
 init().catch((err) => {
   $screen.innerHTML = `<div class="card"><h1>Something went wrong</h1><p>${esc(err.message)}</p></div>`;
 });

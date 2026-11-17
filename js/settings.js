@@ -105,6 +105,15 @@ export async function needsBackupReminder(now = new Date()) {
   return days >= BACKUP_EVERY_DAYS ? `Last backup was ${days} days ago.` : null;
 }
 
+// The version on this phone: the name of this app's offline copy (e.g. "gymplan-v8").
+async function appVersion() {
+  try {
+    return (await caches.keys()).find((k) => k.startsWith("gymplan-")) ?? "not saved for offline use yet";
+  } catch {
+    return "unknown";
+  }
+}
+
 // ------------------------------------------------------------------ view
 export function createSettingsView({ $screen, $tabs }) {
   let on = false, onDone, pending = null;
@@ -155,6 +164,7 @@ export function createSettingsView({ $screen, $tabs }) {
         <li>Scroll down and tap <b>Add to Home Screen</b>, then <b>Add</b>.</li><li>Open it from the new icon – it works offline after the first time.</li></ol>
         <p class="small muted">This is a web app, not an App Store app. Deleting the icon also deletes its data, so back up first.</p>
       </div>
+      <p class="muted small" id="app-version">App version: ${esc(await appVersion())}</p>
       <div class="card"><h2 style="margin-top:0">Not medical advice</h2>
         <p class="small">${esc(getPlan().meta.disclaimer)} Pain scores here are self-reported tracking, not a medical assessment.</p>
       </div>
