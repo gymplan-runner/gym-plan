@@ -1,6 +1,6 @@
 {
-  "name": "Gym Plan",
-  "short_name": "Gym Plan",
+  "name": "Elev8tor",
+  "short_name": "Elev8tor",
   "description": "A personal 12-week training plan and workout logger.",
   "start_url": "./",
   "scope": "./",
