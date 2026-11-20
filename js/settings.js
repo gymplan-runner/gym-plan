@@ -165,6 +165,7 @@ export function createSettingsView({ $screen, $tabs }) {
         <p class="small muted">This is a web app, not an App Store app. Deleting the icon also deletes its data, so back up first.</p>
       </div>
       <p class="muted small" id="app-version">App version: ${esc(await appVersion())}</p>
+      <p class="muted small" id="copyright">© 2026 Elev8tor. All rights reserved.</p>
       <div class="card"><h2 style="margin-top:0">Not medical advice</h2>
         <p class="small">${esc(getPlan().meta.disclaimer)} Pain scores here are self-reported tracking, not a medical assessment.</p>
       </div>
