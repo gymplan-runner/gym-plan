@@ -64,7 +64,7 @@ export function createKickView({ $screen, $tabs }) {
         <p class="q">Hardest kick effort</p>${chips("effortPct", [30, 50, 70, 80, 90, 100], K.effortPct, (v) => `${v}%`)}
         <p class="q">Quad pain during (0–10)</p>${chips("pain", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], K.painDuring)}
         ${lightHtml(K.painDuring, K.painNextMorning)}
-        ${editing ? `<p class="q">Quad pain next morning (0–10)</p>${chips("morning", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], K.painNextMorning)}` : ""}
+        ${editing ? `<p class="q">Quad pain the next morning (0 = none, 10 = worst)</p>${chips("morning", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], K.painNextMorning)}` : ""}
         <label class="mini">Notes<textarea class="in wide" rows="2" data-kfield="note">${esc(K.note)}</textarea></label>
         <button type="button" class="btn" data-kact="save">${editing ? "Save changes" : "Save kicking session"}</button>
         ${editing ? `<button type="button" class="linkbtn" data-kact="delete" style="display:block;margin:8px auto">Delete this entry</button>` : ""}

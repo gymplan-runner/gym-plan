@@ -316,6 +316,9 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
         <p class="q">Quad pain during the session (0–10, optional)</p>
         ${chips("spain", -1, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], S.painDuring)}
         ${light(S.painDuring)}
+        ${S.status === "finished" ? `<p class="q">Quad pain the next morning (0 = none, 10 = worst)</p>
+        ${chips("smorning", -1, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], S.painNextMorning)}
+        ${S.painNextMorning != null ? light(S.painNextMorning) : ""}` : ""}
         <label class="mini">Notes<textarea class="in wide" data-field="snote" rows="3" placeholder="Anything to remember next time?">${esc(S.note ?? "")}</textarea></label>
         <button type="button" class="btn" data-act="confirm">${S.status === "finished" ? "Save changes" : "Save and finish"}</button>
       </div>`;
@@ -417,6 +420,12 @@ export function createWorkoutView({ $screen, $tabs, onExit, onRun }) {
       case "feelskip": S.feeling = null; delete S.feelingDraft; break;
       case "feelafter": S.feeling = S.feeling === Number(b.dataset.v) ? null : Number(b.dataset.v); break;
       case "effort": S.effort = S.effort === Number(b.dataset.v) ? null : Number(b.dataset.v); break;
+      case "smorning": {
+        const v = Number(b.dataset.v);
+        S.painNextMorning = S.painNextMorning === v ? null : v;
+        if (S.painNextMorning != null) delete S.morningSkipped;
+        break;
+      }
       case "spain": S.painDuring = S.painDuring === Number(b.dataset.v) ? null : Number(b.dataset.v); break;
       case "confirm": {
         const first = S.status !== "finished";

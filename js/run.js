@@ -196,7 +196,7 @@ export function createRunView({ $screen, $tabs }) {
         <p class="q">Quad pain during (0–10)</p>
         ${chips("pain", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], R.painDuring)}
         ${lightHtml(R.painDuring, R.painNextMorning)}
-        ${R.status === "finished" ? `<p class="q">Quad pain next morning (0–10)</p>${chips("morning", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], R.painNextMorning)}` : ""}
+        ${R.status === "finished" ? `<p class="q">Quad pain the next morning (0 = none, 10 = worst)</p>${chips("morning", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], R.painNextMorning)}` : ""}
         <label class="mini">Notes<textarea class="in wide" rows="2" data-rfield="note" placeholder="Route, how it felt…">${esc(R.note)}</textarea></label>
         <button type="button" class="btn" data-ract="save">${R.status === "finished" ? "Save changes" : "Save run"}</button>
         ${R.status === "finished" ? `<button type="button" class="linkbtn" data-ract="delete" style="display:block;margin:8px auto">Delete this run</button>` : ""}

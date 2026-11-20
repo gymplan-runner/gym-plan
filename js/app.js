@@ -232,8 +232,8 @@ async function renderToday() {
   // Next-morning quad check for yesterday's (or the day before's) run, kicks or gym session.
   const m = await pendingMorning(now);
   const scale = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const morningCard = m ? `<div class="card morning"><b>How's the quad this morning?</b>
-      <p class="muted small">After your ${m.label} on ${fmt(parseDate(m.day), { weekday: "long" })}${m.during != null ? ` (pain during: ${m.during}/10)` : ""}. 0 = nothing, 10 = worst.</p>
+  const morningCard = m ? `<div class="card morning"><b>Quad pain this morning? (0–10)</b>
+      <p class="muted small">After your ${m.label} on ${fmt(parseDate(m.day), { weekday: "long" })}${m.during != null ? ` (pain during: ${m.during}/10)` : ""}. Pain only, not how you feel overall: 0 = none, 10 = worst. You can change it later in History.</p>
       <div class="chips">${scale.map((v) => `<button type="button" class="chip" data-go="morning" data-store="${m.store}" data-id="${m.r.id}" data-v="${v}">${v}</button>`).join("")}</div>
       <button type="button" class="linkbtn" data-go="morning-skip" data-store="${m.store}" data-id="${m.r.id}">Skip</button></div>` : "";
   const mr = state.morningResult;
